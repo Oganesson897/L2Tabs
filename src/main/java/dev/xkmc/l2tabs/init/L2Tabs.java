@@ -22,7 +22,7 @@ public class L2Tabs {
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	public static final PacketHandler PACKET_HANDLER = new PacketHandler(new ResourceLocation(MODID, "main"), 1,
-			e -> e.create(OpenCuriosPacket.class, NetworkDirection.PLAY_TO_CLIENT));
+			e -> e.create(OpenCuriosPacket.class, NetworkDirection.PLAY_TO_SERVER));
 
 	public L2Tabs() {
 		L2TabsConfig.init();
@@ -43,7 +43,6 @@ public class L2Tabs {
 			AttributeEntry.add(ForgeMod.BLOCK_REACH, false, 8000);
 			AttributeEntry.add(ForgeMod.ENTITY_REACH, false, 9000);
 			AttributeEntry.add(() -> Attributes.LUCK, false, 10000);
-			//TODO add 3 attributes
 		});
 	}
 

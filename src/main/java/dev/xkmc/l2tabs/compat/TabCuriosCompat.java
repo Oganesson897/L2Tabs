@@ -1,6 +1,7 @@
 package dev.xkmc.l2tabs.compat;
 
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.fml.ModList;
 
 public class TabCuriosCompat {
@@ -21,6 +22,10 @@ public class TabCuriosCompat {
 		if (ModList.get().isLoaded("curios")) {
 			CuriosScreenCompatImpl.get().openScreen(player);
 		}
+	}
+
+	public static MenuType<?> getMenuType() {
+		return CuriosScreenCompatImpl.get().menuType.get();
 	}
 
 }
