@@ -1,4 +1,4 @@
-package dev.xkmc.l2tabs.init;
+package dev.xkmc.l2tabs.init.data;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 import net.minecraft.network.chat.Component;

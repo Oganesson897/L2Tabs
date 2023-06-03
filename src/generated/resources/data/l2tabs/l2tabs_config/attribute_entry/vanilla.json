@@ -1,0 +1,54 @@
+{
+  "list": [
+    {
+      "id": "minecraft:generic.max_health",
+      "order": 1000,
+      "usePercent": false
+    },
+    {
+      "id": "minecraft:generic.armor",
+      "order": 2000,
+      "usePercent": false
+    },
+    {
+      "id": "minecraft:generic.armor_toughness",
+      "order": 3000,
+      "usePercent": false
+    },
+    {
+      "id": "minecraft:generic.knockback_resistance",
+      "order": 4000,
+      "usePercent": false
+    },
+    {
+      "id": "minecraft:generic.movement_speed",
+      "order": 5000,
+      "usePercent": false
+    },
+    {
+      "id": "minecraft:generic.attack_damage",
+      "order": 6000,
+      "usePercent": false
+    },
+    {
+      "id": "minecraft:generic.attack_speed",
+      "order": 7000,
+      "usePercent": false
+    },
+    {
+      "id": "forge:block_reach",
+      "order": 8000,
+      "usePercent": false
+    },
+    {
+      "id": "forge:entity_reach",
+      "order": 9000,
+      "usePercent": false
+    },
+    {
+      "id": "minecraft:generic.luck",
+      "order": 10000,
+      "usePercent": false
+    }
+  ]
+}

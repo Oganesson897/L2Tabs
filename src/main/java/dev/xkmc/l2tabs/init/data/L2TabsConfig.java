@@ -1,4 +1,4 @@
-package dev.xkmc.l2tabs.init;
+package dev.xkmc.l2tabs.init.data;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;

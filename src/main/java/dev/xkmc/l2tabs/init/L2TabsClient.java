@@ -1,6 +1,7 @@
 package dev.xkmc.l2tabs.init;
 
 import dev.xkmc.l2tabs.compat.TabCuriosCompat;
+import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.contents.TabAttributes;
 import dev.xkmc.l2tabs.tabs.contents.TabInventory;
 import dev.xkmc.l2tabs.tabs.core.TabRegistry;

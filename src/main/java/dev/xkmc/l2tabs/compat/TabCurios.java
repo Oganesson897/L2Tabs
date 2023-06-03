@@ -7,8 +7,8 @@ package dev.xkmc.l2tabs.compat;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.xkmc.l2tabs.init.OpenCurioHandler;
-import dev.xkmc.l2tabs.init.OpenCuriosPacket;
+import dev.xkmc.l2tabs.init.data.OpenCurioHandler;
+import dev.xkmc.l2tabs.init.data.OpenCuriosPacket;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.tabs.core.BaseTab;
 import dev.xkmc.l2tabs.tabs.core.TabManager;

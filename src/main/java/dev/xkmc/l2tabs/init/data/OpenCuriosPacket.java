@@ -1,4 +1,4 @@
-package dev.xkmc.l2tabs.init;
+package dev.xkmc.l2tabs.init.data;
 
 import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;

@@ -1,4 +1,4 @@
-package dev.xkmc.l2tabs.init;
+package dev.xkmc.l2tabs.init.data;
 
 import dev.xkmc.l2tabs.compat.TabCuriosCompat;
 import net.minecraft.server.level.ServerPlayer;

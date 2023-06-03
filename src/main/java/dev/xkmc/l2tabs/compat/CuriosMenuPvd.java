@@ -1,6 +1,6 @@
 package dev.xkmc.l2tabs.compat;
 
-import dev.xkmc.l2tabs.init.L2TabsLangData;
+import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;

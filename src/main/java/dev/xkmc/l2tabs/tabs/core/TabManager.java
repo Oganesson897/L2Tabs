@@ -1,8 +1,7 @@
 package dev.xkmc.l2tabs.tabs.core;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.xkmc.l2tabs.init.L2Tabs;
-import dev.xkmc.l2tabs.init.L2TabsConfig;
+import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.tabs.contents.BaseTextScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;

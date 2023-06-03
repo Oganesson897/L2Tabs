@@ -2,7 +2,8 @@ package dev.xkmc.l2tabs.tabs.contents;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.l2tabs.init.L2TabsClient;
-import dev.xkmc.l2tabs.init.L2TabsLangData;
+import dev.xkmc.l2tabs.init.data.AttributeDisplayConfig;
+import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -41,14 +42,14 @@ public class AttributeScreen extends BaseTextScreen {
 		int x = leftPos + 8;
 		int y = topPos + 6;
 		Attribute focus = null;
-		for (AttributeEntry entry : AttributeEntry.LIST) {
-			double val = player.getAttributeValue(entry.sup().get());
+		for (AttributeEntry entry : AttributeDisplayConfig.get()) {
+			double val = player.getAttributeValue(entry.attr());
 			Component comp = Component.translatable(
 					"attribute.modifier.equals." + (entry.usePercent() ? 1 : 0),
 					ATTRIBUTE_MODIFIER_FORMAT.format(entry.usePercent() ? val * 100 : val),
-					Component.translatable(entry.sup().get().getDescriptionId()));
+					Component.translatable(entry.attr().getDescriptionId()));
 			this.font.draw(stack, comp, x, y, 0);
-			if (mx > x && my > y && my < y + 10) focus = entry.sup().get();
+			if (mx > x && my > y && my < y + 10) focus = entry.attr();
 			y += 10;
 		}
 		if (focus != null)
