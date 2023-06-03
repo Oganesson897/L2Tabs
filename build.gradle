@@ -136,6 +136,8 @@ dependencies {
     //runtimeOnly fg.deobf('curse.maven:charm-of-undying-316873:3927421')
     //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.19.2-76")
 
+    runtimeOnly fg.deobf('curse.maven:the-twilight-forest-227639:4516391')
+
 
 }
 

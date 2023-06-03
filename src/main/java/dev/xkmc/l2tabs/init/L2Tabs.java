@@ -21,7 +21,6 @@ public class L2Tabs {
 	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
 
 	public static final PacketHandlerWithConfig PACKET_HANDLER = new PacketHandlerWithConfig(new ResourceLocation(MODID, "main"), 1,
-			"l2tabs_config",
 			e -> e.create(OpenCuriosPacket.class, NetworkDirection.PLAY_TO_SERVER));
 
 	public static final ConfigTypeEntry<AttributeDisplayConfig> ATTRIBUTE_ENTRY =

@@ -1,7 +1,7 @@
 package dev.xkmc.l2tabs.compat;
 
-import dev.xkmc.l2library.base.menu.BaseContainerMenu;
-import dev.xkmc.l2library.base.menu.SpriteManager;
+import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
+import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
@@ -36,7 +36,7 @@ public class CuriosListMenu extends BaseContainerMenu<CuriosListMenu> {
 
 	protected void addCurioSlot(String name, CuriosWrapper curios) {
 		int current = added;
-		sprite.getSlot(name, (x, y) -> {
+		sprite.get().getSlot(name, (x, y) -> {
 			int i = added - current;
 			if (i >= curios.getSize()) return null;
 			var ans = curios.get(i).toSlot(x, y);

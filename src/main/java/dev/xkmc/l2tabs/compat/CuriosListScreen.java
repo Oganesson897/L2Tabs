@@ -1,7 +1,7 @@
 package dev.xkmc.l2tabs.compat;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.xkmc.l2library.base.menu.BaseContainerScreen;
+import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -24,7 +24,7 @@ public class CuriosListScreen extends BaseContainerScreen<CuriosListMenu> {
 
 	@Override
 	protected void renderBg(PoseStack pose, float pTick, int mx, int my) {
-		var sr = menu.sprite.getRenderer(this);
+		var sr = menu.sprite.get().getRenderer(this);
 		sr.start(pose);
 		for (int i = 0; i < menu.curios.getSize(); i++) {
 			sr.draw(pose, "grid", "slot", i % 9 * 18 - 1, i / 9 * 18 - 1);
