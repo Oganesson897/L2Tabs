@@ -48,7 +48,7 @@ public class AttributeScreen extends BaseTextScreen {
 					"attribute.modifier.equals." + (entry.usePercent() ? 1 : 0),
 					ATTRIBUTE_MODIFIER_FORMAT.format(entry.usePercent() ? val * 100 : val),
 					Component.translatable(entry.attr().getDescriptionId()));
-			g.drawString(font, comp, x, y, 0);
+			g.drawString(font, comp, x, y, 0, false);
 			if (mx > x && my > y && my < y + 10) focus = entry.attr();
 			y += 10;
 		}

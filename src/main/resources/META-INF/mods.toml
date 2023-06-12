@@ -25,6 +25,6 @@ description='''
 [[dependencies.l2tabs]]
     modId="l2library"
     mandatory=true
-    versionRange="[2.4.0,)"
+    versionRange="[2.4.0-a0,)"
     ordering="AFTER"
     side="BOTH"
