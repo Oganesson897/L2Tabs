@@ -42,7 +42,7 @@ public class TabInventory extends BaseTab<TabInventory> {
 		for (var e : screen.children()) {
 			if (e instanceof BaseTab<?> tab) {
 				if (tab.manager.selected != tab.token)
-					tab.renderBackground(event.getPoseStack());
+					tab.renderBackground(event.getGuiGraphics());
 			}
 		}
 	}

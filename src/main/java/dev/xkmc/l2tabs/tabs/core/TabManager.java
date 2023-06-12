@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.tabs.contents.BaseTextScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -89,10 +90,10 @@ public class TabManager {
 		return screen;
 	}
 
-	public void onToolTipRender(PoseStack stack, int mouseX, int mouseY) {
+	public void onToolTipRender(GuiGraphics g, int mouseX, int mouseY) {
 		for (BaseTab<?> tab : list) {
 			if (tab.visible && tab.isHoveredOrFocused()) {
-				tab.onTooltip(stack, mouseX, mouseY);
+				tab.onTooltip(g, mouseX, mouseY);
 			}
 		}
 	}

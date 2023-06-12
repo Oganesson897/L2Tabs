@@ -1,7 +1,7 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -26,15 +26,12 @@ public abstract class BaseTextScreen extends Screen {
 	}
 
 	@Override
-	public void render(PoseStack stack, int mx, int my, float ptick) {
-		renderBackground(stack);
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShaderTexture(0, this.texture);
+	public void render(GuiGraphics g, int mx, int my, float ptick) {
+		renderBackground(g);
 		int i = this.leftPos;
 		int j = this.topPos;
-		blit(stack, i, j, 0, 0, this.imageWidth, this.imageHeight);
-		super.render(stack, mx, my, ptick);
+		g.blit(texture, i, j, 0, 0, this.imageWidth, this.imageHeight);
+		super.render(g, mx, my, ptick);
 	}
 
 	@Override

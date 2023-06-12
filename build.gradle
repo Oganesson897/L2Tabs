@@ -26,8 +26,8 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    //mappings channel: 'official', version: "${minecraft_version}"
-    mappings channel: 'parchment', version: '1.19.3-2023.03.12-1.19.4'
+    mappings channel: 'official', version: "${minecraft_version}"
+    //mappings channel: 'parchment', version: '1.19.3-2023.03.12-1.19.4'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
         client {
@@ -123,7 +123,7 @@ dependencies {
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
     implementation fg.deobf("dev.xkmc.l2library:l2library:${l2library_version}-slim")
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
-    implementation fg.deobf("dev.xkmc.l2serial:l2serial:1.1.2")
+    implementation fg.deobf("dev.xkmc.l2serial:l2serial:1.2.0")
 
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
@@ -136,7 +136,7 @@ dependencies {
     //runtimeOnly fg.deobf('curse.maven:charm-of-undying-316873:3927421')
     //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.19.2-76")
 
-    runtimeOnly fg.deobf('curse.maven:the-twilight-forest-227639:4516391')
+    //runtimeOnly fg.deobf('curse.maven:the-twilight-forest-227639:4516391')
 
 
 }

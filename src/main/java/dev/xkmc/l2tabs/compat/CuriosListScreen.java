@@ -1,9 +1,9 @@
 package dev.xkmc.l2tabs.compat;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,26 +23,25 @@ public class CuriosListScreen extends BaseContainerScreen<CuriosListMenu> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack pose, float pTick, int mx, int my) {
+	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
 		var sr = menu.sprite.get().getRenderer(this);
-		sr.start(pose);
+		sr.start(g);
 		for (int i = 0; i < menu.curios.getSize(); i++) {
-			sr.draw(pose, "grid", "slot", i % 9 * 18 - 1, i / 9 * 18 - 1);
+			sr.draw(g, "grid", "slot", i % 9 * 18 - 1, i / 9 * 18 - 1);
 		}
-
 	}
 
 	@Override
-	protected void renderTooltip(PoseStack poseStack, int mx, int my) {
+	protected void renderTooltip(GuiGraphics g, int mx, int my) {
 		LocalPlayer clientPlayer = Minecraft.getInstance().player;
 		if (clientPlayer != null && clientPlayer.inventoryMenu
 				.getCarried().isEmpty() && this.getSlotUnderMouse() != null) {
 			Slot slot = this.getSlotUnderMouse();
 
 			if (slot instanceof CurioSlot slotCurio && !slot.hasItem()) {
-				this.renderTooltip(poseStack, Component.translatable(slotCurio.getSlotName()), mx, my);
+				g.renderTooltip(font, Component.translatable(slotCurio.getSlotName()), mx, my);
 			}
 		}
-		super.renderTooltip(poseStack, mx, my);
+		super.renderTooltip(g, mx, my);
 	}
 }

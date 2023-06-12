@@ -1,8 +1,7 @@
 package dev.xkmc.l2tabs.tabs.core;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,7 +23,7 @@ public enum TabType {
 		this.height = h;
 	}
 
-	public void draw(PoseStack stack, GuiComponent screen, int x, int y, boolean selected, int index) {
+	public void draw(GuiGraphics g, ResourceLocation icon, int x, int y, boolean selected, int index) {
 		index = index % MAX_TABS;
 		int tx = this.textureX;
 		if (index > 0)
@@ -36,11 +35,11 @@ public enum TabType {
 		}
 
 		int ty = selected ? this.textureY + this.height : this.textureY;
-		GuiComponent.blit(stack, x, y, tx, ty, this.width, this.height);
+		g.blit(icon, x, y, tx, ty, this.width, this.height);
 	}
 
-	public void drawIcon(PoseStack poseStack, int x, int y, int index, ItemRenderer renderer, ItemStack stack) {
-		renderer.renderAndDecorateFakeItem(poseStack, stack, x + 5, y + 9);
+	public void drawIcon(GuiGraphics g, int x, int y, ItemStack stack) {
+		g.renderItem(stack, x + 5, y + 9);
 	}
 
 	public int getX(int index) {

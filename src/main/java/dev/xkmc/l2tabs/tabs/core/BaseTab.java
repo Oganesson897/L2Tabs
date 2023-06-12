@@ -1,10 +1,9 @@
 package dev.xkmc.l2tabs.tabs.core;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -29,29 +28,26 @@ public abstract class BaseTab<T extends BaseTab<T>> extends Button {
 
 	public abstract void onTabClicked();
 
-	public void onTooltip(PoseStack stack, int x, int y) {
-		manager.getScreen().renderTooltip(stack, getMessage(), x, y);
+	public void onTooltip(GuiGraphics g, int x, int y) {
+		g.renderTooltip(Minecraft.getInstance().font, getMessage(), x, y);
 	}
 
-	public void renderBackground(PoseStack stack) {
+	public void renderBackground(GuiGraphics g) {
 		if (this.visible) {
-			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			RenderSystem.enableBlend();
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
-			RenderSystem.setShaderTexture(0, TEXTURE);
-			token.type.draw(stack, manager.getScreen(), getX(), getY(), manager.selected == token, token.getIndex());
+			token.type.draw(g, TEXTURE, getX(), getY(), manager.selected == token, token.getIndex());
 			RenderSystem.defaultBlendFunc();
 			if (!this.stack.isEmpty())
-				token.type.drawIcon(stack, getX(), getY(), token.getIndex(), Minecraft.getInstance().getItemRenderer(), this.stack);
+				token.type.drawIcon(g, getX(), getY(), this.stack);
 		}
 	}
 
-	public void renderWidget(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+	@Override
+	public void renderWidget(GuiGraphics g, int mouseX, int mouseY, float partialTicks) {
 		if (manager.selected == token) {
-			renderBackground(stack);
+			renderBackground(g);
 		}
 		if (this.token.getIndex() == TabRegistry.getTabs().size() - 1) { // draw on last
-			manager.onToolTipRender(stack, mouseX, mouseY);
+			manager.onToolTipRender(g, mouseX, mouseY);
 		}
 	}
 

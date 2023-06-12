@@ -1,12 +1,12 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.l2tabs.init.L2TabsClient;
 import dev.xkmc.l2tabs.init.data.AttributeDisplayConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -34,8 +34,8 @@ public class AttributeScreen extends BaseTextScreen {
 	}
 
 	@Override
-	public void render(PoseStack stack, int mx, int my, float ptick) {
-		super.render(stack, mx, my, ptick);
+	public void render(GuiGraphics g, int mx, int my, float ptick) {
+		super.render(g, mx, my, ptick);
 		Player player = Minecraft.getInstance().player;
 		assert player != null;
 
@@ -48,12 +48,13 @@ public class AttributeScreen extends BaseTextScreen {
 					"attribute.modifier.equals." + (entry.usePercent() ? 1 : 0),
 					ATTRIBUTE_MODIFIER_FORMAT.format(entry.usePercent() ? val * 100 : val),
 					Component.translatable(entry.attr().getDescriptionId()));
-			this.font.draw(stack, comp, x, y, 0);
+			g.drawString(font, comp, x, y, 0);
 			if (mx > x && my > y && my < y + 10) focus = entry.attr();
 			y += 10;
 		}
-		if (focus != null)
-			renderComponentTooltip(stack, getAttributeDetail(focus), mx, my);
+		if (focus != null) {
+			g.renderComponentTooltip(font, getAttributeDetail(focus), mx, my);
+		}
 	}
 
 	public List<Component> getAttributeDetail(Attribute attr) {
