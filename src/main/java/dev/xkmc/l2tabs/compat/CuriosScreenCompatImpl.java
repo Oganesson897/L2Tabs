@@ -2,6 +2,7 @@ package dev.xkmc.l2tabs.compat;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
 import dev.xkmc.l2tabs.init.L2Tabs;
+import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.contents.TabInventory;
 import dev.xkmc.l2tabs.tabs.core.TabRegistry;
@@ -39,7 +40,11 @@ class CuriosScreenCompatImpl {
 
 	void onClientInit() {
 		Predicate<Screen> old = TabInventory.inventoryTest;
-		TabInventory.inventoryTest = screen -> old.test(screen) || screen instanceof CuriosScreen;
+		TabInventory.inventoryTest = screen -> {
+			boolean isCurio = screen instanceof CuriosScreen;
+			boolean onlyCurio = L2TabsConfig.CLIENT.showTabsOnlyCurio.get();
+			return onlyCurio ? isCurio : old.test(screen) || isCurio;
+		};
 		TabInventory.openInventory = this::openInventory;
 
 		TabCurios.tab = TabRegistry.registerTab(2000, TabCurios::new, () -> Items.AIR, L2TabsLangData.CURIOS.get());

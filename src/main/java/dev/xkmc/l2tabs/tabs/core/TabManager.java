@@ -1,17 +1,13 @@
 package dev.xkmc.l2tabs.tabs.core;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.tabs.contents.BaseTextScreen;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +31,7 @@ public class TabManager {
 			return;
 		this.selected = selected;
 		int guiLeft, guiTop;
-		if (screen instanceof InventoryScreen inv) {
-			boolean widthTooNarrow = inv.width < 379;
-			Player player = Minecraft.getInstance().player;
-			assert player != null;
-			inv.getRecipeBookComponent().init(inv.width, inv.height, Minecraft.getInstance(), widthTooNarrow, player.inventoryMenu);
-			int offset = inv.getRecipeBookComponent().updateScreenPosition(inv.width, inv.getXSize()) - (inv.width - 176) / 2;
-			guiLeft = (screen.width - 176) / 2 + offset;
-			guiTop = (screen.height - 166) / 2;
-		} else if (screen instanceof BaseTextScreen tx) {
+		if (screen instanceof BaseTextScreen tx) {
 			guiLeft = tx.leftPos;
 			guiTop = tx.topPos;
 		} else if (screen instanceof AbstractContainerScreen<?> tx) {

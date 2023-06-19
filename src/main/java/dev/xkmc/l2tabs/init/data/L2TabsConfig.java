@@ -11,10 +11,13 @@ public class L2TabsConfig {
 	public static class Client {
 
 		public final ForgeConfigSpec.BooleanValue showTabs;
+		public final ForgeConfigSpec.BooleanValue showTabsOnlyCurio;
 
 		Client(ForgeConfigSpec.Builder builder) {
 			showTabs = builder.comment("Show inventory tabs")
 					.define("showTabs", true);
+			showTabsOnlyCurio = builder.comment("Show inventory tabs only in curio page. Only works when showTabs is true and curio is installed.")
+					.define("showTabsOnlyCurio", false);
 		}
 
 	}
