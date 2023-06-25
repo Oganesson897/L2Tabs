@@ -3,6 +3,7 @@ package dev.xkmc.l2tabs.init.data;
 import dev.xkmc.l2library.serial.config.BaseConfig;
 import dev.xkmc.l2library.serial.config.CollectType;
 import dev.xkmc.l2library.serial.config.ConfigCollect;
+import dev.xkmc.l2library.serial.config.ConfigLoadOnStart;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.tabs.contents.AttributeEntry;
@@ -15,6 +16,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @SerialClass
+@ConfigLoadOnStart
 public class AttributeDisplayConfig extends BaseConfig {
 
 	public static List<AttributeEntry> get() {

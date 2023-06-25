@@ -138,6 +138,9 @@ dependencies {
 
     //runtimeOnly fg.deobf('curse.maven:the-twilight-forest-227639:4516391')
 
+    // TODO debug only
+    runtimeOnly fg.deobf("curse.maven:mysterious-mountain-lib-368098:4589606")
+    runtimeOnly fg.deobf("curse.maven:umapyoi-776121:4589608")
 
 }
 
