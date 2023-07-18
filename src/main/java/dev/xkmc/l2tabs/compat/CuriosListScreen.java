@@ -4,6 +4,7 @@ import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,7 +20,19 @@ public class CuriosListScreen extends BaseContainerScreen<CuriosListMenu> {
 	@Override
 	public void init() {
 		super.init();
+		if (topPos < 28) topPos = 28;
+		int w = 10;
+		int h = 11;
+		int x = getGuiLeft() + getXSize() - w - 7, y = getGuiTop() + 4;
 		new TabManager(this).init(this::addRenderableWidget, TabCurios.tab);
+		if (menu.curios.page > 0) {
+			addRenderableWidget(Button.builder(Component.literal("<"), e -> click(1))
+					.pos(x - w - 1, y).size(w, h).build());
+		}
+		if (menu.curios.page < menu.curios.total - 1) {
+			addRenderableWidget(Button.builder(Component.literal(">"), e -> click(2))
+					.pos(x, y).size(w, h).build());
+		}
 	}
 
 	@Override

@@ -51,7 +51,7 @@ class CuriosScreenCompatImpl {
 	}
 
 	void openScreen(ServerPlayer player) {
-		NetworkHooks.openScreen(player, new CuriosMenuPvd(menuType.get()));
+		new CuriosMenuPvd(menuType.get()).open(player);
 	}
 
 	private void openInventory() {

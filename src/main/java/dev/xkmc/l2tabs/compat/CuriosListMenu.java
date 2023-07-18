@@ -3,8 +3,12 @@ package dev.xkmc.l2tabs.compat;
 import dev.xkmc.l2library.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2library.base.menu.base.SpriteManager;
 import dev.xkmc.l2tabs.init.L2Tabs;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 
 public class CuriosListMenu extends BaseContainerMenu<CuriosListMenu> {
 
@@ -22,8 +26,9 @@ public class CuriosListMenu extends BaseContainerMenu<CuriosListMenu> {
 		return MANAGER[Math.min(Math.max(n - 3, 0), 3)];
 	}
 
-	public static CuriosListMenu fromNetwork(MenuType<CuriosListMenu> type, int wid, Inventory plInv) {
-		return new CuriosListMenu(type, wid, plInv, new CuriosWrapper(plInv.player));
+	public static CuriosListMenu fromNetwork(MenuType<CuriosListMenu> type, int wid, Inventory plInv, FriendlyByteBuf buf) {
+		int page = buf.readInt();
+		return new CuriosListMenu(type, wid, plInv, new CuriosWrapper(plInv.player, page));
 	}
 
 	protected CuriosWrapper curios;
@@ -45,4 +50,28 @@ public class CuriosListMenu extends BaseContainerMenu<CuriosListMenu> {
 		}, this::addSlot);
 	}
 
+	private boolean checkSwitch(Player player, int page) {
+		if (page >= 0 && page < curios.total) {
+			if (player instanceof ServerPlayer sp) {
+				ItemStack carry = getCarried();
+				setCarried(ItemStack.EMPTY);
+				new CuriosMenuPvd(CuriosScreenCompatImpl.get().menuType.get(), page).open(sp);
+				sp.containerMenu.setCarried(carry);
+			} else {
+				slots.clear();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean clickMenuButton(Player player, int btn) {
+		if (btn == 1) {
+			return checkSwitch(player, curios.page - 1);
+		} else if (btn == 2) {
+			return checkSwitch(player, curios.page + 1);
+		}
+		return super.clickMenuButton(player, btn);
+	}
 }

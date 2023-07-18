@@ -12,16 +12,33 @@ public class CuriosWrapper {
 
 	private final ArrayList<CuriosSlotWrapper> list = new ArrayList<>();
 
-	public CuriosWrapper(Player player) {
+	public final int total, page;
+
+	public CuriosWrapper(Player player, int page) {
+		int max = 6;//TODO
 		var opt = player.getCapability(CuriosCapability.INVENTORY).resolve();
-		if (opt.isEmpty()) return;
+		this.page = page;
+		if (opt.isEmpty()) {
+			total = 0;
+			return;
+		}
 		var cap = opt.get();
+		int offset = page * max * 9;
+		int count = 0;
 		for (var ent : cap.getCurios().entrySet()) {
 			var stack = ent.getValue();
 			for (int i = 0; i < stack.getSlots(); i++) {
-				list.add(new CuriosSlotWrapper(player, stack, i, ent.getKey()));
+				count++;
+				if (offset > 0) {
+					offset--;
+				} else {
+					if (list.size() < max * 9) {
+						list.add(new CuriosSlotWrapper(player, stack, i, ent.getKey()));
+					}
+				}
 			}
 		}
+		this.total = (count - 1) / (max * 9) + 1;
 	}
 
 	public int getSize() {
