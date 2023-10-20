@@ -5,7 +5,7 @@ import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.contents.TabInventory;
-import dev.xkmc.l2tabs.tabs.core.TabRegistry;
+import dev.xkmc.l2tabs.tabs.inventory.TabRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -13,7 +13,6 @@ import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PacketDistributor;
 import top.theillusivec4.curios.client.gui.CuriosScreen;
 import top.theillusivec4.curios.common.network.NetworkHandler;
@@ -47,7 +46,7 @@ class CuriosScreenCompatImpl {
 		};
 		TabInventory.openInventory = this::openInventory;
 
-		TabCurios.tab = TabRegistry.registerTab(2000, TabCurios::new, () -> Items.AIR, L2TabsLangData.CURIOS.get());
+		TabCurios.tab = TabRegistry.GROUP.registerTab(2000, TabCurios::new, () -> Items.AIR, L2TabsLangData.CURIOS.get());
 	}
 
 	void openScreen(ServerPlayer player) {

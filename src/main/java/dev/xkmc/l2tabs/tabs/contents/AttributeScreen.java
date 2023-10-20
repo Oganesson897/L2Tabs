@@ -4,6 +4,7 @@ import dev.xkmc.l2tabs.init.L2TabsClient;
 import dev.xkmc.l2tabs.init.data.AttributeDisplayConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
+import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,7 +22,7 @@ import java.util.List;
 
 import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
 
-public class AttributeScreen extends BaseTextScreen {
+public class AttributeScreen extends BaseTextScreen { //TODO make living entity compatible
 
 	protected AttributeScreen(Component title) {
 		super(title, new ResourceLocation("l2tabs:textures/gui/empty.png"));
@@ -30,7 +31,7 @@ public class AttributeScreen extends BaseTextScreen {
 	@Override
 	public void init() {
 		super.init();
-		new TabManager(this).init(this::addRenderableWidget, L2TabsClient.TAB_ATTRIBUTE);
+		new TabManager<>(this, new InvTabData()).init(this::addRenderableWidget, L2TabsClient.TAB_ATTRIBUTE);
 	}
 
 	@Override

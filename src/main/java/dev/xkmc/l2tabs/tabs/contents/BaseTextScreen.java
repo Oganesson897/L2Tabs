@@ -1,13 +1,12 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public abstract class BaseTextScreen extends Screen {
+public abstract class BaseTextScreen extends Screen implements ITabScreen {
 
 	private final ResourceLocation texture;
 
@@ -39,4 +38,23 @@ public abstract class BaseTextScreen extends Screen {
 		return false;
 	}
 
+	@Override
+	public int getGuiLeft() {
+		return leftPos;
+	}
+
+	@Override
+	public int getGuiTop() {
+		return topPos;
+	}
+
+	@Override
+	public int getXSize() {
+		return imageWidth;
+	}
+
+	@Override
+	public int getYSize() {
+		return imageHeight;
+	}
 }

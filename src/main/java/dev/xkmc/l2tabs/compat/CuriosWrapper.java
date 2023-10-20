@@ -8,7 +8,7 @@ import top.theillusivec4.curios.common.inventory.CurioSlot;
 
 import java.util.ArrayList;
 
-public class CuriosWrapper {
+public class CuriosWrapper {//TODO make living entity compatible
 
 	private final ArrayList<CuriosSlotWrapper> list = new ArrayList<>();
 

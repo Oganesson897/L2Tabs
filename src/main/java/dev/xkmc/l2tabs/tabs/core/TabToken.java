@@ -6,37 +6,40 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
-public class TabToken<T extends BaseTab<T>> {
+public class TabToken<G extends TabGroupData<G>, T extends TabBase<G, T>> {
 
+	public interface TabFactory<G extends TabGroupData<G>, T extends TabBase<G, T>> {
 
-	public interface TabFactory<T extends BaseTab<T>> {
-
-		T create(TabToken<T> token, TabManager manager, ItemStack stack, Component component);
+		T create(int index, TabToken<G, T> token, TabManager<G> manager, ItemStack stack, Component component);
 
 	}
 
-	public final TabFactory<T> factory;
-	public final TabType type;
-
+	private final TabGroup<G> group;
+	private final TabFactory<G, T> factory;
 	private final Supplier<Item> item;
 	private final Component title;
 
 	int index;
 
-	public TabToken(TabFactory<T> factory, Supplier<Item> item, Component component) {
+	public TabToken(TabGroup<G> group, TabFactory<G, T> factory, Supplier<Item> item, Component component) {
+		this.group = group;
 		this.factory = factory;
-		this.type = TabType.ABOVE;
 
 		this.item = item;
 		this.title = component;
 	}
 
 	public int getIndex() {
-		TabRegistry.refreshIndex();
+		group.refreshIndex();
 		return index;
 	}
 
-	public T create(TabManager manager) {
-		return factory.create(this, manager, item.get().getDefaultInstance(), title);
+	public TabType getType() {
+		return group.type;
 	}
+
+	public T create(int index, TabManager<G> manager) {
+		return factory.create(index, this, manager, item.get().getDefaultInstance(), title);
+	}
+
 }

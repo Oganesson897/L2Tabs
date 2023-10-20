@@ -1,7 +1,9 @@
 package dev.xkmc.l2tabs.compat;
 
 import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
+import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -11,7 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import top.theillusivec4.curios.common.inventory.CurioSlot;
 
-public class CuriosListScreen extends BaseContainerScreen<CuriosListMenu> {
+public class CuriosListScreen extends BaseContainerScreen<CuriosListMenu> implements ITabScreen {
 
 	public CuriosListScreen(CuriosListMenu cont, Inventory plInv, Component title) {
 		super(cont, plInv, title);
@@ -24,7 +26,7 @@ public class CuriosListScreen extends BaseContainerScreen<CuriosListMenu> {
 		int w = 10;
 		int h = 11;
 		int x = getGuiLeft() + getXSize() - w - 7, y = getGuiTop() + 4;
-		new TabManager(this).init(this::addRenderableWidget, TabCurios.tab);
+		new TabManager<>(this, new InvTabData()).init(this::addRenderableWidget, TabCurios.tab);
 		if (menu.curios.page > 0) {
 			addRenderableWidget(Button.builder(Component.literal("<"), e -> click(1))
 					.pos(x - w - 1, y).size(w, h).build());
@@ -57,4 +59,5 @@ public class CuriosListScreen extends BaseContainerScreen<CuriosListMenu> {
 		}
 		super.renderTooltip(g, mx, my);
 	}
+
 }

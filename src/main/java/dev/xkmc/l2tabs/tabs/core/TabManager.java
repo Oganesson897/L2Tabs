@@ -1,88 +1,82 @@
 package dev.xkmc.l2tabs.tabs.core;
 
-import dev.xkmc.l2tabs.init.data.L2TabsConfig;
-import dev.xkmc.l2tabs.tabs.contents.BaseTextScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class TabManager {
+public class TabManager<G extends TabGroupData<G>> {
 
-	private final List<BaseTab<?>> list = new ArrayList<>();
-	private final Screen screen;
+	protected final List<TabBase<G, ?>> list = new ArrayList<>();
 
-	public int tabPage, maxPages;
-	public TabToken<?> selected;
+	public final ITabScreen screen;
+	public final G token;
 
-	public TabManager(Screen screen) {
+	public int tabPage;
+	public TabToken<G, ?> selected;
+
+	private int maxPages = 0;
+
+	public TabManager(ITabScreen screen, G token) {
 		this.screen = screen;
+		this.token = token;
 	}
 
-	public void init(Consumer<AbstractWidget> adder, TabToken<?> selected) {
+	public void init(Consumer<AbstractWidget> adder, TabToken<G, ?> selected) {
+		if (!token.shouldRender()) return;
+		TabGroup<G> group = token.getGroup();
+		List<TabToken<G, ?>> token_list = group.getTabs();
 		list.clear();
-		if (!L2TabsConfig.CLIENT.showTabs.get())
-			return;
 		this.selected = selected;
-		int guiLeft, guiTop;
-		if (screen instanceof BaseTextScreen tx) {
-			guiLeft = tx.leftPos;
-			guiTop = tx.topPos;
-		} else if (screen instanceof AbstractContainerScreen<?> tx) {
-			guiLeft = tx.getGuiLeft();
-			guiTop = tx.getGuiTop();
-		} else {
-			guiLeft = (screen.width - 176) / 2;
-			guiTop = (screen.height - 166) / 2;
-		}
-		guiLeft -= 52;
-		for (TabToken<?> token : TabRegistry.getTabs()) {
-			BaseTab<?> tab = token.create(this);
-			tab.setX(guiLeft + (token.getIndex() + 2) * 26);
-			tab.setY(guiTop - 28);
+		int guiLeft = screen.getGuiLeft();
+		int guiTop = screen.getGuiTop();
+		int imgWidth = screen.getXSize();
+		int imgHeight = screen.getYSize();
+		for (int i = 0; i < token_list.size(); i++) {
+			TabToken<G, ?> token = token_list.get(i);
+			TabBase<G, ?> tab = token.create(i, this);
+			tab.setX(guiLeft + group.type.getTabX(imgWidth, tab.index));
+			tab.setY(guiTop + group.type.getTabY(imgHeight, tab.index));
 			adder.accept(tab);
 			list.add(tab);
 		}
 
-		if (TabRegistry.getTabs().size() > TabType.MAX_TABS) {
-			adder.accept(Button.builder(
-					Component.literal("<"), b -> {
-						tabPage = Math.max(tabPage - 1, 0);
-						updateVisibility();
-					}).bounds(guiLeft, guiTop - 50, 20, 20).build());
-			adder.accept(Button.builder(
-					Component.literal(">"), b -> {
-						tabPage = Math.min(tabPage + 1, maxPages);
-						updateVisibility();
-					}).bounds(guiLeft + 252 - 20, guiTop - 50, 20, 20).build());
-			maxPages = TabRegistry.getTabs().size() / TabType.MAX_TABS;
+		int max = group.type.max;
+		if (token_list.size() > max) {
+			adder.accept(group.type.getLeftButton(screen, b -> {
+				tabPage = Math.max(tabPage - 1, 0);
+				updateVisibility();
+			}));
+			adder.accept(group.type.getRightButton(screen, b -> {
+				tabPage = Math.min(tabPage + 1, maxPages);
+				updateVisibility();
+			}));
+			maxPages = token_list.size() / max;
 		}
-
 		updateVisibility();
 	}
 
 	private void updateVisibility() {
-		for (BaseTab<?> tab : list) {
-			tab.visible = tab.token.getIndex() >= tabPage * TabType.MAX_TABS && tab.token.getIndex() < (tabPage + 1) * TabType.MAX_TABS;
+		int max = token.getGroup().type.max;
+		for (TabBase<G, ?> tab : list) {
+			tab.visible = tab.index >= tabPage * max && tab.index < (tabPage + 1) * max;
 			tab.active = tab.visible;
 		}
 	}
 
 	public Screen getScreen() {
-		return screen;
+		return screen.asScreen();
 	}
 
-	public void onToolTipRender(GuiGraphics g, int mouseX, int mouseY) {
-		for (BaseTab<?> tab : list) {
+	public void onToolTipRender(GuiGraphics stack, int mouseX, int mouseY) {
+		for (TabBase<G, ?> tab : list) {
 			if (tab.visible && tab.isHoveredOrFocused()) {
-				tab.onTooltip(g, mouseX, mouseY);
+				tab.onTooltip(stack, mouseX, mouseY);
 			}
 		}
 	}
+
 }

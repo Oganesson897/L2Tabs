@@ -1,26 +1,25 @@
 package dev.xkmc.l2tabs.tabs.core;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
-public abstract class BaseTab<T extends BaseTab<T>> extends Button {
+public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>> extends Button {
 
-	protected final static ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
-
+	public final int index;
 	public final ItemStack stack;
-	public final TabToken<T> token;
-	public final TabManager manager;
+	public final TabToken<G, T> token;
+	public final TabManager<G> manager;
 
 	@SuppressWarnings("unchecked")
-	public BaseTab(TabToken<T> token, TabManager manager, ItemStack stack, Component title) {
-		super(0, 0, 26, 32, title, b -> ((T) b).onTabClicked(), Supplier::get);
+	public TabBase(int index, TabToken<G, T> token, TabManager<G> manager, ItemStack stack, Component title) {
+		super(0, 0, token.getType().width, token.getType().height,
+				title, b -> ((T) b).onTabClicked(), Supplier::get);
+		this.index = index;
 		this.stack = stack;
 		this.token = token;
 		this.manager = manager;
@@ -34,10 +33,8 @@ public abstract class BaseTab<T extends BaseTab<T>> extends Button {
 
 	public void renderBackground(GuiGraphics g) {
 		if (this.visible) {
-			token.type.draw(g, TEXTURE, getX(), getY(), manager.selected == token, token.getIndex());
-			RenderSystem.defaultBlendFunc();
-			if (!this.stack.isEmpty())
-				token.type.drawIcon(g, getX(), getY(), this.stack);
+			token.getType().draw(g, getX(), getY(), manager.selected == token, index);
+			renderIcon(g);
 		}
 	}
 
@@ -46,9 +43,14 @@ public abstract class BaseTab<T extends BaseTab<T>> extends Button {
 		if (manager.selected == token) {
 			renderBackground(g);
 		}
-		if (this.token.getIndex() == TabRegistry.getTabs().size() - 1) { // draw on last
+		if (this == manager.list.get(manager.list.size() - 1)) { // draw on last
 			manager.onToolTipRender(g, mouseX, mouseY);
 		}
+	}
+
+	protected void renderIcon(GuiGraphics g) {
+		if (!this.stack.isEmpty())
+			token.getType().drawIcon(g, getX(), getY(), index, this.stack);
 	}
 
 }
