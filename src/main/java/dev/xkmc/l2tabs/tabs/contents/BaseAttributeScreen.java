@@ -28,7 +28,9 @@ public class BaseAttributeScreen extends BaseTextScreen {
 		int y = topPos + 6;
 		Attribute focus = null;
 		for (AttributeEntry entry : list) {
-			double val = player.getAttributeValue(entry.attr());
+			var attr = player.getAttribute(entry.attr());
+			if (attr == null) continue;
+			var val = attr.getValue();
 			Component comp = Component.translatable(
 					"attribute.modifier.equals." + (entry.usePercent() ? 1 : 0),
 					ATTRIBUTE_MODIFIER_FORMAT.format(entry.usePercent() ? val * 100 : val),
