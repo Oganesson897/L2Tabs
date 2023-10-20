@@ -37,16 +37,9 @@ public class TabGroup<G extends TabGroupData<G>> {
 	}
 
 	public List<TabToken<G, ?>> getTabs() {
-		refreshIndex();
+		if (cache == null)
+			cache = new ArrayList<>(map.values());
 		return cache;
-	}
-
-	public void refreshIndex() {
-		if (cache != null) return;
-		cache = new ArrayList<>(map.values());
-		for (int i = 0; i < cache.size(); i++) {
-			cache.get(i).index = i;
-		}
 	}
 
 }

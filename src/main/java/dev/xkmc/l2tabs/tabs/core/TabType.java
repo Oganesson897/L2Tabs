@@ -76,7 +76,7 @@ public enum TabType {
 
 	public int getX(int pIndex) {
 		return switch (this) {
-			case ABOVE, BELOW -> (this.width + 4) * pIndex;
+			case ABOVE, BELOW -> (this.width + 1) * pIndex;
 			case LEFT -> -this.width + 4;
 			case RIGHT -> -4;
 		};

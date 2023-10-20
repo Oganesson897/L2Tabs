@@ -19,19 +19,12 @@ public class TabToken<G extends TabGroupData<G>, T extends TabBase<G, T>> {
 	private final Supplier<Item> item;
 	private final Component title;
 
-	int index;
-
-	public TabToken(TabGroup<G> group, TabFactory<G, T> factory, Supplier<Item> item, Component component) {
+	TabToken(TabGroup<G> group, TabFactory<G, T> factory, Supplier<Item> item, Component component) {
 		this.group = group;
 		this.factory = factory;
 
 		this.item = item;
 		this.title = component;
-	}
-
-	public int getIndex() {
-		group.refreshIndex();
-		return index;
 	}
 
 	public TabType getType() {
