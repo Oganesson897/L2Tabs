@@ -12,7 +12,6 @@ import java.util.function.Supplier;
 public class TabGroup<G extends TabGroupData<G>> {
 
 	private final Map<Integer, TabToken<G, ?>> map = new TreeMap<>();
-	private List<TabToken<G, ?>> cache;
 
 	public final TabType type;
 
@@ -27,7 +26,6 @@ public class TabGroup<G extends TabGroupData<G>> {
 	 * 3000 - Artifacts
 	 */
 	public synchronized <T extends TabBase<G, T>> TabToken<G, T> registerTab(int priority, TabToken.TabFactory<G, T> sup, Supplier<Item> item, Component title) {
-		cache = null;
 		TabToken<G, T> ans = new TabToken<>(this, sup, item, title);
 		while (map.containsKey(priority)) {
 			priority++;
@@ -36,10 +34,14 @@ public class TabGroup<G extends TabGroupData<G>> {
 		return ans;
 	}
 
-	public List<TabToken<G, ?>> getTabs() {
-		if (cache == null)
-			cache = new ArrayList<>(map.values());
-		return cache;
+	public List<TabToken<G, ?>> getTabs(G token) {
+		List<TabToken<G, ?>> ans = new ArrayList<>();
+		for (var e : map.values()) {
+			if (token.allows(e)) {
+				ans.add(e);
+			}
+		}
+		return ans;
 	}
 
 }

@@ -28,7 +28,7 @@ public class TabManager<G extends TabGroupData<G>> {
 	public void init(Consumer<AbstractWidget> adder, TabToken<G, ?> selected) {
 		if (!token.shouldRender()) return;
 		TabGroup<G> group = token.getGroup();
-		List<TabToken<G, ?>> token_list = group.getTabs();
+		List<TabToken<G, ?>> token_list = token.getTabs();
 		list.clear();
 		this.selected = selected;
 		int guiLeft = screen.getGuiLeft();
