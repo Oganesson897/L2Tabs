@@ -1,6 +1,7 @@
 package dev.xkmc.l2tabs.compat;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
+import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
@@ -10,10 +11,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PacketDistributor;
 import top.theillusivec4.curios.client.gui.CuriosScreen;
 import top.theillusivec4.curios.common.network.NetworkHandler;
@@ -30,6 +31,14 @@ class CuriosScreenCompatImpl {
 			INSTANCE = new CuriosScreenCompatImpl();
 		}
 		return INSTANCE;
+	}
+
+	static void freezeScreen() {
+		LocalPlayer player = Proxy.getClientPlayer();
+		if (player == null) return;
+		if (player.containerMenu instanceof BaseCuriosListMenu<?> list) {
+			list.slots.clear();
+		}
 	}
 
 	MenuEntry<CuriosListMenu> menuType;
