@@ -22,7 +22,7 @@ public class BaseCuriosListScreen<T extends BaseCuriosListMenu<T>> extends BaseC
 		if (topPos < 28) topPos = 28;
 		int w = 10;
 		int h = 11;
-		int x = getGuiLeft() + getXSize() / 2, y = getGuiTop() + 4;
+		int x = getGuiLeft() + getXSize() / 2 + 36, y = getGuiTop() + 4;
 		if (menu.curios.page > 0) {
 			addRenderableWidget(Button.builder(Component.literal("<"), e -> click(1))
 					.pos(x - w - 1, y).size(w, h).build());
@@ -38,7 +38,8 @@ public class BaseCuriosListScreen<T extends BaseCuriosListMenu<T>> extends BaseC
 		var sr = menu.sprite.get().getRenderer(this);
 		sr.start(g);
 		for (int i = 0; i < menu.curios.getSize(); i++) {
-			sr.draw(g, "grid", "slot", i % 9 * 18 - 1, i / 9 * 18 - 1);
+			if (menu.curios.getSlotAtPosition(i) != null)
+				sr.draw(g, "grid", "slot", i % 9 * 18 - 1, i / 9 * 18 - 1);
 		}
 	}
 

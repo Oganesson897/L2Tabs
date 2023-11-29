@@ -1,23 +1,19 @@
 package dev.xkmc.l2tabs.compat;
 
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.inventory.Slot;
 import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
-import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class CuriosWrapper {
+public class CuriosWrapper extends BaseCuriosWrapper {
 
 	private final ArrayList<CuriosSlotWrapper> list = new ArrayList<>();
 
-	public final int total, page;
-	public final LivingEntity entity;
-
 	public CuriosWrapper(LivingEntity player, int page) {
-		this.entity = player;
+		super(player);
 		int max = 6;
 		Optional<ICuriosItemHandler> opt = player.getCapability(CuriosCapability.INVENTORY).resolve();
 		this.page = page;
@@ -30,7 +26,7 @@ public class CuriosWrapper {
 		int count = 0;
 		for (var ent : cap.getCurios().entrySet()) {
 			var stack = ent.getValue();
-			if (!stack.isVisible())continue;
+			if (!stack.isVisible()) continue;
 			for (int i = 0; i < stack.getSlots(); i++) {
 				count++;
 				if (offset > 0) {
@@ -49,16 +45,15 @@ public class CuriosWrapper {
 		return list.size();
 	}
 
-	public CuriosSlotWrapper get(int i) {
-		return list.get(i);
+	@Override
+	public int getRows() {
+		return list.isEmpty() ? 0 : (list.size() - 1) / 9 + 1;
 	}
 
-	public record CuriosSlotWrapper(LivingEntity player, ICurioStacksHandler cap, int index, String identifier) {
-
-		public Slot toSlot(int x, int y) {
-			return new CurioSlot(player, cap.getStacks(), index, identifier, x, y, cap.getRenders(), false);
-		}
-
+	@Nullable
+	public CuriosSlotWrapper getSlotAtPosition(int i) {
+		if (i < 0 || i >= list.size()) return null;
+		return list.get(i);
 	}
 
 }

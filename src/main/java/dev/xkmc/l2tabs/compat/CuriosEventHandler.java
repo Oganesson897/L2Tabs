@@ -1,6 +1,7 @@
 package dev.xkmc.l2tabs.compat;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -15,16 +16,20 @@ public class CuriosEventHandler {
 			for (var player : sl.players()) {
 				if (player.containerMenu instanceof BaseCuriosListMenu<?> menu) {
 					if (menu.curios.entity == entity) {
-						ItemStack stack = menu.getCarried();
-						menu.setCarried(ItemStack.EMPTY);
-						menu.switchPage(player, menu.curios.page);
-						player.containerMenu.setCarried(stack);
+						openMenuWrapped(player, () -> menu.switchPage(player, menu.curios.page));
 					}
 				}
 			}
-		} else if (entity.level().isClientSide()) {
-			CuriosScreenCompatImpl.freezeScreen();
 		}
+	}
+
+	public static void openMenuWrapped(ServerPlayer player, Runnable run) {
+		var menu = player.containerMenu;
+		ItemStack stack = menu.getCarried();
+		menu.setCarried(ItemStack.EMPTY);
+		run.run();
+		menu = player.containerMenu;
+		menu.setCarried(stack);
 	}
 
 }

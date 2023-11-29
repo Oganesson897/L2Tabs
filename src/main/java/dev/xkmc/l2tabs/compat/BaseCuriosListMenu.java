@@ -25,20 +25,25 @@ public abstract class BaseCuriosListMenu<T extends BaseContainerMenu<T>> extends
 		return MANAGER[Math.min(Math.max(n - 3, 0), 3)];
 	}
 
-	protected CuriosWrapper curios;
+	public final BaseCuriosWrapper curios;
 
-	protected BaseCuriosListMenu(MenuType<?> type, int wid, Inventory plInv, CuriosWrapper curios) {
+	protected BaseCuriosListMenu(MenuType<?> type, int wid, Inventory plInv, BaseCuriosWrapper curios) {
 		super(type, wid, plInv, getManager(curios.getSize()), e -> new BaseContainer<>(curios.getSize(), e), false);
 		addCurioSlot("grid", curios);
 		this.curios = curios;
 	}
 
-	protected void addCurioSlot(String name, CuriosWrapper curios) {
+	protected void addCurioSlot(String name, BaseCuriosWrapper curios) {
 		int current = added;
+		int[] removed = new int[]{0};
 		sprite.get().getSlot(name, (x, y) -> {
 			int i = added - current;
-			if (i >= curios.getSize()) return null;
-			var ans = curios.get(i).toSlot(x, y);
+			var slot = curios.getSlotAtPosition(i + removed[0]);
+			if (slot == null) {
+				removed[0]++;
+				return null;
+			}
+			var ans = slot.toSlot(x, y);
 			added++;
 			return ans;
 		}, this::addSlot);
@@ -48,10 +53,7 @@ public abstract class BaseCuriosListMenu<T extends BaseContainerMenu<T>> extends
 	private boolean checkSwitch(Player player, int page) {
 		if (page >= 0 && page < curios.total) {
 			if (player instanceof ServerPlayer sp) {
-				ItemStack carry = getCarried();
-				setCarried(ItemStack.EMPTY);
-				switchPage(sp, page);
-				sp.containerMenu.setCarried(carry);
+				CuriosEventHandler.openMenuWrapped(sp, () -> switchPage(sp, page));
 			} else {
 				slots.clear();
 			}
@@ -60,7 +62,7 @@ public abstract class BaseCuriosListMenu<T extends BaseContainerMenu<T>> extends
 		return false;
 	}
 
-	protected abstract void switchPage(ServerPlayer sp, int page);
+	public abstract void switchPage(ServerPlayer sp, int page);
 
 	@Override
 	public boolean clickMenuButton(Player player, int btn) {
