@@ -7,7 +7,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.ItemStack;
 
 public abstract class BaseCuriosListMenu<T extends BaseContainerMenu<T>> extends BaseContainerMenu<T> {
 
@@ -21,14 +20,13 @@ public abstract class BaseCuriosListMenu<T extends BaseContainerMenu<T>> extends
 	}
 
 	private static SpriteManager getManager(int size) {
-		int n = (size + 8) / 9;
-		return MANAGER[Math.min(Math.max(n - 3, 0), 3)];
+		return MANAGER[Math.min(Math.max(size - 3, 0), 3)];
 	}
 
 	public final BaseCuriosWrapper curios;
 
 	protected BaseCuriosListMenu(MenuType<?> type, int wid, Inventory plInv, BaseCuriosWrapper curios) {
-		super(type, wid, plInv, getManager(curios.getSize()), e -> new BaseContainer<>(curios.getSize(), e), false);
+		super(type, wid, plInv, getManager(curios.getRows()), e -> new BaseContainer<>(curios.getSize(), e), false);
 		addCurioSlot("grid", curios);
 		this.curios = curios;
 	}

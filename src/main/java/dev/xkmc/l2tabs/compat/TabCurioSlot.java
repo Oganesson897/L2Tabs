@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.items.SlotItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.Curios;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -20,11 +20,12 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.event.CurioEquipEvent;
 import top.theillusivec4.curios.api.event.CurioUnequipEvent;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
+import top.theillusivec4.curios.common.inventory.CurioSlot;
 import top.theillusivec4.curios.mixin.core.AccessorEntity;
 
 import javax.annotation.Nonnull;
 
-public class CurioSlot extends SlotItemHandler {
+public class TabCurioSlot extends CurioSlot {
 
 	private final String identifier;
 	private final LivingEntity player;
@@ -36,10 +37,10 @@ public class CurioSlot extends SlotItemHandler {
 	private final IDynamicStackHandler handler;
 	private final int index;
 
-	public CurioSlot(LivingEntity player, IDynamicStackHandler handler, int index, String identifier,
-					 int xPosition, int yPosition, NonNullList<Boolean> renders,
-					 boolean canToggleRender) {
-		super(handler, index, xPosition, yPosition);
+	public TabCurioSlot(LivingEntity player, IDynamicStackHandler handler, int index, String identifier,
+						int xPosition, int yPosition, NonNullList<Boolean> renders,
+						boolean canToggleRender) {
+		super(null, handler, index, identifier, xPosition, yPosition, renders, canToggleRender);
 		this.identifier = identifier;
 		this.renderStatuses = renders;
 		this.player = player;
@@ -84,7 +85,8 @@ public class CurioSlot extends SlotItemHandler {
 		if (!isValid()) return;
 		ItemStack current = this.getItem();
 		boolean flag = current.isEmpty() && stack.isEmpty();
-		super.set(stack);
+		((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(index, stack);
+		this.setChanged();
 
 		if (!flag && !ItemStack.matches(current, stack) &&
 				!((AccessorEntity) this.player).getFirstTick()) {
@@ -103,33 +105,12 @@ public class CurioSlot extends SlotItemHandler {
 	@Override
 	public boolean mayPlace(@Nonnull ItemStack stack) {
 		if (!isValid()) return false;
-		CurioEquipEvent equipEvent = new CurioEquipEvent(stack, slotContext);
-		MinecraftForge.EVENT_BUS.post(equipEvent);
-		Event.Result result = equipEvent.getResult();
-
-		if (result == Event.Result.DENY) {
-			return false;
-		}
-		return result == Event.Result.ALLOW ||
-				(CuriosApi.isStackValid(slotContext, stack) &&
-						CuriosApi.getCurio(stack).map(curio -> curio.canEquip(slotContext))
-								.orElse(true) && super.mayPlace(stack));
+		return super.mayPlace(stack);
 	}
 
 	@Override
 	public boolean mayPickup(Player playerIn) {
 		if (!isValid()) return false;
-		ItemStack stack = this.getItem();
-		CurioUnequipEvent unequipEvent = new CurioUnequipEvent(stack, slotContext);
-		MinecraftForge.EVENT_BUS.post(unequipEvent);
-		Event.Result result = unequipEvent.getResult();
-
-		if (result == Event.Result.DENY) {
-			return false;
-		}
-		return result == Event.Result.ALLOW ||
-				((stack.isEmpty() || playerIn.isCreative() || !EnchantmentHelper.hasBindingCurse(stack)) &&
-						CuriosApi.getCurio(stack).map(curio -> curio.canUnequip(slotContext))
-								.orElse(true) && super.mayPickup(playerIn));
+		return super.mayPickup(playerIn);
 	}
 }
