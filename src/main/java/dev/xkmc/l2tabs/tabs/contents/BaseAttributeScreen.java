@@ -1,8 +1,10 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
+import dev.xkmc.l2tabs.init.data.AttributeDisplayConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -17,17 +19,50 @@ import java.util.List;
 
 import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
 
-public class BaseAttributeScreen extends BaseTextScreen {
+public abstract class BaseAttributeScreen extends BaseTextScreen {
 
-	protected BaseAttributeScreen(Component title) {
-		super(title, new ResourceLocation("l2tabs:textures/gui/empty.png"));
+	public static int MAX_SIZE = 14;
+
+	private static int getSize() {
+		return MAX_SIZE / 2;
 	}
+
+	private final int page;
+
+	protected BaseAttributeScreen(Component title, int page) {
+		super(title, new ResourceLocation("l2tabs:textures/gui/empty.png"));
+		this.page = page;
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		int w = 10;
+		int h = 11;
+		int size = AttributeDisplayConfig.get().size();
+		int totalPage = (size - 1) / getSize() + 1;
+		int x = (this.width + this.imageWidth) / 2 - 16,
+				y = (this.height - this.imageHeight) / 2 + 4;
+		if (page > 0) {
+			addRenderableWidget(Button.builder(Component.literal("<"), e -> click(page - 1))
+					.pos(x - w - 1, y).size(w, h).build());
+		}
+		if (page < totalPage - 1) {
+			addRenderableWidget(Button.builder(Component.literal(">"), e -> click(page + 1))
+					.pos(x, y).size(w, h).build());
+		}
+	}
+
+	protected abstract void click(int nextPage);
 
 	public void render(GuiGraphics g, int mx, int my, float ptick, LivingEntity player, List<AttributeEntry> list) {
 		int x = leftPos + 8;
 		int y = topPos + 6;
 		Attribute focus = null;
+		int count = 0;
 		for (AttributeEntry entry : list) {
+			count++;
+			if (count <= page * getSize() || page > (page + 1) * getSize()) continue;
 			var attr = player.getAttribute(entry.attr());
 			if (attr == null) continue;
 			var val = attr.getValue();
@@ -36,7 +71,7 @@ public class BaseAttributeScreen extends BaseTextScreen {
 					ATTRIBUTE_MODIFIER_FORMAT.format(entry.usePercent() ? val * 100 : val),
 					Component.translatable(entry.attr().getDescriptionId()));
 			g.drawString(font, comp, x, y, 0, false);
-			if (mx > x && my > y && my < y + 10) focus = entry.attr();
+			if (mx > x && mx < x + font.width(comp) && my > y && my < y + 10) focus = entry.attr();
 			y += 10;
 		}
 		if (focus != null) {

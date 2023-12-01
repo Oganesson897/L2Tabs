@@ -1,22 +1,21 @@
 package dev.xkmc.l2tabs.compat;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.entity.LivingEntity;
 import top.theillusivec4.curios.api.CuriosCapability;
-import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
-import top.theillusivec4.curios.common.inventory.CurioSlot;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Optional;
 
-public class CuriosWrapper {//TODO make living entity compatible
+public class CuriosWrapper extends BaseCuriosWrapper {
 
 	private final ArrayList<CuriosSlotWrapper> list = new ArrayList<>();
 
-	public final int total, page;
-
-	public CuriosWrapper(Player player, int page) {
-		int max = 6;//TODO
-		var opt = player.getCapability(CuriosCapability.INVENTORY).resolve();
+	public CuriosWrapper(LivingEntity player, int page) {
+		super(player);
+		int max = 6;
+		Optional<ICuriosItemHandler> opt = player.getCapability(CuriosCapability.INVENTORY).resolve();
 		this.page = page;
 		if (opt.isEmpty()) {
 			total = 0;
@@ -27,6 +26,7 @@ public class CuriosWrapper {//TODO make living entity compatible
 		int count = 0;
 		for (var ent : cap.getCurios().entrySet()) {
 			var stack = ent.getValue();
+			if (!stack.isVisible()) continue;
 			for (int i = 0; i < stack.getSlots(); i++) {
 				count++;
 				if (offset > 0) {
@@ -45,16 +45,15 @@ public class CuriosWrapper {//TODO make living entity compatible
 		return list.size();
 	}
 
-	public CuriosSlotWrapper get(int i) {
-		return list.get(i);
+	@Override
+	public int getRows() {
+		return list.isEmpty() ? 0 : (list.size() - 1) / 9 + 1;
 	}
 
-	public record CuriosSlotWrapper(Player player, ICurioStacksHandler cap, int index, String identifier) {
-
-		public Slot toSlot(int x, int y) {
-			return new CurioSlot(player, cap.getStacks(), index, identifier, x, y, cap.getRenders(), false);
-		}
-
+	@Nullable
+	public CuriosSlotWrapper getSlotAtPosition(int i) {
+		if (i < 0 || i >= list.size()) return null;
+		return list.get(i);
 	}
 
 }

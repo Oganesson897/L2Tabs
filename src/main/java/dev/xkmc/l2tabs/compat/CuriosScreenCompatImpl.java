@@ -50,7 +50,7 @@ class CuriosScreenCompatImpl {
 	}
 
 	void openScreen(ServerPlayer player) {
-		new CuriosMenuPvd(menuType.get()).open(player);
+		CuriosEventHandler.openMenuWrapped(player, () -> new CuriosMenuPvd(menuType.get()).open(player));
 	}
 
 	private void openInventory() {

@@ -17,7 +17,7 @@ public class TabAttributes extends TabBase<InvTabData, TabAttributes> {
 
 	@Override
 	public void onTabClicked() {
-		Minecraft.getInstance().setScreen(new AttributeScreen(this.getMessage()));
+		Minecraft.getInstance().setScreen(new AttributeScreen(this.getMessage(), 0));
 	}
 
 }
