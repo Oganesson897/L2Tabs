@@ -15,7 +15,7 @@ public class TabAttributes extends BaseTab<TabAttributes> {
 
 	@Override
 	public void onTabClicked() {
-		Minecraft.getInstance().setScreen(new AttributeScreen(this.getMessage()));
+		Minecraft.getInstance().setScreen(new AttributeScreen(this.getMessage(), 0));
 	}
 
 }

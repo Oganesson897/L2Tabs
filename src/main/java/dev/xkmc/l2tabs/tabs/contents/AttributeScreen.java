@@ -7,6 +7,7 @@ import dev.xkmc.l2tabs.tabs.core.TabManager;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -23,14 +24,38 @@ import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
 
 public class AttributeScreen extends BaseTextScreen {
 
-	protected AttributeScreen(Component title) {
+	public static int MAX_SIZE = 14;
+
+	private static int getSize() {
+		return MAX_SIZE;
+	}
+
+	private final int page;
+
+	protected AttributeScreen(Component title, int page) {
 		super(title, new ResourceLocation("l2tabs:textures/gui/empty.png"));
+		this.page = page;
 	}
 
 	@Override
 	public void init() {
 		super.init();
 		new TabManager(this).init(this::addRenderableWidget, L2TabsClient.TAB_ATTRIBUTE);
+
+		int w = 10;
+		int h = 11;
+		int size = AttributeDisplayConfig.get().size();
+		int totalPage = (size - 1) / getSize() + 1;
+		int x = (this.width + this.imageWidth) / 2 - 16,
+				y = (this.height - this.imageHeight) / 2 + 4;
+		if (page > 0) {
+			addRenderableWidget(Button.builder(Component.literal("<"), e -> click(-1))
+					.pos(x - w - 1, y).size(w, h).build());
+		}
+		if (page < totalPage - 1) {
+			addRenderableWidget(Button.builder(Component.literal(">"), e -> click(1))
+					.pos(x, y).size(w, h).build());
+		}
 	}
 
 	@Override
@@ -42,19 +67,26 @@ public class AttributeScreen extends BaseTextScreen {
 		int x = leftPos + 8;
 		int y = topPos + 6;
 		Attribute focus = null;
+		int count = 0;
 		for (AttributeEntry entry : AttributeDisplayConfig.get()) {
+			count++;
+			if (count <= page * getSize() || page > (page + 1) * getSize()) continue;
 			double val = player.getAttributeValue(entry.attr());
 			Component comp = Component.translatable(
 					"attribute.modifier.equals." + (entry.usePercent() ? 1 : 0),
 					ATTRIBUTE_MODIFIER_FORMAT.format(entry.usePercent() ? val * 100 : val),
 					Component.translatable(entry.attr().getDescriptionId()));
 			g.drawString(font, comp, x, y, 0, false);
-			if (mx > x && my > y && my < y + 10) focus = entry.attr();
+			if (mx > x && mx < x + font.width(comp) && my > y && my < y + 10) focus = entry.attr();
 			y += 10;
 		}
 		if (focus != null) {
 			g.renderComponentTooltip(font, getAttributeDetail(focus), mx, my);
 		}
+	}
+
+	private void click(int btn) {
+		Minecraft.getInstance().setScreen(new AttributeScreen(getTitle(), page + btn));
 	}
 
 	public List<Component> getAttributeDetail(Attribute attr) {
