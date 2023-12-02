@@ -62,7 +62,7 @@ public class TabManager {
 			adder.accept(tab);
 
 			order++;
-			if (size > TabType.MAX_TABS && order == TabType.MAX_TABS - 1 && index <= size - 3) {
+			if (size > TabType.MAX_TABS && order == TabType.MAX_TABS - 1) {
 				order = 0;
 				page++;
 			}

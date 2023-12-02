@@ -28,12 +28,6 @@ public enum TabType {
 		int tx = this.textureX;
 		if (index > 0)
 			tx += this.width;
-
-
-		if (index == MAX_TABS - 1) {
-			tx += this.width;
-		}
-
 		int ty = selected ? this.textureY + this.height : this.textureY;
 		g.blit(icon, x, y, tx, ty, this.width, this.height);
 	}
