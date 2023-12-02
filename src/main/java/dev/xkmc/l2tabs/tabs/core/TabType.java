@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public enum TabType {
 	ABOVE(0, 0, 26, 32);
 
-	public static final int MAX_TABS = 8;
+	public static final int MAX_TABS = 7;
 	private final int textureX;
 	private final int textureY;
 	private final int width;

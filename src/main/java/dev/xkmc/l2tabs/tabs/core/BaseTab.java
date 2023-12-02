@@ -18,6 +18,8 @@ public abstract class BaseTab<T extends BaseTab<T>> extends Button {
 	public final TabToken<T> token;
 	public final TabManager manager;
 
+	public int page;
+
 	@SuppressWarnings("unchecked")
 	public BaseTab(TabToken<T> token, TabManager manager, ItemStack stack, Component title) {
 		super(0, 0, 26, 32, title, b -> ((T) b).onTabClicked(), Supplier::get);

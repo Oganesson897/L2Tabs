@@ -18,6 +18,8 @@ public class TabManager {
 	private final List<BaseTab<?>> list = new ArrayList<>();
 	private final Screen screen;
 
+	private Button left, right;
+
 	public int tabPage, maxPages;
 	public TabToken<?> selected;
 
@@ -41,36 +43,56 @@ public class TabManager {
 			guiLeft = (screen.width - 176) / 2;
 			guiTop = (screen.height - 166) / 2;
 		}
-		guiLeft -= 52;
+		int index = 0, order = 0, page = 0;
+		int size = TabRegistry.getTabs().size();
+		int radius = 3;
 		for (TabToken<?> token : TabRegistry.getTabs()) {
+			if (index > 0 && order == 0) {
+				order++;
+			}
+			int xpos = order;
+
+			if (token == selected)
+				tabPage = page;
 			BaseTab<?> tab = token.create(this);
-			tab.setX(guiLeft + (token.getIndex() + 2) * 26);
+			tab.page = page;
+			tab.setX(guiLeft + xpos * 26);
 			tab.setY(guiTop - 28);
-			adder.accept(tab);
 			list.add(tab);
+			adder.accept(tab);
+
+			order++;
+			if (size > TabType.MAX_TABS && order == TabType.MAX_TABS - 1 && index <= size - 3) {
+				order = 0;
+				page++;
+			}
+			index++;
 		}
 
-		if (TabRegistry.getTabs().size() > TabType.MAX_TABS) {
-			adder.accept(Button.builder(
-					Component.literal("<"), b -> {
-						tabPage = Math.max(tabPage - 1, 0);
-						updateVisibility();
-					}).bounds(guiLeft, guiTop - 50, 20, 20).build());
-			adder.accept(Button.builder(
-					Component.literal(">"), b -> {
-						tabPage = Math.min(tabPage + 1, maxPages);
-						updateVisibility();
-					}).bounds(guiLeft + 252 - 20, guiTop - 50, 20, 20).build());
-			maxPages = TabRegistry.getTabs().size() / TabType.MAX_TABS;
-		}
+		maxPages = order == 0 ? page : page + 1;
+
+		adder.accept(left = Button.builder(
+				Component.literal("<"), b -> {
+					tabPage = Math.max(tabPage - 1, 0);
+					updateVisibility();
+				}).bounds(guiLeft + radius, guiTop - 26 + radius,
+				26 - radius * 2, 26 - radius * 2).build());
+
+		adder.accept(right = Button.builder(
+				Component.literal(">"), b -> {
+					tabPage = Math.min(tabPage + 1, maxPages);
+					updateVisibility();
+				}).bounds(guiLeft + (TabType.MAX_TABS - 1) * 26 + radius, guiTop - 26 + radius,
+				26 - radius * 2, 26 - radius * 2).build());
 
 		updateVisibility();
 	}
 
 	private void updateVisibility() {
+		left.visible = left.active = tabPage > 0;
+		right.visible = right.active = tabPage < maxPages - 1;
 		for (BaseTab<?> tab : list) {
-			tab.visible = tab.token.getIndex() >= tabPage * TabType.MAX_TABS && tab.token.getIndex() < (tabPage + 1) * TabType.MAX_TABS;
-			tab.active = tab.visible;
+			tab.active = tab.visible = tab.page == tabPage;
 		}
 	}
 
