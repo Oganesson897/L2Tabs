@@ -44,7 +44,6 @@ public class TabManager {
 			guiTop = (screen.height - 166) / 2;
 		}
 		int index = 0, order = 0, page = 0;
-		int size = TabRegistry.getTabs().size();
 		int radius = 3;
 		for (TabToken<?> token : TabRegistry.getTabs()) {
 			if (index > 0 && order == 0) {
@@ -62,7 +61,7 @@ public class TabManager {
 			adder.accept(tab);
 
 			order++;
-			if (size > TabType.MAX_TABS && order == TabType.MAX_TABS - 1) {
+			if (order == TabType.MAX_TABS - 1) {
 				order = 0;
 				page++;
 			}

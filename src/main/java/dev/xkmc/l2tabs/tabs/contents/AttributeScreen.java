@@ -24,7 +24,7 @@ import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
 
 public class AttributeScreen extends BaseTextScreen {
 
-	public static int MAX_SIZE = 14;
+	public static int MAX_SIZE = 15;
 
 	private static int getSize() {
 		return MAX_SIZE;
@@ -70,7 +70,7 @@ public class AttributeScreen extends BaseTextScreen {
 		int count = 0;
 		for (AttributeEntry entry : AttributeDisplayConfig.get()) {
 			count++;
-			if (count <= page * getSize() || page > (page + 1) * getSize()) continue;
+			if (count <= page * getSize() || count > (page + 1) * getSize()) continue;
 			double val = player.getAttributeValue(entry.attr());
 			Component comp = Component.translatable(
 					"attribute.modifier.equals." + (entry.usePercent() ? 1 : 0),
