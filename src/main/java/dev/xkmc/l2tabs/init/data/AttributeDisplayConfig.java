@@ -37,17 +37,21 @@ public class AttributeDisplayConfig extends BaseConfig {
 			Attribute attr = ForgeRegistries.ATTRIBUTES.getValue(e.id());
 			if (attr == null)
 				continue;
-			cache.add(new AttributeEntry(attr.setSyncable(true), e.usePercent(), e.order()));
+			cache.add(new AttributeEntry(attr.setSyncable(true), e.usePercent(), e.order(), e.intrinsic()));
 		}
 		cache.sort(Comparator.comparingInt(AttributeEntry::order));
 	}
 
-	public AttributeDisplayConfig add(Attribute attr, boolean usePercent, int order) {
-		list.add(new AttributeDataEntry(ForgeRegistries.ATTRIBUTES.getKey(attr), usePercent, order));
+	public AttributeDisplayConfig add(Attribute attr, boolean usePercent, int order, double intrinsic) {
+		list.add(new AttributeDataEntry(ForgeRegistries.ATTRIBUTES.getKey(attr), usePercent, order, intrinsic));
 		return this;
 	}
 
-	public record AttributeDataEntry(ResourceLocation id, boolean usePercent, int order) {
+	public AttributeDisplayConfig add(Attribute attr, int order) {
+		return add(attr, false, order, 0);
+	}
+
+	public record AttributeDataEntry(ResourceLocation id, boolean usePercent, int order, double intrinsic) {
 
 	}
 

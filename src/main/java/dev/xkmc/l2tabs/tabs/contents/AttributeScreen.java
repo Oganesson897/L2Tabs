@@ -2,6 +2,7 @@ package dev.xkmc.l2tabs.tabs.contents;
 
 import dev.xkmc.l2tabs.init.L2TabsClient;
 import dev.xkmc.l2tabs.init.data.AttributeDisplayConfig;
+import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import net.minecraft.ChatFormatting;
@@ -24,10 +25,8 @@ import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
 
 public class AttributeScreen extends BaseTextScreen {
 
-	public static int MAX_SIZE = 15;
-
 	private static int getSize() {
-		return MAX_SIZE;
+		return L2TabsConfig.CLIENT.attributeLinePerPage.get();
 	}
 
 	private final int page;
@@ -66,18 +65,18 @@ public class AttributeScreen extends BaseTextScreen {
 
 		int x = leftPos + 8;
 		int y = topPos + 6;
-		Attribute focus = null;
+		AttributeEntry focus = null;
 		int count = 0;
 		for (AttributeEntry entry : AttributeDisplayConfig.get()) {
 			count++;
 			if (count <= page * getSize() || count > (page + 1) * getSize()) continue;
-			double val = player.getAttributeValue(entry.attr());
+			double val = player.getAttributeValue(entry.attr()) + entry.intrinsic();
 			Component comp = Component.translatable(
 					"attribute.modifier.equals." + (entry.usePercent() ? 1 : 0),
 					ATTRIBUTE_MODIFIER_FORMAT.format(entry.usePercent() ? val * 100 : val),
 					Component.translatable(entry.attr().getDescriptionId()));
 			g.drawString(font, comp, x, y, 0, false);
-			if (mx > x && mx < x + font.width(comp) && my > y && my < y + 10) focus = entry.attr();
+			if (mx > x && mx < x + font.width(comp) && my > y && my < y + 10) focus = entry;
 			y += 10;
 		}
 		if (focus != null) {
@@ -87,6 +86,14 @@ public class AttributeScreen extends BaseTextScreen {
 
 	private void click(int btn) {
 		Minecraft.getInstance().setScreen(new AttributeScreen(getTitle(), page + btn));
+	}
+
+	public List<Component> getAttributeDetail(AttributeEntry entry) {
+		var ans = getAttributeDetail(entry.attr());
+		if (entry.intrinsic() != 0) {
+			ans.add(L2TabsLangData.INTRINSIC.get(number("%s", entry.intrinsic())).withStyle(ChatFormatting.BLUE));
+		}
+		return ans;
 	}
 
 	public List<Component> getAttributeDetail(Attribute attr) {

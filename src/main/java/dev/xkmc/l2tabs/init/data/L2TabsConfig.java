@@ -12,12 +12,15 @@ public class L2TabsConfig {
 
 		public final ForgeConfigSpec.BooleanValue showTabs;
 		public final ForgeConfigSpec.BooleanValue showTabsOnlyCurio;
+		public final ForgeConfigSpec.IntValue attributeLinePerPage;
 
 		Client(ForgeConfigSpec.Builder builder) {
 			showTabs = builder.comment("Show inventory tabs")
 					.define("showTabs", true);
 			showTabsOnlyCurio = builder.comment("Show inventory tabs only in curio page. Only works when showTabs is true and curio is installed.")
 					.define("showTabsOnlyCurio", false);
+			attributeLinePerPage = builder.comment("Number of attribure lines per page")
+					.defineInRange("attributeLinePerPage", 15, 1, 100);
 		}
 
 	}

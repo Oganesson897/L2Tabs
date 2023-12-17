@@ -18,16 +18,16 @@ public class AttributeConfigGen extends ConfigDataProvider {
 		collector.add(L2Tabs.ATTRIBUTE_ENTRY,
 				new ResourceLocation(L2Tabs.MODID, "vanilla"),
 				new AttributeDisplayConfig()
-						.add(Attributes.MAX_HEALTH, false, 1000)
-						.add(Attributes.ARMOR, false, 2000)
-						.add(Attributes.ARMOR_TOUGHNESS, false, 3000)
-						.add(Attributes.KNOCKBACK_RESISTANCE, false, 4000)
-						.add(Attributes.MOVEMENT_SPEED, false, 5000)
-						.add(Attributes.ATTACK_DAMAGE, false, 6000)
-						.add(Attributes.ATTACK_SPEED, false, 7000)
-						.add(ForgeMod.BLOCK_REACH.get(), false, 8000)
-						.add(ForgeMod.ENTITY_REACH.get(), false, 9000)
-						.add(Attributes.LUCK, false, 10000)
+						.add(Attributes.MAX_HEALTH, 1000)
+						.add(Attributes.ARMOR, 2000)
+						.add(Attributes.ARMOR_TOUGHNESS, 3000)
+						.add(Attributes.KNOCKBACK_RESISTANCE, 4000)
+						.add(Attributes.MOVEMENT_SPEED, 5000)
+						.add(Attributes.ATTACK_DAMAGE, 6000)
+						.add(Attributes.ATTACK_SPEED, 7000)
+						.add(ForgeMod.BLOCK_REACH.get(), 8000)
+						.add(ForgeMod.ENTITY_REACH.get(), 9000)
+						.add(Attributes.LUCK, 10000)
 		);
 	}
 }
