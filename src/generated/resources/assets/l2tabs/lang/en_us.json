@@ -4,6 +4,7 @@
   "menu.tabs.attribute.base": "Base value: %s",
   "menu.tabs.attribute.detail": "Press Shift to show details",
   "menu.tabs.attribute.format": "(%s%s)x(1%s)x%s=%s",
+  "menu.tabs.attribute.intrinsic": "Intrinsic Value: %s",
   "menu.tabs.attribute.mult_all": "Multiply total: %s",
   "menu.tabs.attribute.mult_base": "Multiply Base: %s",
   "menu.tabs.curios": "Curios",

@@ -20,6 +20,7 @@ public enum TabType {
 
 	private final static ResourceLocation TEXTURE = new ResourceLocation(L2Tabs.MODID, "textures/gui/tabs.png");
 
+	public static final int MAX_TABS = 7;
 	private final int textureX;
 	private final int textureY;
 	public final int width;
@@ -42,7 +43,7 @@ public enum TabType {
 		}
 
 		if (index == max - 1) {
-			tx += this.width;
+			//tx += this.width;
 		}
 
 		int ty = selected ? this.textureY + this.height : this.textureY;

@@ -15,6 +15,8 @@ public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>
 	public final TabToken<G, T> token;
 	public final TabManager<G> manager;
 
+	public int page;
+
 	@SuppressWarnings("unchecked")
 	public TabBase(int index, TabToken<G, T> token, TabManager<G> manager, ItemStack stack, Component title) {
 		super(0, 0, token.getType().width, token.getType().height,
