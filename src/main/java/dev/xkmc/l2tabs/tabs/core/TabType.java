@@ -1,9 +1,7 @@
 package dev.xkmc.l2tabs.tabs.core;
 
-import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -13,12 +11,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public enum TabType {
-	ABOVE(0, 0, 28, 32, 8),
-	BELOW(84, 0, 28, 32, 8),
-	LEFT(0, 64, 32, 28, 5),
-	RIGHT(96, 64, 32, 28, 5);
+	ABOVE(0, 0, 26, 32, 8),
+	BELOW(84, 0, 26, 32, 8),
+	LEFT(0, 64, 32, 26, 5),
+	RIGHT(96, 64, 32, 26, 5);
 
-	private final static ResourceLocation TEXTURE = new ResourceLocation(L2Tabs.MODID, "textures/gui/tabs.png");
+	private final static ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
 
 	public static final int MAX_TABS = 7;
 	private final int textureX;
@@ -50,7 +48,7 @@ public enum TabType {
 		g.blit(TEXTURE, x, y, tx, ty, this.width, this.height);
 	}
 
-	public void drawIcon(GuiGraphics g, int x, int y, int index, ItemStack stack) {
+	public void drawIcon(GuiGraphics g, int x, int y, ItemStack stack) {
 		int i = x;
 		int j = y;
 		switch (this) {
@@ -77,7 +75,7 @@ public enum TabType {
 
 	public int getX(int pIndex) {
 		return switch (this) {
-			case ABOVE, BELOW -> (this.width + 1) * pIndex;
+			case ABOVE, BELOW -> this.width * pIndex;
 			case LEFT -> -this.width + 4;
 			case RIGHT -> -4;
 		};
@@ -105,14 +103,23 @@ public enum TabType {
 		return (this == BELOW ? imgHeight : 0) + getY(index);
 	}
 
-	public AbstractWidget getLeftButton(ITabScreen screen, Button.OnPress o) {
+	public Button getLeftButton(ITabScreen screen, Button.OnPress o) {
+		int radius = 3;
+		int guiLeft = screen.getGuiLeft();
+		int guiTop = screen.getGuiTop();
 		return Button.builder(Component.literal("<"), o)
-				.bounds(screen.getGuiLeft(), screen.getGuiTop() - 50, 20, 20).build();
+				.bounds(guiLeft + radius, guiTop - 26 + radius,
+						26 - radius * 2, 26 - radius * 2).build();
 	}
 
-	public AbstractWidget getRightButton(ITabScreen screen, Button.OnPress o) {
+	public Button getRightButton(ITabScreen screen, Button.OnPress o) {
+		int radius = 3;
+		int guiLeft = screen.getGuiLeft();
+		int guiTop = screen.getGuiTop();
+
 		return Button.builder(Component.literal(">"), o)
-				.bounds(screen.getGuiLeft() + 252 - 20, screen.getGuiTop() - 50, 20, 20).build();
+				.bounds(guiLeft + (TabType.MAX_TABS - 1) * 26 + radius, guiTop - 26 + radius,
+						26 - radius * 2, 26 - radius * 2).build();
 	}
 
 }

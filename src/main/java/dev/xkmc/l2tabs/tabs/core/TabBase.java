@@ -52,7 +52,7 @@ public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>
 
 	protected void renderIcon(GuiGraphics g) {
 		if (!this.stack.isEmpty())
-			token.getType().drawIcon(g, getX(), getY(), index, this.stack);
+			token.getType().drawIcon(g, getX(), getY(), this.stack);
 	}
 
 }
