@@ -25,10 +25,6 @@ public class L2TabsClient {
 			TAB_INVENTORY = TabRegistry.GROUP.registerTab(0, TabInventory::new, () -> Items.CRAFTING_TABLE, L2TabsLangData.INVENTORY.get());
 			TAB_ATTRIBUTE = TabRegistry.GROUP.registerTab(1000, TabAttributes::new, () -> Items.IRON_SWORD, L2TabsLangData.ATTRIBUTE.get());
 
-			//FIXME
-			for (int i = 1; i < 20; i++)
-				TabRegistry.GROUP.registerTab(1000 + i, TabAttributes::new, () -> Items.IRON_SWORD, L2TabsLangData.ATTRIBUTE.get());
-
 			TabCuriosCompat.onClientInit();
 		});
 	}
