@@ -6,11 +6,15 @@ import dev.xkmc.l2tabs.tabs.contents.TabAttributes;
 import dev.xkmc.l2tabs.tabs.contents.TabInventory;
 import dev.xkmc.l2tabs.tabs.core.TabRegistry;
 import dev.xkmc.l2tabs.tabs.core.TabToken;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+import java.util.concurrent.CompletableFuture;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = L2Tabs.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class L2TabsClient {
@@ -25,6 +29,11 @@ public class L2TabsClient {
 			TAB_ATTRIBUTE = TabRegistry.registerTab(1000, TabAttributes::new, () -> Items.IRON_SWORD, L2TabsLangData.ATTRIBUTE.get());
 			TabCuriosCompat.onClientInit();
 		});
+	}
+
+	@SubscribeEvent
+	public static void reload(RegisterClientReloadListenersEvent event) {
+		event.registerReloadListener((ResourceManagerReloadListener)(a) -> CompletableFuture.runAsync(TabRegistry::reload));
 	}
 
 }

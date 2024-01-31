@@ -44,7 +44,12 @@ class CuriosScreenCompatImpl {
 			boolean onlyCurio = L2TabsConfig.CLIENT.showTabsOnlyCurio.get();
 			return onlyCurio ? isCurio : old.test(screen) || isCurio;
 		};
-		TabInventory.openInventory = this::openInventory;
+		var prev = TabInventory.openInventory;
+		TabInventory.openInventory = () -> {
+			if (L2TabsConfig.CLIENT.redirectInventoryTabToCuriosInventory.get())
+				openInventory();
+			else prev.run();
+		};
 
 		TabCurios.tab = TabRegistry.registerTab(2000, TabCurios::new, () -> Items.AIR, L2TabsLangData.CURIOS.get());
 	}

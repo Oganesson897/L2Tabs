@@ -1,6 +1,8 @@
 package dev.xkmc.l2tabs.tabs.core;
 
+import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -45,8 +47,16 @@ public class TabRegistry {
 	public static void refreshIndex() {
 		if (cache != null) return;
 		cache = new ArrayList<>(TABS.values());
+		cache.removeIf(e -> e.title.getContents() instanceof TranslatableContents tr &&
+				L2TabsConfig.CLIENT.hiddenTabs.get().contains(tr.getKey()));
 		for (int i = 0; i < cache.size(); i++) {
 			cache.get(i).index = i;
 		}
 	}
+
+	public static void reload() {
+		cache = null;
+		refreshIndex();
+	}
+
 }

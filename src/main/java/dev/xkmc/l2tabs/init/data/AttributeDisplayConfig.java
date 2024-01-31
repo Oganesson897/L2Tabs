@@ -8,6 +8,7 @@ import dev.xkmc.l2serial.serialization.SerialClass;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.tabs.contents.AttributeEntry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -21,6 +22,10 @@ public class AttributeDisplayConfig extends BaseConfig {
 
 	public static List<AttributeEntry> get() {
 		return L2Tabs.ATTRIBUTE_ENTRY.getMerged().cache;
+	}
+
+	public static List<AttributeEntry> get(LivingEntity le) {
+		return get().stream().filter(e -> le.getAttribute(e.attr()) != null).toList();
 	}
 
 	@ConfigCollect(CollectType.COLLECT)

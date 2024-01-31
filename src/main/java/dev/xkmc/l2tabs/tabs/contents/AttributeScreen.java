@@ -1,5 +1,6 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
+import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2tabs.init.L2TabsClient;
 import dev.xkmc.l2tabs.init.data.AttributeDisplayConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsConfig;
@@ -43,7 +44,7 @@ public class AttributeScreen extends BaseTextScreen {
 
 		int w = 10;
 		int h = 11;
-		int size = AttributeDisplayConfig.get().size();
+		int size = AttributeDisplayConfig.get(Proxy.getClientPlayer()).size();
 		int totalPage = (size - 1) / getSize() + 1;
 		int x = (this.width + this.imageWidth) / 2 - 16,
 				y = (this.height - this.imageHeight) / 2 + 4;
@@ -67,7 +68,7 @@ public class AttributeScreen extends BaseTextScreen {
 		int y = topPos + 6;
 		AttributeEntry focus = null;
 		int count = 0;
-		for (AttributeEntry entry : AttributeDisplayConfig.get()) {
+		for (AttributeEntry entry : AttributeDisplayConfig.get(Proxy.getClientPlayer())) {
 			count++;
 			if (count <= page * getSize() || count > (page + 1) * getSize()) continue;
 			double val = player.getAttributeValue(entry.attr()) + entry.intrinsic();

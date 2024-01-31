@@ -19,7 +19,7 @@ public class TabToken<T extends BaseTab<T>> {
 	public final TabType type;
 
 	private final Supplier<Item> item;
-	private final Component title;
+	public final Component title;
 
 	int index;
 
