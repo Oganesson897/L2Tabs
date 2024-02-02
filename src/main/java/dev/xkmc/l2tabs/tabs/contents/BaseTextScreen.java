@@ -1,9 +1,9 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -32,6 +32,15 @@ public abstract class BaseTextScreen extends Screen {
 		int j = this.topPos;
 		g.blit(texture, i, j, 0, 0, this.imageWidth, this.imageHeight);
 		super.render(g, mx, my, ptick);
+	}
+
+	public boolean keyPressed(int a, int b, int c) {
+		InputConstants.Key mouseKey = InputConstants.getKey(a, b);
+		if (Minecraft.getInstance().options.keyInventory.isActiveAndMatches(mouseKey)) {
+			this.onClose();
+			return true;
+		}
+		return super.keyPressed(a, b, c);
 	}
 
 	@Override
