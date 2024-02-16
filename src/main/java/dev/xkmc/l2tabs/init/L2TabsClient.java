@@ -7,6 +7,7 @@ import dev.xkmc.l2tabs.tabs.contents.TabInventory;
 import dev.xkmc.l2tabs.tabs.core.TabToken;
 import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
 import dev.xkmc.l2tabs.tabs.inventory.TabRegistry;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
@@ -27,14 +28,8 @@ public class L2TabsClient {
 		event.enqueueWork(() -> {
 			TAB_INVENTORY = TabRegistry.GROUP.registerTab(0, TabInventory::new, () -> Items.CRAFTING_TABLE, L2TabsLangData.INVENTORY.get());
 			TAB_ATTRIBUTE = TabRegistry.GROUP.registerTab(1000, TabAttributes::new, () -> Items.IRON_SWORD, L2TabsLangData.ATTRIBUTE.get());
-
 			TabCuriosCompat.onClientInit();
 		});
-	}
-
-	@SubscribeEvent
-	public static void reload(RegisterClientReloadListenersEvent event) {
-		event.registerReloadListener((ResourceManagerReloadListener)(a) -> CompletableFuture.runAsync(TabRegistry::reload));
 	}
 
 }

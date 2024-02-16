@@ -1,6 +1,8 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;

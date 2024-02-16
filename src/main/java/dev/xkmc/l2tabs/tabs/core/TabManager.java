@@ -1,6 +1,5 @@
 package dev.xkmc.l2tabs.tabs.core;
 
-import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
@@ -31,10 +30,9 @@ public class TabManager<G extends TabGroupData<G>> {
 	public void init(Consumer<AbstractWidget> adder, TabToken<G, ?> selected) {
 		if (!token.shouldRender()) return;
 		TabGroup<G> group = token.getGroup();
-		List<TabToken<G, ?>> token_list = token.getTabs();
+		List<TabToken<G, ?>> token_list = new ArrayList<>(token.getTabs());
+		token_list.removeIf(token::shouldHideTab);
 		list.clear();
-		if (!L2TabsConfig.CLIENT.showTabs.get())
-			return;
 		this.selected = selected;
 		int guiLeft = screen.getGuiLeft();
 		int guiTop = screen.getGuiTop();

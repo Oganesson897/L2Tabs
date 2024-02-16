@@ -33,4 +33,8 @@ public class TabGroupData<G extends TabGroupData<G>> {
 		return group.getTabs(getThis());
 	}
 
+	public <X extends TabGroupData<X>> boolean shouldHideTab(TabToken<X, ?> e) {
+		return false;
+	}
+
 }

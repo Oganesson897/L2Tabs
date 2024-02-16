@@ -33,12 +33,14 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 		this.page = page;
 	}
 
+	public abstract LivingEntity getEntity();
+
 	@Override
 	public void init() {
 		super.init();
 		int w = 10;
 		int h = 11;
-		int size = AttributeDisplayConfig.get().size();
+		int size = AttributeDisplayConfig.get(getEntity()).size();
 		int totalPage = (size - 1) / getSize() + 1;
 		int x = (this.width + this.imageWidth) / 2 - 16,
 				y = (this.height - this.imageHeight) / 2 + 4;
@@ -53,6 +55,12 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 	}
 
 	protected abstract void click(int nextPage);
+
+	@Override
+	public void render(GuiGraphics g, int mx, int my, float ptick) {
+		super.render(g, mx, my, ptick);
+		render(g, mx, my, ptick, getEntity(), AttributeDisplayConfig.get(getEntity()));
+	}
 
 	public void render(GuiGraphics g, int mx, int my, float ptick, LivingEntity player, List<AttributeEntry> list) {
 		int x = leftPos + 8;
