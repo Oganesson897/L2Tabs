@@ -5,21 +5,18 @@ import dev.xkmc.l2serial.network.SerialPacketBase;
 import dev.xkmc.l2serial.serialization.SerialClass;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraftforge.network.NetworkEvent;
+import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 @SerialClass
-public class SyncAttributeToClient extends SerialPacketBase {
-
-	@Deprecated
-	public SyncAttributeToClient() {
-
-	}
+public record SyncAttributeToClient(int id, ArrayList<AttributeEntry> list)
+		implements SerialPacketBase<SyncAttributeToClient> {
 
 	@Override
-	public void handle(NetworkEvent.Context context) {
+	public void handle(@Nullable Player player) {
 		try {
 			SyncAttributeHandler.handle(id, list);
 		} catch (Exception e) {
@@ -27,22 +24,18 @@ public class SyncAttributeToClient extends SerialPacketBase {
 		}
 	}
 
-	@SerialClass.SerialField
-	public int id;
-
-	@SerialClass.SerialField
-	public ArrayList<AttributeEntry> list = new ArrayList<>();
-
-	public SyncAttributeToClient(LivingEntity le) {
-		id = le.getId();
+	public static SyncAttributeToClient of(LivingEntity le) {
+		int id = le.getId();
+		ArrayList<AttributeEntry> list = new ArrayList<>();
 		for (var attr : le.getAttributes().getDirtyAttributes()) {
 			ArrayList<ModifierEntry> modifiers = new ArrayList<>();
 			for (var mod : attr.getModifiers()) {
-				modifiers.add(new ModifierEntry(mod.getId(), mod.getName()));
+				modifiers.add(new ModifierEntry(mod.getId(), mod.name));
 			}
 			if (modifiers.isEmpty()) continue;
 			list.add(new AttributeEntry(attr.getAttribute(), modifiers));
 		}
+		return new SyncAttributeToClient(id, list);
 	}
 
 	public record ModifierEntry(UUID id, String name) {

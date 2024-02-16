@@ -7,9 +7,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.items.IItemHandlerModifiable;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.Curios;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -44,7 +44,7 @@ public class TabCurioSlot extends CurioSlot {
 		this.setBackground(InventoryMenu.BLOCK_ATLAS,
 				player.getCommandSenderWorld().isClientSide() ?
 						CuriosApi.getSlotIcon(identifier)
-						: new ResourceLocation(Curios.MODID, "slot/empty_curio_slot"));
+						: new ResourceLocation("curios", "slot/empty_curio_slot"));
 		this.handler = handler;
 		this.index = index;
 	}

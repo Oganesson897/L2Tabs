@@ -28,7 +28,7 @@ public abstract class BaseTextScreen extends Screen implements ITabScreen {
 
 	@Override
 	public void render(GuiGraphics g, int mx, int my, float ptick) {
-		renderBackground(g);
+		renderTransparentBackground(g);
 		int i = this.leftPos;
 		int j = this.topPos;
 		g.blit(texture, i, j, 0, 0, this.imageWidth, this.imageHeight);

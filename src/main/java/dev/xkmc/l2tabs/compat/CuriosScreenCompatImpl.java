@@ -2,10 +2,10 @@ package dev.xkmc.l2tabs.compat;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
 import dev.xkmc.l2tabs.init.L2Tabs;
+import dev.xkmc.l2tabs.init.L2TabsClient;
 import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.contents.TabInventory;
-import dev.xkmc.l2tabs.tabs.inventory.TabRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -51,7 +51,7 @@ class CuriosScreenCompatImpl {
 			else prev.run();
 		};
 
-		TabCurios.tab = TabRegistry.GROUP.registerTab(2000, TabCurios::new, () -> Items.AIR, L2TabsLangData.CURIOS.get());
+		TabCurios.tab = L2TabsClient.GROUP.registerTab(2000, TabCurios::new, () -> Items.AIR, L2TabsLangData.CURIOS.get());
 	}
 
 	void openScreen(ServerPlayer player) {

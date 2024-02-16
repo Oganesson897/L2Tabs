@@ -2,7 +2,7 @@ package dev.xkmc.l2tabs.compat;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 
 public class TabCuriosCompat {
 

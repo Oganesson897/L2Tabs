@@ -1,9 +1,9 @@
 package dev.xkmc.l2tabs.init.data;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.IConfigSpec;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.IConfigSpec;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -13,14 +13,14 @@ public class L2TabsConfig {
 
 	public static class Client {
 
-		public final ForgeConfigSpec.BooleanValue showTabs;
-		public final ForgeConfigSpec.BooleanValue showTabsOnlyCurio;
-		public final ForgeConfigSpec.BooleanValue redirectInventoryTabToCuriosInventory;
-		public final ForgeConfigSpec.IntValue attributeLinePerPage;
+		public final ModConfigSpec.BooleanValue showTabs;
+		public final ModConfigSpec.BooleanValue showTabsOnlyCurio;
+		public final ModConfigSpec.BooleanValue redirectInventoryTabToCuriosInventory;
+		public final ModConfigSpec.IntValue attributeLinePerPage;
 
-		public final ForgeConfigSpec.ConfigValue<List<String>> hiddenTabs;
+		public final ModConfigSpec.ConfigValue<List<String>> hiddenTabs;
 
-		Client(ForgeConfigSpec.Builder builder) {
+		Client(ModConfigSpec.Builder builder) {
 			showTabs = builder.comment("Show inventory tabs")
 					.define("showTabs", true);
 			showTabsOnlyCurio = builder.comment("Show inventory tabs only in curio page. Only works when showTabs is true and curio is installed.")
@@ -39,12 +39,12 @@ public class L2TabsConfig {
 
 	}
 
-	public static class Common {
+	public static class Server {
 
-		public final ForgeConfigSpec.BooleanValue syncPlayerAttributeName;
-		public final ForgeConfigSpec.BooleanValue syncAllEntityAttributeName;
+		public final ModConfigSpec.BooleanValue syncPlayerAttributeName;
+		public final ModConfigSpec.BooleanValue syncAllEntityAttributeName;
 
-		Common(ForgeConfigSpec.Builder builder) {
+		Server(ModConfigSpec.Builder builder) {
 			syncPlayerAttributeName = builder.comment("Sync player attribute names to client")
 					.define("syncPlayerAttributeName", true);
 			syncAllEntityAttributeName = builder.comment("Sync all entity attribute name to client")
@@ -53,20 +53,20 @@ public class L2TabsConfig {
 
 	}
 
-	public static final ForgeConfigSpec CLIENT_SPEC;
+	public static final ModConfigSpec CLIENT_SPEC;
 	public static final Client CLIENT;
 
-	public static final ForgeConfigSpec COMMON_SPEC;
-	public static final Common COMMON;
+	public static final ModConfigSpec SERVER_SPEC;
+	public static final Server SERVER;
 
 	static {
-		final Pair<Client, ForgeConfigSpec> client = new ForgeConfigSpec.Builder().configure(Client::new);
+		final Pair<Client, ModConfigSpec> client = new ModConfigSpec.Builder().configure(Client::new);
 		CLIENT_SPEC = client.getRight();
 		CLIENT = client.getLeft();
 
-		final Pair<Common, ForgeConfigSpec> common = new ForgeConfigSpec.Builder().configure(Common::new);
-		COMMON_SPEC = common.getRight();
-		COMMON = common.getLeft();
+		final Pair<Server, ModConfigSpec> common = new ModConfigSpec.Builder().configure(Server::new);
+		SERVER_SPEC = common.getRight();
+		SERVER = common.getLeft();
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class L2TabsConfig {
 	 */
 	public static void init() {
 		register(ModConfig.Type.CLIENT, CLIENT_SPEC);
-		register(ModConfig.Type.COMMON, COMMON_SPEC);
+		register(ModConfig.Type.SERVER, SERVER_SPEC);
 	}
 
 	private static void register(ModConfig.Type type, IConfigSpec<?> spec) {

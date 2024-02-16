@@ -5,7 +5,7 @@ import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraftforge.common.ForgeMod;
+import net.neoforged.neoforge.common.NeoForgeMod;
 
 public class AttributeConfigGen extends ConfigDataProvider {
 
@@ -25,8 +25,8 @@ public class AttributeConfigGen extends ConfigDataProvider {
 						.add(Attributes.MOVEMENT_SPEED, 5000)
 						.add(Attributes.ATTACK_DAMAGE, 6000)
 						.add(Attributes.ATTACK_SPEED, 7000)
-						.add(ForgeMod.BLOCK_REACH.get(), 8000)
-						.add(ForgeMod.ENTITY_REACH.get(), 9000)
+						.add(NeoForgeMod.BLOCK_REACH.value(), 8000)
+						.add(NeoForgeMod.ENTITY_REACH.value(), 9000)
 						.add(Attributes.LUCK, 10000)
 		);
 	}

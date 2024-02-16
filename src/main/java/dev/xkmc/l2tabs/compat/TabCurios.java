@@ -35,7 +35,7 @@ public class TabCurios extends TabBase<InvTabData, TabCurios> {
 	public void renderBackground(GuiGraphics g) {
 		if (this.visible) {
 			token.getType().draw(g, getX(), getY(), manager.selected == token, index);
-			g.blit(new ResourceLocation(Curios.MODID, "textures/gui/inventory.png"),
+			g.blit(new ResourceLocation("curios", "textures/gui/inventory.png"),
 					getX() + 6, getY() + 10, 50, 14, 14, 14);
 		}
 	}

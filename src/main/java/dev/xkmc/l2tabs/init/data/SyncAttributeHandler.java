@@ -17,7 +17,7 @@ public class SyncAttributeHandler {
 			for (var ent : attr.list()) {
 				var mod = ins.getModifier(ent.id());
 				if (mod == null) continue;
-				mod.nameGetter = ent::name;
+				mod.name = ent.name();
 			}
 		}
 	}

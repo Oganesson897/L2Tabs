@@ -9,7 +9,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.network.NetworkHooks;
 
 public record CuriosMenuPvd(MenuType<CuriosListMenu> type, int page) implements MenuProvider {
 
@@ -32,7 +31,7 @@ public record CuriosMenuPvd(MenuType<CuriosListMenu> type, int page) implements 
 	}
 
 	public void open(ServerPlayer player) {
-		NetworkHooks.openScreen(player, this, this::writeBuf);
+		player.openMenu(this, this::writeBuf);
 	}
 
 }

@@ -6,7 +6,6 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class CuriosWrapper extends BaseCuriosWrapper {
 
@@ -15,13 +14,12 @@ public class CuriosWrapper extends BaseCuriosWrapper {
 	public CuriosWrapper(LivingEntity player, int page) {
 		super(player);
 		int max = 6;
-		Optional<ICuriosItemHandler> opt = player.getCapability(CuriosCapability.INVENTORY).resolve();
+		ICuriosItemHandler cap = player.getCapability(CuriosCapability.INVENTORY);
 		this.page = page;
-		if (opt.isEmpty()) {
+		if (cap == null) {
 			total = 0;
 			return;
 		}
-		var cap = opt.get();
 		int offset = page * max * 9;
 		int count = 0;
 		for (var ent : cap.getCurios().entrySet()) {

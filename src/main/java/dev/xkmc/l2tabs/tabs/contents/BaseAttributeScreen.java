@@ -149,8 +149,8 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 	}
 
 	private static MutableComponent name(AttributeModifier e) {
-		if (e.getName().equals("Unknown synced attribute modifier")) return Component.empty();
-		return Component.literal("  (" + e.getName() + ")").withStyle(ChatFormatting.DARK_GRAY);
+		if (e.name.equals("Unknown synced attribute modifier")) return Component.empty();
+		return Component.literal("  (" + e.name + ")").withStyle(ChatFormatting.DARK_GRAY);
 	}
 
 }
