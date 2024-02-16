@@ -1,6 +1,7 @@
 package dev.xkmc.l2tabs.compat;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
+import dev.xkmc.l2library.init.reg.simple.SR;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.init.L2TabsClient;
 import dev.xkmc.l2tabs.init.data.L2TabsConfig;
@@ -10,12 +11,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 import top.theillusivec4.curios.client.gui.CuriosScreen;
-import top.theillusivec4.curios.common.network.NetworkHandler;
 import top.theillusivec4.curios.common.network.client.CPacketOpenCurios;
 
 import java.util.function.Predicate;
@@ -70,8 +71,7 @@ class CuriosScreenCompatImpl {
 					recipeBookGui.toggleVisibility();
 				}
 			}
-			NetworkHandler.INSTANCE.send(PacketDistributor.SERVER.noArg(),
-					new CPacketOpenCurios(stack));
+			PacketDistributor.SERVER.noArg().send(new CPacketOpenCurios(stack));
 		}
 	}
 

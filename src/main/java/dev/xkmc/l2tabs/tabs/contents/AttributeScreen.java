@@ -2,14 +2,11 @@ package dev.xkmc.l2tabs.tabs.contents;
 
 import dev.xkmc.l2library.util.Proxy;
 import dev.xkmc.l2tabs.init.L2TabsClient;
-import dev.xkmc.l2tabs.init.data.AttributeDisplayConfig;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 
 public class AttributeScreen extends BaseAttributeScreen {
 

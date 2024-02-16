@@ -1,13 +1,14 @@
 package dev.xkmc.l2tabs.init.data;
 
 import dev.xkmc.l2library.util.Proxy;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.ArrayList;
 
 public class SyncAttributeHandler {
 	public static void handle(int id, ArrayList<SyncAttributeToClient.AttributeEntry> list) {
-		var level = Proxy.getClientWorld();
+		var level = Minecraft.getInstance().level;
 		if (level == null) return;
 		var entity = level.getEntity(id);
 		if (!(entity instanceof LivingEntity le)) return;

@@ -1,6 +1,7 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
-import dev.xkmc.l2tabs.init.data.AttributeDisplayConfig;
+import com.mojang.datafixers.util.Pair;
+import dev.xkmc.l2tabs.init.data.AttrDispEntry;
 import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import net.minecraft.ChatFormatting;
@@ -40,7 +41,7 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 		super.init();
 		int w = 10;
 		int h = 11;
-		int size = AttributeDisplayConfig.get(getEntity()).size();
+		int size = AttrDispEntry.get(getEntity()).size();
 		int totalPage = (size - 1) / getSize() + 1;
 		int x = (this.width + this.imageWidth) / 2 - 16,
 				y = (this.height - this.imageHeight) / 2 + 4;
@@ -59,22 +60,22 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 	@Override
 	public void render(GuiGraphics g, int mx, int my, float ptick) {
 		super.render(g, mx, my, ptick);
-		render(g, mx, my, ptick, getEntity(), AttributeDisplayConfig.get(getEntity()));
+		render(g, mx, my, ptick, getEntity(), AttrDispEntry.get(getEntity()));
 	}
 
-	public void render(GuiGraphics g, int mx, int my, float ptick, LivingEntity player, List<AttributeEntry> list) {
+	public void render(GuiGraphics g, int mx, int my, float ptick, LivingEntity player, List<Pair<Attribute, AttrDispEntry>> list) {
 		int x = leftPos + 8;
 		int y = topPos + 6;
-		AttributeEntry focus = null;
+		Pair<Attribute, AttrDispEntry> focus = null;
 		int count = 0;
-		for (AttributeEntry entry : list) {
+		for (var entry : list) {
 			count++;
 			if (count <= page * getSize() || count > (page + 1) * getSize()) continue;
-			double val = player.getAttributeValue(entry.attr());
+			double val = player.getAttributeValue(entry.getFirst());
 			Component comp = Component.translatable(
-					"attribute.modifier.equals." + (entry.usePercent() ? 1 : 0),
-					ATTRIBUTE_MODIFIER_FORMAT.format(entry.usePercent() ? val * 100 : val),
-					Component.translatable(entry.attr().getDescriptionId()));
+					"attribute.modifier.equals." + (entry.getSecond().usePercent() ? 1 : 0),
+					ATTRIBUTE_MODIFIER_FORMAT.format(entry.getSecond().usePercent() ? val * 100 : val),
+					Component.translatable(entry.getFirst().getDescriptionId()));
 			g.drawString(font, comp, x, y, 0, false);
 			if (mx > x && mx < x + font.width(comp) && my > y && my < y + 10) focus = entry;
 			y += 10;
@@ -84,10 +85,11 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 		}
 	}
 
-	public List<Component> getAttributeDetail(LivingEntity entity, AttributeEntry entry) {
-		var ans = getAttributeDetail(entity, entry.attr());
-		if (entry.intrinsic() != 0) {
-			ans.add(L2TabsLangData.INTRINSIC.get(number("%s", entry.intrinsic())).withStyle(ChatFormatting.BLUE));
+	public List<Component> getAttributeDetail(LivingEntity entity, Pair<Attribute, AttrDispEntry> entry) {
+		var ans = getAttributeDetail(entity, entry.getFirst());
+		if (entry.getSecond().intrinsic() != 0) {
+			ans.add(L2TabsLangData.INTRINSIC.get(number("%s", entry.getSecond().intrinsic()))
+					.withStyle(ChatFormatting.BLUE));
 		}
 		return ans;
 	}

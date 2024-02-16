@@ -1,13 +1,18 @@
 package dev.xkmc.l2tabs.init;
 
 import dev.xkmc.l2library.init.events.GeneralEventHandler;
-import dev.xkmc.l2library.serial.config.ConfigTypeEntry;
+import dev.xkmc.l2library.init.reg.datapack.DataMapReg;
+import dev.xkmc.l2library.init.reg.simple.Reg;
 import dev.xkmc.l2library.serial.config.PacketHandlerWithConfig;
+import dev.xkmc.l2serial.network.PacketHandler;
 import dev.xkmc.l2tabs.compat.CuriosEventHandler;
 import dev.xkmc.l2tabs.compat.TabCuriosCompat;
 import dev.xkmc.l2tabs.init.data.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
@@ -21,16 +26,17 @@ public class L2Tabs {
 
 	public static final String MODID = "l2tabs";
 
-	public static final L2Registrate REGISTRATE = new L2Registrate(MODID);
+	public static final Reg REG = new Reg(MODID);
 
-	public static final PacketHandlerWithConfig PACKET_HANDLER = new PacketHandlerWithConfig(MODID, 1,
+	public static final PacketHandler PACKET_HANDLER = new PacketHandler(MODID, 1,
 			e -> e.create(OpenCuriosPacket.class),
 			e -> e.create(SyncAttributeToClient.class));
 
-	public static final ConfigTypeEntry<AttributeDisplayConfig> ATTRIBUTE_ENTRY =
-			new ConfigTypeEntry<>(PACKET_HANDLER, "attribute_entry", AttributeDisplayConfig.class);
+	public static final DataMapReg<Attribute, AttrDispEntry> ATTRIBUTE_ENTRY =
+			REG.dataMap("attribute_entry", Registries.ATTRIBUTE, AttrDispEntry.class);
 
-	public L2Tabs() {
+	public L2Tabs(IEventBus bus) {
+		REG.register(bus);
 		L2TabsConfig.init();
 		TabCuriosCompat.onStartup();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, L2TabsLangData::genLang);
@@ -40,7 +46,11 @@ public class L2Tabs {
 
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
-		event.getGenerator().addProvider(event.includeServer(), new AttributeConfigGen(event.getGenerator()));
+		var gen = event.getGenerator();
+		var run = event.includeServer();
+		var pack = gen.getPackOutput();
+		var pvd = event.getLookupProvider();
+		gen.addProvider(run, new AttributeConfigGen(pack, pvd));
 	}
 
 	public static void onAttributeUpdate(LivingEntity le) {

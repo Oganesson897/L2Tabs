@@ -36,7 +36,7 @@ public class BaseCuriosListScreen<T extends BaseCuriosListMenu<T>> extends BaseC
 
 	@Override
 	protected void renderBg(GuiGraphics g, float pTick, int mx, int my) {
-		var sr = menu.sprite.get().getRenderer(this);
+		var sr = menu.sprite.get().getRenderer(menu.sprite.id(), this);
 		sr.start(g);
 		for (int i = 0; i < menu.curios.getRows() * 9; i++) {
 			if (menu.curios.getSlotAtPosition(i) != null)
