@@ -5,11 +5,12 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "l2tabs.refmap.json",
   "mixins": [
+    "ServerEntityMixin"
   ],
   "client": [
   ],
   "injectors": {
-	"defaultRequire": 1
+    "defaultRequire": 1
   },
   "minVersion": "0.8"
 }

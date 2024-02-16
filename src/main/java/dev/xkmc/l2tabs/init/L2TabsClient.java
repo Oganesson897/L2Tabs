@@ -9,9 +9,12 @@ import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
 import dev.xkmc.l2tabs.tabs.inventory.TabRegistry;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+import java.util.concurrent.CompletableFuture;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = L2Tabs.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class L2TabsClient {
@@ -27,6 +30,11 @@ public class L2TabsClient {
 
 			TabCuriosCompat.onClientInit();
 		});
+	}
+
+	@SubscribeEvent
+	public static void reload(RegisterClientReloadListenersEvent event) {
+		event.registerReloadListener((ResourceManagerReloadListener)(a) -> CompletableFuture.runAsync(TabRegistry::reload));
 	}
 
 }

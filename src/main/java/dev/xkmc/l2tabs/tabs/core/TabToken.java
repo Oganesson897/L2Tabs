@@ -17,7 +17,7 @@ public class TabToken<G extends TabGroupData<G>, T extends TabBase<G, T>> {
 	private final TabGroup<G> group;
 	private final TabFactory<G, T> factory;
 	private final Supplier<Item> item;
-	private final Component title;
+	public final Component title;
 
 	TabToken(TabGroup<G> group, TabFactory<G, T> factory, Supplier<Item> item, Component component) {
 		this.group = group;

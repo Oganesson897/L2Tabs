@@ -6,29 +6,49 @@ import net.minecraftforge.fml.config.IConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class L2TabsConfig {
 
 	public static class Client {
 
 		public final ForgeConfigSpec.BooleanValue showTabs;
 		public final ForgeConfigSpec.BooleanValue showTabsOnlyCurio;
+		public final ForgeConfigSpec.BooleanValue redirectInventoryTabToCuriosInventory;
 		public final ForgeConfigSpec.IntValue attributeLinePerPage;
+
+		public final ForgeConfigSpec.ConfigValue<List<String>> hiddenTabs;
 
 		Client(ForgeConfigSpec.Builder builder) {
 			showTabs = builder.comment("Show inventory tabs")
 					.define("showTabs", true);
 			showTabsOnlyCurio = builder.comment("Show inventory tabs only in curio page. Only works when showTabs is true and curio is installed.")
 					.define("showTabsOnlyCurio", false);
+			redirectInventoryTabToCuriosInventory = builder.comment("Redirect Inventory Tab to Curios Inventory")
+					.define("redirectInventoryTabToCuriosInventory", true);
 			attributeLinePerPage = builder.comment("Number of attribure lines per page")
 					.defineInRange("attributeLinePerPage", 15, 1, 100);
+
+			hiddenTabs = builder.comment("List of tabs to hide. Use title translation key for tab id.")
+					.comment("Example: menu.tabs.attribute for attribute tab")
+					.comment("Example: menu.tabs.curios for curios tab")
+					.comment("Example: pandora.menu.title for pandora tab")
+					.define("hiddentTabs", new ArrayList<>(List.of()));
 		}
 
 	}
 
 	public static class Common {
 
-		Common(ForgeConfigSpec.Builder builder) {
+		public final ForgeConfigSpec.BooleanValue syncPlayerAttributeName;
+		public final ForgeConfigSpec.BooleanValue syncAllEntityAttributeName;
 
+		Common(ForgeConfigSpec.Builder builder) {
+			syncPlayerAttributeName = builder.comment("Sync player attribute names to client")
+					.define("syncPlayerAttributeName", true);
+			syncAllEntityAttributeName = builder.comment("Sync all entity attribute name to client")
+					.define("syncAllEntityAttributeName", false);
 		}
 
 	}

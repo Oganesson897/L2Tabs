@@ -33,6 +33,15 @@ public abstract class BaseTextScreen extends Screen implements ITabScreen {
 		super.render(g, mx, my, ptick);
 	}
 
+	public boolean keyPressed(int a, int b, int c) {
+		InputConstants.Key mouseKey = InputConstants.getKey(a, b);
+		if (Minecraft.getInstance().options.keyInventory.isActiveAndMatches(mouseKey)) {
+			this.onClose();
+			return true;
+		}
+		return super.keyPressed(a, b, c);
+	}
+
 	@Override
 	public boolean isPauseScreen() {
 		return false;
