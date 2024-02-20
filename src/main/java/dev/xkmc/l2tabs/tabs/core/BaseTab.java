@@ -3,14 +3,11 @@ package dev.xkmc.l2tabs.tabs.core;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.function.Supplier;
-
-public abstract class BaseTab<T extends BaseTab<T>> extends Button {
+public abstract class BaseTab<T extends BaseTab<T>> extends FloatingButton {
 
 	protected final static ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
 
@@ -22,7 +19,7 @@ public abstract class BaseTab<T extends BaseTab<T>> extends Button {
 
 	@SuppressWarnings("unchecked")
 	public BaseTab(TabToken<T> token, TabManager manager, ItemStack stack, Component title) {
-		super(0, 0, 26, 32, title, b -> ((T) b).onTabClicked(), Supplier::get);
+		super(26, 32, title, b -> ((T) b).onTabClicked());
 		this.stack = stack;
 		this.token = token;
 		this.manager = manager;

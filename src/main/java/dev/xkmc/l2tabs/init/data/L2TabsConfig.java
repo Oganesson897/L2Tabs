@@ -43,12 +43,18 @@ public class L2TabsConfig {
 
 		public final ForgeConfigSpec.BooleanValue syncPlayerAttributeName;
 		public final ForgeConfigSpec.BooleanValue syncAllEntityAttributeName;
+		public final ForgeConfigSpec.BooleanValue generateAllAttributes;
+		public final ForgeConfigSpec.BooleanValue generateAllAttributesHideUnchanged;
 
 		Common(ForgeConfigSpec.Builder builder) {
 			syncPlayerAttributeName = builder.comment("Sync player attribute names to client")
 					.define("syncPlayerAttributeName", true);
 			syncAllEntityAttributeName = builder.comment("Sync all entity attribute name to client")
 					.define("syncAllEntityAttributeName", false);
+			generateAllAttributes = builder.comment("Show all attribute on attribute tab, like Apothic")
+					.define("generateAllAttributes",false);
+			generateAllAttributesHideUnchanged = builder.comment("Show all attribute on attribute tab and hide the unchanged")
+					.define("generateAllAttributesHideUnchanged",false);
 		}
 
 	}
