@@ -17,6 +17,8 @@ public class L2TabsConfig {
 		public final ModConfigSpec.BooleanValue showTabsOnlyCurio;
 		public final ModConfigSpec.BooleanValue redirectInventoryTabToCuriosInventory;
 		public final ModConfigSpec.IntValue attributeLinePerPage;
+		public final ModConfigSpec.BooleanValue generateAllAttributes;
+		public final ModConfigSpec.BooleanValue generateAllAttributesHideUnchanged;
 
 		public final ModConfigSpec.ConfigValue<List<String>> hiddenTabs;
 
@@ -29,6 +31,10 @@ public class L2TabsConfig {
 					.define("redirectInventoryTabToCuriosInventory", true);
 			attributeLinePerPage = builder.comment("Number of attribure lines per page")
 					.defineInRange("attributeLinePerPage", 15, 1, 100);
+			generateAllAttributes = builder.comment("Show all attribute on attribute tab, like Apothic")
+					.define("generateAllAttributes",false);
+			generateAllAttributesHideUnchanged = builder.comment("Show all attribute on attribute tab and hide the unchanged")
+					.define("generateAllAttributesHideUnchanged",false);
 
 			hiddenTabs = builder.comment("List of tabs to hide. Use title translation key for tab id.")
 					.comment("Example: menu.tabs.attribute for attribute tab")

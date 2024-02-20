@@ -34,8 +34,6 @@ public class TabManager<G extends TabGroupData<G>> {
 		token_list.removeIf(token::shouldHideTab);
 		list.clear();
 		this.selected = selected;
-		int guiLeft = screen.getGuiLeft();
-		int guiTop = screen.getGuiTop();
 		int imgWidth = screen.getXSize();
 		int imgHeight = screen.getYSize();
 		int index = 0, order = 0, page = 0;
@@ -48,8 +46,8 @@ public class TabManager<G extends TabGroupData<G>> {
 				tabPage = page;
 			TabBase<G, ?> tab = token.create(order, this);
 			tab.page = page;
-			tab.setX(guiLeft + group.type.getTabX(imgWidth, order));
-			tab.setY(guiTop + group.type.getTabY(imgHeight, order));
+			tab.setXRef(screen::getGuiLeft, group.type.getTabX(imgWidth, order));
+			tab.setYRef(screen::getGuiTop, group.type.getTabY(imgHeight, order));
 			list.add(tab);
 			adder.accept(tab);
 

@@ -2,13 +2,12 @@ package dev.xkmc.l2tabs.tabs.core;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
-public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>> extends Button {
+public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>> extends FloatingButton {
 
 	public final int index;
 	public final ItemStack stack;
@@ -19,8 +18,8 @@ public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>
 
 	@SuppressWarnings("unchecked")
 	public TabBase(int index, TabToken<G, T> token, TabManager<G> manager, ItemStack stack, Component title) {
-		super(0, 0, token.getType().width, token.getType().height,
-				title, b -> ((T) b).onTabClicked(), Supplier::get);
+		super(token.getType().width, token.getType().height,
+				title, b -> ((T) b).onTabClicked());
 		this.index = index;
 		this.stack = stack;
 		this.token = token;

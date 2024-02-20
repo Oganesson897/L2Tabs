@@ -105,21 +105,18 @@ public enum TabType {
 
 	public Button getLeftButton(ITabScreen screen, Button.OnPress o) {
 		int radius = 3;
-		int guiLeft = screen.getGuiLeft();
-		int guiTop = screen.getGuiTop();
-		return Button.builder(Component.literal("<"), o)
-				.bounds(guiLeft + radius, guiTop - 26 + radius,
-						26 - radius * 2, 26 - radius * 2).build();
+		return new FloatingButton(screen::getGuiLeft, screen::getGuiTop,
+				radius, -26 + radius,
+				26 - radius * 2, 26 - radius * 2,
+				Component.literal("<"), o);
 	}
 
 	public Button getRightButton(ITabScreen screen, Button.OnPress o) {
 		int radius = 3;
-		int guiLeft = screen.getGuiLeft();
-		int guiTop = screen.getGuiTop();
-
-		return Button.builder(Component.literal(">"), o)
-				.bounds(guiLeft + (TabType.MAX_TABS - 1) * 26 + radius, guiTop - 26 + radius,
-						26 - radius * 2, 26 - radius * 2).build();
+		return new FloatingButton(screen::getGuiLeft, screen::getGuiTop,
+				(TabType.MAX_TABS - 1) * 26 + radius, -26 + radius,
+				26 - radius * 2, 26 - radius * 2,
+				Component.literal(">"), o);
 	}
 
 }

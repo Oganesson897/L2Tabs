@@ -39,7 +39,7 @@ public class L2Tabs {
 		REG.register(bus);
 		L2TabsConfig.init();
 		TabCuriosCompat.onStartup();
-		REGISTRATE.addDataGenerator(ProviderType.LANG, L2TabsLangData::genLang);
+		//TODO REGISTRATE.addDataGenerator(ProviderType.LANG, L2TabsLangData::genLang);
 		if (ModList.get().isLoaded(CuriosApi.MODID))
 			NeoForge.EVENT_BUS.register(CuriosEventHandler.class);
 	}
