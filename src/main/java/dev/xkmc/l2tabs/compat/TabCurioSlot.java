@@ -15,7 +15,6 @@ import top.theillusivec4.curios.Curios;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
-import top.theillusivec4.curios.common.inventory.CurioSlot;
 import top.theillusivec4.curios.mixin.core.AccessorEntity;
 
 import javax.annotation.Nonnull;

@@ -126,7 +126,8 @@ dependencies {
     implementation fg.deobf("dev.xkmc.l2serial:l2serial:1.2.2")
 
     implementation fg.deobf("mezz.jei:jei-${jei_minecraft_version}:${jei_version}")
-    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    //implementation fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    implementation fg.deobf("curse.maven:curios-309927:5266541")
 
     //runtimeOnly fg.deobf('curse.maven:wthit-forge-455982:4512108')
     //runtimeOnly fg.deobf('curse.maven:badpackets-615134:4438956')
