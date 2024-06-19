@@ -8,6 +8,7 @@ import dev.xkmc.l2tabs.tabs.contents.TabInventory;
 import dev.xkmc.l2tabs.tabs.core.TabRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -40,7 +41,9 @@ class CuriosScreenCompatImpl {
 	void onClientInit() {
 		Predicate<Screen> old = TabInventory.inventoryTest;
 		TabInventory.inventoryTest = screen -> {
-			boolean isCurio = screen instanceof CuriosScreen;
+			boolean isCurio = screen instanceof CuriosScreen ||
+					screen instanceof EffectRenderingInventoryScreen<?> &&
+							screen.getClass().getName().startsWith("top.theillusivec4.curios");
 			boolean onlyCurio = L2TabsConfig.CLIENT.showTabsOnlyCurio.get();
 			return onlyCurio ? isCurio : old.test(screen) || isCurio;
 		};

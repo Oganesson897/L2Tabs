@@ -32,6 +32,7 @@ public abstract class BaseTab<T extends BaseTab<T>> extends FloatingButton {
 	}
 
 	public void renderBackground(GuiGraphics g) {
+		if (getX() == 0 && getY() == 0) return;
 		if (this.visible) {
 			token.type.draw(g, TEXTURE, getX(), getY(), manager.selected == token, token.getIndex());
 			RenderSystem.defaultBlendFunc();
@@ -42,6 +43,7 @@ public abstract class BaseTab<T extends BaseTab<T>> extends FloatingButton {
 
 	@Override
 	public void renderWidget(GuiGraphics g, int mouseX, int mouseY, float partialTicks) {
+		if (getX() == 0 && getY() == 0) return;
 		if (manager.selected == token) {
 			renderBackground(g);
 		}

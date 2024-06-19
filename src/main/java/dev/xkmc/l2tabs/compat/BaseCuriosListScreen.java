@@ -55,8 +55,7 @@ public class BaseCuriosListScreen<T extends BaseCuriosListMenu<T>> extends BaseC
 		if (clientPlayer != null && clientPlayer.inventoryMenu
 				.getCarried().isEmpty() && this.getSlotUnderMouse() != null) {
 			Slot slot = this.getSlotUnderMouse();
-
-			if (slot instanceof CurioSlot slotCurio && !slot.hasItem()) {
+			if (slot instanceof TabCurioSlot slotCurio && !slot.hasItem()) {
 				g.renderTooltip(font, Component.translatable(slotCurio.getSlotName()), mx, my);
 			}
 		}
