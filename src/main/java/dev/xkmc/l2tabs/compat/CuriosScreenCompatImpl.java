@@ -1,7 +1,6 @@
 package dev.xkmc.l2tabs.compat;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
-import dev.xkmc.l2library.init.reg.simple.SR;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.init.L2TabsClient;
 import dev.xkmc.l2tabs.init.data.L2TabsConfig;
@@ -9,9 +8,9 @@ import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.contents.TabInventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -41,7 +40,9 @@ class CuriosScreenCompatImpl {
 	void onClientInit() {
 		Predicate<Screen> old = TabInventory.inventoryTest;
 		TabInventory.inventoryTest = screen -> {
-			boolean isCurio = screen instanceof CuriosScreen;
+			boolean isCurio = screen instanceof CuriosScreen ||
+					screen instanceof EffectRenderingInventoryScreen<?> &&
+							screen.getClass().getName().startsWith("top.theillusivec4.curios");
 			boolean onlyCurio = L2TabsConfig.CLIENT.showTabsOnlyCurio.get();
 			return onlyCurio ? isCurio : old.test(screen) || isCurio;
 		};
