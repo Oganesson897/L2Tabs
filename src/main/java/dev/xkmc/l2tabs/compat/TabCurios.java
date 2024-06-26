@@ -16,7 +16,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import top.theillusivec4.curios.Curios;
 
 public class TabCurios extends TabBase<InvTabData, TabCurios> {
 
@@ -36,7 +35,7 @@ public class TabCurios extends TabBase<InvTabData, TabCurios> {
 		if (getX() == 0 && getY() == 0) return;
 		if (this.visible) {
 			token.getType().draw(g, getX(), getY(), manager.selected == token, index);
-			g.blit(new ResourceLocation("curios", "textures/gui/inventory.png"),
+			g.blit(ResourceLocation.fromNamespaceAndPath("curios", "textures/gui/inventory.png"),
 					getX() + 6, getY() + 10, 50, 14, 14, 14);
 		}
 	}

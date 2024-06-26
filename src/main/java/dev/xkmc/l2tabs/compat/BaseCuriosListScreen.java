@@ -1,6 +1,6 @@
 package dev.xkmc.l2tabs.compat;
 
-import dev.xkmc.l2library.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2core.base.menu.base.BaseContainerScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -8,7 +8,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import top.theillusivec4.curios.common.inventory.CurioSlot;
 
 public class BaseCuriosListScreen<T extends BaseCuriosListMenu<T>> extends BaseContainerScreen<T> {
 

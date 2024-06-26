@@ -1,6 +1,6 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
-import dev.xkmc.l2library.util.Proxy;
+import dev.xkmc.l2core.util.Proxy;
 import dev.xkmc.l2tabs.init.L2TabsClient;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
@@ -22,7 +22,7 @@ public class AttributeScreen extends BaseAttributeScreen {
 
 	@Override
 	public LivingEntity getEntity() {
-		return Proxy.getClientPlayer();
+		return minecraft.player;
 	}
 
 	protected void click(int nextPage) {

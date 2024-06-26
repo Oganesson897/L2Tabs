@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import top.theillusivec4.curios.api.event.SlotModifiersUpdatedEvent;
 
 import java.util.LinkedHashMap;
@@ -33,7 +34,7 @@ public class CuriosEventHandler {
 	private static final Map<Player, Runnable> MAP = new LinkedHashMap<>();
 
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public static void onPlayerTick(LivingEvent.LivingTickEvent event) {
+	public static void onPlayerTick(EntityTickEvent event) {
 		if (!MAP.isEmpty() && event.getEntity() instanceof ServerPlayer player) {
 			var run = MAP.get(player);
 			if (run != null) {

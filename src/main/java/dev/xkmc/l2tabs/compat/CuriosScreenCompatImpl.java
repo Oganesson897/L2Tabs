@@ -72,7 +72,7 @@ class CuriosScreenCompatImpl {
 					recipeBookGui.toggleVisibility();
 				}
 			}
-			PacketDistributor.SERVER.noArg().send(new CPacketOpenCurios(stack));
+			PacketDistributor.sendToServer(new CPacketOpenCurios(stack));
 		}
 	}
 

@@ -8,6 +8,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +20,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.minecraft.world.item.ItemStack.ATTRIBUTE_MODIFIER_FORMAT;
+import static net.minecraft.world.item.component.ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT;
 
 public abstract class BaseAttributeScreen extends BaseTextScreen {
 
@@ -30,7 +31,7 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 	private final int page;
 
 	protected BaseAttributeScreen(Component title, int page) {
-		super(title, new ResourceLocation("l2tabs:textures/gui/empty.png"));
+		super(title, ResourceLocation.fromNamespaceAndPath("l2tabs", "textures/gui/empty.png"));
 		this.page = page;
 	}
 
@@ -63,10 +64,10 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 		render(g, mx, my, ptick, getEntity(), AttrDispEntry.get(getEntity()));
 	}
 
-	public void render(GuiGraphics g, int mx, int my, float ptick, LivingEntity player, List<Pair<Attribute, AttrDispEntry>> list) {
+	public void render(GuiGraphics g, int mx, int my, float ptick, LivingEntity player, List<Pair<Holder<Attribute>, AttrDispEntry>> list) {
 		int x = leftPos + 8;
 		int y = topPos + 6;
-		Pair<Attribute, AttrDispEntry> focus = null;
+		Pair<Holder<Attribute>, AttrDispEntry> focus = null;
 		int count = 0;
 		for (var entry : list) {
 			count++;
@@ -75,7 +76,7 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 			Component comp = Component.translatable(
 					"attribute.modifier.equals." + (entry.getSecond().usePercent() ? 1 : 0),
 					ATTRIBUTE_MODIFIER_FORMAT.format(entry.getSecond().usePercent() ? val * 100 : val),
-					Component.translatable(entry.getFirst().getDescriptionId()));
+					Component.translatable(entry.getFirst().value().getDescriptionId()));
 			g.drawString(font, comp, x, y, 0, false);
 			if (mx > x && mx < x + font.width(comp) && my > y && my < y + 10) focus = entry;
 			y += 10;
@@ -85,7 +86,7 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 		}
 	}
 
-	public List<Component> getAttributeDetail(LivingEntity entity, Pair<Attribute, AttrDispEntry> entry) {
+	public List<Component> getAttributeDetail(LivingEntity entity, Pair<Holder<Attribute>, AttrDispEntry> entry) {
 		var ans = getAttributeDetail(entity, entry.getFirst());
 		if (entry.getSecond().intrinsic() != 0) {
 			ans.add(L2TabsLangData.INTRINSIC.get(number("%s", entry.getSecond().intrinsic()))
@@ -94,40 +95,49 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 		return ans;
 	}
 
-	public List<Component> getAttributeDetail(LivingEntity entity, Attribute attr) {
+	public List<Component> getAttributeDetail(LivingEntity entity, Holder<Attribute> attr) {
 		AttributeInstance ins = entity.getAttribute(attr);
 		if (ins == null) return List.of();
-		var adds = ins.getModifiers(AttributeModifier.Operation.ADDITION);
-		var m0s = ins.getModifiers(AttributeModifier.Operation.MULTIPLY_BASE);
-		var m1s = ins.getModifiers(AttributeModifier.Operation.MULTIPLY_TOTAL);
+		var all = ins.getModifiers();
+		var adds = new ArrayList<AttributeModifier>();
+		var m0s = new ArrayList<AttributeModifier>();
+		var m1s = new ArrayList<AttributeModifier>();
+		for (var e : all) {
+			var x = switch (e.operation()) {
+				case ADD_VALUE -> adds;
+				case ADD_MULTIPLIED_BASE -> m0s;
+				case ADD_MULTIPLIED_TOTAL -> m1s;
+			};
+			x.add(e);
+		}
 		double base = ins.getBaseValue();
 		double addv = 0;
 		double m0v = 0;
 		double m1v = 1;
-		for (var e : adds) addv += e.getAmount();
-		for (var e : m0s) m0v += e.getAmount();
-		for (var e : m1s) m1v *= 1 + e.getAmount();
+		for (var e : adds) addv += e.amount();
+		for (var e : m0s) m0v += e.amount();
+		for (var e : m1s) m1v *= 1 + e.amount();
 		double total = (base + addv) * (1 + m0v) * m1v;
 		List<Component> ans = new ArrayList<>();
-		ans.add(Component.translatable(attr.getDescriptionId()).withStyle(ChatFormatting.GOLD));
+		ans.add(Component.translatable(attr.value().getDescriptionId()).withStyle(ChatFormatting.GOLD));
 		boolean shift = Screen.hasShiftDown();
 		ans.add(L2TabsLangData.BASE.get(number("%s", base)).withStyle(ChatFormatting.BLUE));
 		ans.add(L2TabsLangData.ADD.get(numberSigned("%s", addv)).withStyle(ChatFormatting.BLUE));
 		if (shift) {
 			for (var e : adds) {
-				ans.add(numberSigned("%s", e.getAmount()).append(name(e)));
+				ans.add(numberSigned("%s", e.amount()).append(name(e)));
 			}
 		}
 		ans.add(L2TabsLangData.MULT_BASE.get(numberSigned("%s%%", m0v * 100)).withStyle(ChatFormatting.BLUE));
 		if (shift) {
 			for (var e : m0s) {
-				ans.add(numberSigned("%s%%", e.getAmount() * 100).append(name(e)));
+				ans.add(numberSigned("%s%%", e.amount() * 100).append(name(e)));
 			}
 		}
 		ans.add(L2TabsLangData.MULT_TOTAL.get(number("x%s", m1v)).withStyle(ChatFormatting.BLUE));
 		if (shift) {
 			for (var e : m1s) {
-				ans.add(number("x%s", 1 + e.getAmount()).append(name(e)));
+				ans.add(number("x%s", 1 + e.amount()).append(name(e)));
 			}
 		}
 		ans.add(L2TabsLangData.FORMAT.get(
@@ -151,8 +161,7 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 	}
 
 	private static MutableComponent name(AttributeModifier e) {
-		if (e.name.equals("Unknown synced attribute modifier")) return Component.empty();
-		return Component.literal("  (" + e.name + ")").withStyle(ChatFormatting.DARK_GRAY);
+		return Component.literal("  (" + e.id() + ")").withStyle(ChatFormatting.DARK_GRAY);
 	}
 
 }

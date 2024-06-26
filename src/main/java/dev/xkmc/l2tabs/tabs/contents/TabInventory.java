@@ -19,16 +19,20 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 
 import java.util.function.Predicate;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = L2Tabs.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(value = Dist.CLIENT, modid = L2Tabs.MODID, bus = EventBusSubscriber.Bus.GAME)
 public class TabInventory extends TabBase<InvTabData, TabInventory> {
 
 	public static Predicate<Screen> inventoryTest = e -> e instanceof InventoryScreen;
-	public static Runnable openInventory = () -> Minecraft.getInstance().setScreen(new InventoryScreen(Minecraft.getInstance().player));
+
+	public static Runnable openInventory = () -> {
+		var player = Minecraft.getInstance().player;
+		if (player != null) Minecraft.getInstance().setScreen(new InventoryScreen(player));
+	};
 
 	@SubscribeEvent
 	public static void guiPostInit(ScreenEvent.Init.Post event) {

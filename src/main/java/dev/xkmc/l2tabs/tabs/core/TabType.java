@@ -16,7 +16,7 @@ public enum TabType {
 	LEFT(0, 64, 32, 26, 5),
 	RIGHT(96, 64, 32, 26, 5);
 
-	private final static ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
+	private final static ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/container/creative_inventory/tabs.png");
 
 	public static final int MAX_TABS = 7;
 	private final int textureX;
