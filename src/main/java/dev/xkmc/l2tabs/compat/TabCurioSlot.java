@@ -2,7 +2,6 @@ package dev.xkmc.l2tabs.compat;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -25,25 +24,17 @@ public class TabCurioSlot extends CurioSlot {
 	private final LivingEntity player;
 	private final SlotContext slotContext;
 
-	private final NonNullList<Boolean> renderStatuses;
-	private final boolean canToggleRender;
-
 	private final IDynamicStackHandler handler;
 	private final int index;
 
 	public TabCurioSlot(LivingEntity player, IDynamicStackHandler handler, int index, String identifier,
-						int xPosition, int yPosition, NonNullList<Boolean> renders,
-						boolean canToggleRender) {
-		super(null, handler, index, identifier, xPosition, yPosition, renders, canToggleRender);
+						int xPosition, int yPosition, NonNullList<Boolean> renders) {
+		super(null, handler, index, identifier, xPosition, yPosition, renders, false);
 		this.identifier = identifier;
-		this.renderStatuses = renders;
 		this.player = player;
-		this.canToggleRender = canToggleRender;
 		this.slotContext = new SlotContext(identifier, player, index, false, renders.get(index));
-		this.setBackground(InventoryMenu.BLOCK_ATLAS,
-				player.getCommandSenderWorld().isClientSide() ?
-						CuriosApi.getSlotIcon(identifier)
-						: new ResourceLocation("curios", "slot/empty_curio_slot"));
+		CuriosApi.getSlot(identifier, player.level()).ifPresent((slotType) ->
+				this.setBackground(InventoryMenu.BLOCK_ATLAS, slotType.getIcon()));
 		this.handler = handler;
 		this.index = index;
 	}
@@ -53,16 +44,11 @@ public class TabCurioSlot extends CurioSlot {
 	}
 
 	public boolean canToggleRender() {
-		return this.canToggleRender;
+		return false;
 	}
 
 	public boolean getRenderStatus() {
-
-		if (!this.canToggleRender) {
-			return true;
-		}
-		return this.renderStatuses.size() > this.getSlotIndex() &&
-				this.renderStatuses.get(this.getSlotIndex());
+		return true;
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -81,7 +67,6 @@ public class TabCurioSlot extends CurioSlot {
 		boolean flag = current.isEmpty() && stack.isEmpty();
 		((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(index, stack);
 		this.setChanged();
-
 		if (!flag && !ItemStack.matches(current, stack) &&
 				!((AccessorEntity) this.player).getFirstTick()) {
 			CuriosApi.getCurio(stack)
@@ -111,7 +96,7 @@ public class TabCurioSlot extends CurioSlot {
 	@Override
 	public void setChanged() {
 		super.setChanged();
-		((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(index, getItem());
+		((IItemHandlerModifiable) getItemHandler()).setStackInSlot(index, getItem());
 	}
 
 }

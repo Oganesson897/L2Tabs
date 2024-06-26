@@ -27,12 +27,11 @@ public abstract class BaseTextScreen extends Screen implements ITabScreen {
 	}
 
 	@Override
-	public void render(GuiGraphics g, int mx, int my, float ptick) {
-		renderTransparentBackground(g);
+	public void renderBackground(GuiGraphics g, int mx, int my, float pt) {
+		super.renderBackground(g, mx, my, pt);
 		int i = this.leftPos;
 		int j = this.topPos;
 		g.blit(texture, i, j, 0, 0, this.imageWidth, this.imageHeight);
-		super.render(g, mx, my, ptick);
 	}
 
 	public boolean keyPressed(int a, int b, int c) {

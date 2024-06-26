@@ -9,6 +9,7 @@ import dev.xkmc.l2tabs.compat.CuriosEventHandler;
 import dev.xkmc.l2tabs.compat.TabCuriosCompat;
 import dev.xkmc.l2tabs.init.data.*;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -17,6 +18,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 
 @Mod(L2Tabs.MODID)
@@ -45,12 +47,21 @@ public class L2Tabs {
 	}
 
 	@SubscribeEvent
+	public static void onPacketReg(RegisterPayloadHandlersEvent event) {
+		PACKET_HANDLER.register(event);
+	}
+
+	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
 		var gen = event.getGenerator();
 		var run = event.includeServer();
 		var pack = gen.getPackOutput();
 		var pvd = event.getLookupProvider();
 		gen.addProvider(run, new AttributeConfigGen(pack, pvd));
+	}
+
+	public static ResourceLocation loc(String id) {
+		return ResourceLocation.fromNamespaceAndPath(MODID, id);
 	}
 
 }

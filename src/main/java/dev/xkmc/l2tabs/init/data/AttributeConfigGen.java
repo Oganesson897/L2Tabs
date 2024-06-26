@@ -1,14 +1,11 @@
 package dev.xkmc.l2tabs.init.data;
 
 import dev.xkmc.l2tabs.init.L2Tabs;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 
 import java.util.concurrent.CompletableFuture;
@@ -29,14 +26,14 @@ public class AttributeConfigGen extends DataMapProvider {
 		add(b, Attributes.MOVEMENT_SPEED, 5000);
 		add(b, Attributes.ATTACK_DAMAGE, 6000);
 		add(b, Attributes.ATTACK_SPEED, 7000);
-		add(b, NeoForgeMod.BLOCK_REACH.value(), 8000);
-		add(b, NeoForgeMod.ENTITY_REACH.value(), 9000);
+		add(b, Attributes.BLOCK_INTERACTION_RANGE, 8000);
+		add(b, Attributes.ENTITY_INTERACTION_RANGE, 9000);
 		add(b, Attributes.LUCK, 10000);
 	}
 
-	public static void add(Builder<AttrDispEntry, Attribute> b, Attribute attr, int order) {
-		var rl = BuiltInRegistries.ATTRIBUTE.getKey(attr);
-		assert rl != null;
-		b.add(rl, new AttrDispEntry(false, order, 0), false);
+	public static void add(Builder<AttrDispEntry, Attribute> b, Holder<Attribute> attr, int order) {
+		var rl = attr.unwrapKey();
+		assert rl.isPresent();
+		b.add(rl.get(), new AttrDispEntry(false, order, 0), false);
 	}
 }

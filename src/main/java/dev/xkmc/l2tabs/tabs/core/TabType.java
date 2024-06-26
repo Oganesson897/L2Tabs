@@ -1,5 +1,6 @@
 package dev.xkmc.l2tabs.tabs.core;
 
+import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -16,7 +17,7 @@ public enum TabType {
 	LEFT(0, 64, 32, 26, 5),
 	RIGHT(96, 64, 32, 26, 5);
 
-	private final static ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/container/creative_inventory/tabs.png");
+	private final static ResourceLocation TEXTURE = L2Tabs.loc("textures/gui/tabs.png");
 
 	public static final int MAX_TABS = 7;
 	private final int textureX;

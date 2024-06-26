@@ -34,7 +34,7 @@ public abstract class BaseCuriosListMenu<T extends BaseContainerMenu<T>> extends
 	protected void addCurioSlot(String name, BaseCuriosWrapper curios) {
 		int current = added;
 		int[] removed = new int[]{0};
-		sprite.get().getSlot(name, (x, y) -> {
+		getLayout().getSlot(name, (x, y) -> {
 			int i = added - current;
 			var slot = curios.getSlotAtPosition(i + removed[0]);
 			if (slot == null) {
