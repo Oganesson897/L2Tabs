@@ -25,6 +25,9 @@ public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>
 		if (grab) {
 			grab = false;
 			InputConstants.grabOrReleaseMouse(Minecraft.getInstance().getWindow().getWindow(), 212993, mx, my);
+			var mouse = Minecraft.getInstance().mouseHandler;
+			mouse.xpos = mx;
+			mouse.ypos = my;
 		}
 	}
 
