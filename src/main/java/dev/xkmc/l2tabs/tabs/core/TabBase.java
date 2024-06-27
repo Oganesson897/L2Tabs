@@ -1,5 +1,6 @@
 package dev.xkmc.l2tabs.tabs.core;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -8,6 +9,24 @@ import net.minecraft.world.item.ItemStack;
 import java.util.function.Supplier;
 
 public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>> extends FloatingButton {
+
+	private static boolean grab;
+	private static double mx;
+	private static double my;
+
+	public static void cacheMousePos() {
+		var mouse = Minecraft.getInstance().mouseHandler;
+		mx = mouse.xpos();
+		my = mouse.ypos();
+		grab = true;
+	}
+
+	public static void onReleaseMouse() {
+		if (grab) {
+			grab = false;
+			InputConstants.grabOrReleaseMouse(Minecraft.getInstance().getWindow().getWindow(), 212993, mx, my);
+		}
+	}
 
 	public final int index;
 	public final ItemStack stack;
@@ -35,7 +54,7 @@ public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>
 	public void renderBackground(GuiGraphics g) {
 		if (getX() == 0 && getY() == 0) return;
 		if (this.visible) {
-			token.getType().draw(g, getX(), getY(), manager.selected == token, index);
+			token.draw(g, getX(), getY(), manager.selected == token, index);
 			renderIcon(g);
 		}
 	}

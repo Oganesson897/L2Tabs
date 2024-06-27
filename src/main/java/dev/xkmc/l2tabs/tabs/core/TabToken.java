@@ -1,5 +1,6 @@
 package dev.xkmc.l2tabs.tabs.core;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -33,6 +34,10 @@ public class TabToken<G extends TabGroupData<G>, T extends TabBase<G, T>> {
 
 	public T create(int index, TabManager<G> manager) {
 		return factory.create(index, this, manager, item.get().getDefaultInstance(), title);
+	}
+
+	public void draw(GuiGraphics g, int x, int y, boolean selected, int index) {
+		getType().draw(group.texture(), g, x, y, selected, index);
 	}
 
 }

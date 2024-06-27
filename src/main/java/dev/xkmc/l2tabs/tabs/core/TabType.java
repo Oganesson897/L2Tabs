@@ -1,52 +1,38 @@
 package dev.xkmc.l2tabs.tabs.core;
 
-import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public enum TabType {
-	ABOVE(0, 0, 26, 32, 8),
-	BELOW(84, 0, 26, 32, 8),
-	LEFT(0, 64, 32, 26, 5),
-	RIGHT(96, 64, 32, 26, 5);
-
-	private final static ResourceLocation TEXTURE = L2Tabs.loc("textures/gui/tabs.png");
+	ABOVE(26, 32, 8),
+	BELOW(26, 32, 8),
+	LEFT(32, 26, 5),
+	RIGHT(32, 26, 5);
 
 	public static final int MAX_TABS = 7;
-	private final int textureX;
-	private final int textureY;
 	public final int width;
 	public final int height;
 	public final int max;
 
-	TabType(int tx, int ty, int w, int h, int max) {
-		this.textureX = tx;
-		this.textureY = ty;
+	TabType(int w, int h, int max) {
 		this.width = w;
 		this.height = h;
 		this.max = max;
 	}
 
-	public void draw(GuiGraphics g, int x, int y, boolean selected, int index) {
+	public void draw(TabSprites tex, GuiGraphics g, int x, int y, boolean selected, int index) {
 		index = index % max;
-		int tx = this.textureX;
+		int tx = 0;
 		if (index > 0) {
-			tx += this.width;
+			tx++;
 		}
-
-		if (index == max - 1) {
-			//tx += this.width;
-		}
-
-		int ty = selected ? this.textureY + this.height : this.textureY;
-		g.blit(TEXTURE, x, y, tx, ty, this.width, this.height);
+		g.blitSprite(tex.get(tx, selected), x, y, tex.w(), tex.h());
 	}
 
 	public void drawIcon(GuiGraphics g, int x, int y, ItemStack stack) {

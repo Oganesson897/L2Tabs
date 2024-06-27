@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
-import top.theillusivec4.curios.common.inventory.CurioSlot;
 import top.theillusivec4.curios.mixin.core.AccessorEntity;
 
 import javax.annotation.Nonnull;
@@ -21,19 +20,19 @@ import javax.annotation.Nonnull;
 public class TabCurioSlot extends CurioSlot {
 
 	private final String identifier;
-	private final LivingEntity player;
+	private final LivingEntity entity;
 	private final SlotContext slotContext;
 
 	private final IDynamicStackHandler handler;
 	private final int index;
 
-	public TabCurioSlot(LivingEntity player, IDynamicStackHandler handler, int index, String identifier,
+	public TabCurioSlot(LivingEntity entity, IDynamicStackHandler handler, int index, String identifier,
 						int xPosition, int yPosition, NonNullList<Boolean> renders) {
 		super(null, handler, index, identifier, xPosition, yPosition, renders, false);
 		this.identifier = identifier;
-		this.player = player;
-		this.slotContext = new SlotContext(identifier, player, index, false, renders.get(index));
-		CuriosApi.getSlot(identifier, player.level()).ifPresent((slotType) ->
+		this.entity = entity;
+		this.slotContext = new SlotContext(identifier, entity, index, false, renders.get(index));
+		CuriosApi.getSlot(identifier, entity.level()).ifPresent((slotType) ->
 				this.setBackground(InventoryMenu.BLOCK_ATLAS, slotType.getIcon()));
 		this.handler = handler;
 		this.index = index;
@@ -68,7 +67,7 @@ public class TabCurioSlot extends CurioSlot {
 		((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(index, stack);
 		this.setChanged();
 		if (!flag && !ItemStack.matches(current, stack) &&
-				!((AccessorEntity) this.player).getFirstTick()) {
+				!((AccessorEntity) this.entity).getFirstTick()) {
 			CuriosApi.getCurio(stack)
 					.ifPresent(curio -> curio.onEquipFromUse(this.slotContext));
 		}

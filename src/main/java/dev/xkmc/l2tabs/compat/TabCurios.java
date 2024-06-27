@@ -19,6 +19,8 @@ import net.minecraft.world.item.ItemStack;
 
 public class TabCurios extends TabBase<InvTabData, TabCurios> {
 
+	private static final ResourceLocation ICON = L2Tabs.loc("curios");
+
 	public static TabToken<InvTabData, TabCurios> tab;
 
 	public TabCurios(int index, TabToken<InvTabData, TabCurios> token,
@@ -27,6 +29,7 @@ public class TabCurios extends TabBase<InvTabData, TabCurios> {
 	}
 
 	public void onTabClicked() {
+		cacheMousePos();
 		L2Tabs.PACKET_HANDLER.toServer(new OpenCuriosPacket(OpenCurioHandler.CURIO_OPEN));
 	}
 
@@ -34,9 +37,8 @@ public class TabCurios extends TabBase<InvTabData, TabCurios> {
 	public void renderBackground(GuiGraphics g) {
 		if (getX() == 0 && getY() == 0) return;
 		if (this.visible) {
-			token.getType().draw(g, getX(), getY(), manager.selected == token, index);
-			g.blit(ResourceLocation.fromNamespaceAndPath("curios", "textures/gui/inventory.png"),
-					getX() + 6, getY() + 10, 50, 14, 14, 14);
+			token.draw(g, getX(), getY(), manager.selected == token, index);
+			g.blitSprite(ICON, getX() + 6, getY() + 10, 14, 14);
 		}
 	}
 

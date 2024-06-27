@@ -44,6 +44,9 @@ runs {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+java {
+    withSourcesJar()
+}
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"

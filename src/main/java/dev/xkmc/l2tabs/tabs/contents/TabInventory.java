@@ -21,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ContainerScreenEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 
 import java.util.function.Predicate;
@@ -44,7 +43,7 @@ public class TabInventory extends TabBase<InvTabData, TabInventory> {
 		}
 	}
 
-	private static void renderTabs(GuiGraphics g, Screen screen) {
+	public static void renderTabs(GuiGraphics g, Screen screen) {
 		for (var e : screen.children()) {
 			if (e instanceof TabBase<?, ?> tab) {
 				if (tab.manager.selected != tab.token)
@@ -58,17 +57,13 @@ public class TabInventory extends TabBase<InvTabData, TabInventory> {
 		renderTabs(event.getGuiGraphics(), event.getScreen());
 	}
 
-	@SubscribeEvent
-	public static void guiPostRenderBG(ContainerScreenEvent.Render.Background event) {
-		renderTabs(event.getGuiGraphics(), event.getContainerScreen());
-	}
-
 	public TabInventory(int index, TabToken<InvTabData, TabInventory> token,
 						TabManager<InvTabData> manager, ItemStack stack, Component title) {
 		super(index, token, manager, stack, title);
 	}
 
 	public void onTabClicked() {
+		cacheMousePos();
 		openInventory.run();
 	}
 

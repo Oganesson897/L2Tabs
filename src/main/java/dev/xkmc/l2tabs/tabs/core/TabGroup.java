@@ -1,5 +1,6 @@
 package dev.xkmc.l2tabs.tabs.core;
 
+import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
@@ -10,6 +11,15 @@ import java.util.TreeMap;
 import java.util.function.Supplier;
 
 public class TabGroup<G extends TabGroupData<G>> {
+
+	public final static TabSprites UP = new TabSprites(26, 32,
+			L2Tabs.loc("up/des_0"),
+			L2Tabs.loc("up/des_1"),
+			L2Tabs.loc("up/des_2"),
+			L2Tabs.loc("up/sel_0"),
+			L2Tabs.loc("up/sel_1"),
+			L2Tabs.loc("up/sel_2")
+	);
 
 	private final Map<Integer, TabToken<G, ?>> map = new TreeMap<>();
 
@@ -44,4 +54,7 @@ public class TabGroup<G extends TabGroupData<G>> {
 		return ans;
 	}
 
+	public TabSprites texture() {
+		return UP;
+	}
 }
