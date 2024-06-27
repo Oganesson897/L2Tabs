@@ -38,17 +38,11 @@ public class L2Tabs {
 			REG.dataMap("attribute_entry", Registries.ATTRIBUTE, AttrDispEntry.class);
 
 	public L2Tabs(IEventBus bus) {
-		REG.register(bus);
 		L2TabsConfig.init();
 		TabCuriosCompat.onStartup();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, L2TabsLangData::genLang);
 		if (ModList.get().isLoaded(CuriosApi.MODID))
 			NeoForge.EVENT_BUS.register(CuriosEventHandler.class);
-	}
-
-	@SubscribeEvent
-	public static void onPacketReg(RegisterPayloadHandlersEvent event) {
-		PACKET_HANDLER.register(event);
 	}
 
 	@SubscribeEvent
