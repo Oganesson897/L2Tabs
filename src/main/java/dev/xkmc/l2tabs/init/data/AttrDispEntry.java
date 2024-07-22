@@ -14,12 +14,19 @@ import java.util.stream.Collectors;
 
 public record AttrDispEntry(boolean usePercent, int order, double intrinsic) {
 
+	public enum AttributeDisplay {
+		COMMON,
+		ALL,
+		ALL_EXCEPT_UNCHANGED
+	}
+
 	public static List<Pair<Holder<Attribute>, AttrDispEntry>> get(LivingEntity le) {
 		var ans = L2Tabs.ATTRIBUTE_ENTRY.getAll(le.level().registryAccess())
 				.filter(e -> le.getAttribute(e.getFirst()) != null)
 				.sorted(Comparator.comparingInt(x -> x.getSecond().order))
 				.toList();
-		if (L2TabsConfig.CLIENT.generateAllAttributes.get()) {
+		var disp = L2TabsConfig.CLIENT.attributeSettings.get();
+		if (disp != AttributeDisplay.COMMON) {
 			ans = new ArrayList<>(ans);
 			ans.sort(Comparator.comparingInt(e -> e.getSecond().order));
 			int latest = ans.isEmpty() ? 0 : ans.getLast().getSecond().order();
@@ -31,7 +38,7 @@ public record AttrDispEntry(boolean usePercent, int order, double intrinsic) {
 				var ins = le.getAttribute(e);
 				if (ins == null) continue;
 				if (ins.getModifiers().isEmpty()) {
-					if (L2TabsConfig.CLIENT.generateAllAttributesHideUnchanged.get()) {
+					if (disp != AttributeDisplay.ALL) {
 						continue;
 					}
 				}

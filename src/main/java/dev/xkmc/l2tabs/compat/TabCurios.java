@@ -5,6 +5,7 @@
 
 package dev.xkmc.l2tabs.compat;
 
+import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.init.data.OpenCurioHandler;
 import dev.xkmc.l2tabs.init.data.OpenCuriosPacket;
@@ -21,7 +22,7 @@ public class TabCurios extends TabBase<InvTabData, TabCurios> {
 
 	private static final ResourceLocation ICON = L2Tabs.loc("curios");
 
-	public static TabToken<InvTabData, TabCurios> tab;
+
 
 	public TabCurios(int index, TabToken<InvTabData, TabCurios> token,
 					 TabManager<InvTabData> manager, ItemStack stack, Component title) {

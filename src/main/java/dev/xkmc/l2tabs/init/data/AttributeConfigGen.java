@@ -1,24 +1,16 @@
 package dev.xkmc.l2tabs.init.data;
 
+import com.tterrag.registrate.providers.RegistrateDataMapProvider;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 
-import java.util.concurrent.CompletableFuture;
+public class AttributeConfigGen  {
 
-public class AttributeConfigGen extends DataMapProvider {
-
-	public AttributeConfigGen(PackOutput output, CompletableFuture<HolderLookup.Provider> lookup) {
-		super(output, lookup);
-	}
-
-	@Override
-	protected void gather() {
-		var b = builder(L2Tabs.ATTRIBUTE_ENTRY.reg());
+	public static void onDataMapGen(RegistrateDataMapProvider pvd) {
+		var b = pvd.builder(L2Tabs.ATTRIBUTE_ENTRY.reg());
 		add(b, Attributes.MAX_HEALTH, 1000);
 		add(b, Attributes.ARMOR, 2000);
 		add(b, Attributes.ARMOR_TOUGHNESS, 3000);
@@ -31,9 +23,10 @@ public class AttributeConfigGen extends DataMapProvider {
 		add(b, Attributes.LUCK, 10000);
 	}
 
-	public static void add(Builder<AttrDispEntry, Attribute> b, Holder<Attribute> attr, int order) {
+	public static void add(DataMapProvider.Builder<AttrDispEntry, Attribute> b, Holder<Attribute> attr, int order) {
 		var rl = attr.unwrapKey();
 		assert rl.isPresent();
 		b.add(rl.get(), new AttrDispEntry(false, order, 0), false);
 	}
+
 }

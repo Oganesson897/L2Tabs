@@ -1,7 +1,6 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
-import dev.xkmc.l2core.util.Proxy;
-import dev.xkmc.l2tabs.init.L2TabsClient;
+import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
 import net.minecraft.client.Minecraft;
@@ -17,7 +16,7 @@ public class AttributeScreen extends BaseAttributeScreen {
 	@Override
 	public void init() {
 		super.init();
-		new TabManager<>(this, new InvTabData()).init(this::addRenderableWidget, L2TabsClient.TAB_ATTRIBUTE);
+		new TabManager<>(this, new InvTabData()).init(this::addRenderableWidget, L2Tabs.TAB_ATTRIBUTE.get());
 	}
 
 	@Override

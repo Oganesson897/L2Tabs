@@ -16,11 +16,11 @@ public class TabToken<G extends TabGroupData<G>, T extends TabBase<G, T>> {
 	}
 
 	private final TabGroup<G> group;
-	private final TabFactory<G, T> factory;
+	private final Supplier<TabFactory<G, T>> factory;
 	private final Supplier<Item> item;
 	public final Component title;
 
-	TabToken(TabGroup<G> group, TabFactory<G, T> factory, Supplier<Item> item, Component component) {
+	TabToken(TabGroup<G> group, Supplier<TabFactory<G, T>> factory, Supplier<Item> item, Component component) {
 		this.group = group;
 		this.factory = factory;
 
@@ -33,7 +33,7 @@ public class TabToken<G extends TabGroupData<G>, T extends TabBase<G, T>> {
 	}
 
 	public T create(int index, TabManager<G> manager) {
-		return factory.create(index, this, manager, item.get().getDefaultInstance(), title);
+		return factory.get().create(index, this, manager, item.get().getDefaultInstance(), title);
 	}
 
 	public void draw(GuiGraphics g, int x, int y, boolean selected, int index) {

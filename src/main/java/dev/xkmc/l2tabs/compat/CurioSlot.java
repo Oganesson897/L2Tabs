@@ -66,13 +66,13 @@ public class CurioSlot extends SlotItemHandler {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@OnlyIn(Dist.CLIENT) // TODO onlyin
 	public String getSlotName() {
 		if (this.isCosmetic) {
 			String var10000 = I18n.get("curios.cosmetic", new Object[0]);
-			return var10000 + " " + I18n.get("curios.identifier." + this.identifier, new Object[0]);
+			return var10000 + " " + I18n.get("curios.identifier." + this.identifier);
 		} else {
-			return I18n.get("curios.identifier." + this.identifier, new Object[0]);
+			return I18n.get("curios.identifier." + this.identifier);
 		}
 	}
 

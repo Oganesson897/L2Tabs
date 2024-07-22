@@ -15,7 +15,7 @@ public class CuriosListScreen extends BaseCuriosListScreen<CuriosListMenu> imple
 	@Override
 	public void init() {
 		super.init();
-		new TabManager<>(this, new InvTabData()).init(this::addRenderableWidget, TabCurios.tab);
+		new TabManager<>(this, new InvTabData()).init(this::addRenderableWidget, CuriosScreenCompatImpl.get().tab.get());
 	}
 
 }

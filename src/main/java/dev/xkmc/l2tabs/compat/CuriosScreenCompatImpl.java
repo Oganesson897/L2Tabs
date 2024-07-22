@@ -1,11 +1,13 @@
 package dev.xkmc.l2tabs.compat;
 
 import com.tterrag.registrate.util.entry.MenuEntry;
+import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2tabs.init.L2Tabs;
-import dev.xkmc.l2tabs.init.L2TabsClient;
 import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.contents.TabInventory;
+import dev.xkmc.l2tabs.tabs.core.TabToken;
+import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
@@ -32,9 +34,13 @@ class CuriosScreenCompatImpl {
 	}
 
 	MenuEntry<CuriosListMenu> menuType;
+	public Val<TabToken<InvTabData, TabCurios>> tab;
 
 	void onStartUp() {
 		menuType = L2Tabs.REGISTRATE.menu("curios", CuriosListMenu::fromNetwork, () -> CuriosListScreen::new).register();
+		tab = L2Tabs.TAB_REG.reg("curios", () -> L2Tabs.GROUP.registerTab(2000, () -> TabCurios::new,
+				() -> Items.AIR, L2TabsLangData.CURIOS.get()));
+
 	}
 
 	void onClientInit() {
@@ -52,8 +58,6 @@ class CuriosScreenCompatImpl {
 				openInventory();
 			else prev.run();
 		};
-
-		TabCurios.tab = L2TabsClient.GROUP.registerTab(2000, TabCurios::new, () -> Items.AIR, L2TabsLangData.CURIOS.get());
 	}
 
 	void openScreen(ServerPlayer player) {

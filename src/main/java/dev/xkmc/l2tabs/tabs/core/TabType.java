@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public enum TabType {
 	ABOVE(26, 32, 8),
 	BELOW(26, 32, 8),
@@ -88,22 +87,6 @@ public enum TabType {
 
 	public int getTabY(int imgHeight, int index) {
 		return (this == BELOW ? imgHeight : 0) + getY(index);
-	}
-
-	public Button getLeftButton(ITabScreen screen, Button.OnPress o) {
-		int radius = 3;
-		return new FloatingButton(screen::getGuiLeft, screen::getGuiTop,
-				radius, -26 + radius,
-				26 - radius * 2, 26 - radius * 2,
-				Component.literal("<"), o);
-	}
-
-	public Button getRightButton(ITabScreen screen, Button.OnPress o) {
-		int radius = 3;
-		return new FloatingButton(screen::getGuiLeft, screen::getGuiTop,
-				(TabType.MAX_TABS - 1) * 26 + radius, -26 + radius,
-				26 - radius * 2, 26 - radius * 2,
-				Component.literal(">"), o);
 	}
 
 }

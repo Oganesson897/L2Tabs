@@ -50,7 +50,7 @@ public class TabCurioSlot extends CurioSlot {
 		return true;
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@OnlyIn(Dist.CLIENT)//TODO onlyin
 	public String getSlotName() {
 		return I18n.get("curios.identifier." + this.identifier);
 	}

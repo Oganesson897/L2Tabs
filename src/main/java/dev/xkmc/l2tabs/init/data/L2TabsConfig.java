@@ -1,71 +1,64 @@
 package dev.xkmc.l2tabs.init.data;
 
-import net.neoforged.fml.ModLoadingContext;
-import net.neoforged.fml.config.IConfigSpec;
-import net.neoforged.fml.config.ModConfig;
+import dev.xkmc.l2core.util.ConfigInit;
+import dev.xkmc.l2tabs.init.L2Tabs;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import org.apache.commons.lang3.tuple.Pair;
+import net.neoforged.neoforge.common.util.Lazy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class L2TabsConfig {
 
-	public static class Client {
+	public static class Client extends ConfigInit {
 
 		public final ModConfigSpec.BooleanValue showTabs;
 		public final ModConfigSpec.BooleanValue showTabsOnlyCurio;
 		public final ModConfigSpec.BooleanValue redirectInventoryTabToCuriosInventory;
 		public final ModConfigSpec.IntValue attributeLinePerPage;
-		public final ModConfigSpec.BooleanValue generateAllAttributes;
-		public final ModConfigSpec.BooleanValue generateAllAttributesHideUnchanged;
+		public final ModConfigSpec.EnumValue<AttrDispEntry.AttributeDisplay> attributeSettings;
 
-		public final ModConfigSpec.ConfigValue<List<String>> hiddenTabs;
+		public final ModConfigSpec.ConfigValue<List<? extends String>> hiddenTabs;
 
-		Client(ModConfigSpec.Builder builder) {
-			showTabs = builder.comment("Show inventory tabs")
+		Client(Builder builder) {
+			markL2();
+			showTabs = builder.text("Show inventory tabs")
 					.define("showTabs", true);
-			showTabsOnlyCurio = builder.comment("Show inventory tabs only in curio page. Only works when showTabs is true and curio is installed.")
-					.define("showTabsOnlyCurio", false);
-			redirectInventoryTabToCuriosInventory = builder.comment("Redirect Inventory Tab to Curios Inventory")
+			showTabsOnlyCurio = builder.text("Tabs with curios only").comment(
+					"Show inventory tabs only in curio page.",
+					"Only works when showTabs is true and curio is installed.",
+					"For users who have other tabs conflicting with this mod"
+			).define("showTabsOnlyCurio", false);
+			redirectInventoryTabToCuriosInventory = builder.text("Redirect Inventory Tab to Curios Inventory")
 					.define("redirectInventoryTabToCuriosInventory", true);
-			attributeLinePerPage = builder.comment("Number of attribure lines per page")
+			attributeLinePerPage = builder.text("Number of attribute lines per page")
 					.defineInRange("attributeLinePerPage", 15, 1, 100);
-			generateAllAttributes = builder.comment("Show all attribute on attribute tab, like Apothic")
-					.define("generateAllAttributes", false);
-			generateAllAttributesHideUnchanged = builder.comment("Show all attribute on attribute tab and hide the unchanged")
-					.define("generateAllAttributesHideUnchanged", false);
+			attributeSettings = builder.text("Attribute display")
+					.comment("COMMON: Show only common attributes and L2 attributes")
+					.comment("ALL: Show all attributes in attribute type, similar to Apothic Attributes")
+					.comment("ALL_EXCEPT_UNCHANGED: Show all, but hide attributes that are unchanged")
+					.defineEnum("attributeSettings", AttrDispEntry.AttributeDisplay.COMMON);
 
-			hiddenTabs = builder.comment("List of tabs to hide. Use title translation key for tab id.")
-					.comment("Example: menu.tabs.attribute for attribute tab")
-					.comment("Example: menu.tabs.curios for curios tab")
-					.comment("Example: pandora.menu.title for pandora tab")
-					.define("hiddentTabs", new ArrayList<>(List.of()));
+			Lazy<Set<String>> keys = Lazy.of(() -> L2Tabs.TABS.get().keySet().stream()
+					.map(ResourceLocation::getPath)
+					.collect(Collectors.toSet()));
+
+			hiddenTabs = builder.text("Hidden Tabs").comment("List of tabs to hide")
+					.comment("Example: \"attribute\" for attribute tab")
+					.comment("Example: \"curios\" for curios tab")
+					.comment("Example: \"pandora\" for pandora tab")
+					.defineListAllowEmpty("hiddenTabs", new ArrayList<>(List.of()),
+							() -> "attribute", e -> keys.get().contains((String) e));
 		}
 
 	}
 
-	public static final ModConfigSpec CLIENT_SPEC;
-	public static final Client CLIENT;
+	public static final Client CLIENT = L2Tabs.REGISTRATE.registerClient(Client::new);
 
-	static {
-		final Pair<Client, ModConfigSpec> client = new ModConfigSpec.Builder().configure(Client::new);
-		CLIENT_SPEC = client.getRight();
-		CLIENT = client.getLeft();
-	}
-
-	/**
-	 * Registers any relevant listeners for config
-	 */
 	public static void init() {
-		register(ModConfig.Type.CLIENT, CLIENT_SPEC);
 	}
-
-	private static void register(ModConfig.Type type, IConfigSpec<?> spec) {
-		var mod = ModLoadingContext.get().getActiveContainer();
-		String path = "l2_configs/" + mod.getModId() + "-" + type.extension() + ".toml";
-		mod.registerConfig(type, spec, path);
-	}
-
 
 }

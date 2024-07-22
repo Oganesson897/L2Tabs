@@ -6,7 +6,6 @@
 package dev.xkmc.l2tabs.tabs.contents;
 
 import dev.xkmc.l2tabs.init.L2Tabs;
-import dev.xkmc.l2tabs.init.L2TabsClient;
 import dev.xkmc.l2tabs.tabs.core.TabBase;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.l2tabs.tabs.core.TabToken;
@@ -39,7 +38,7 @@ public class TabInventory extends TabBase<InvTabData, TabInventory> {
 	public static void guiPostInit(ScreenEvent.Init.Post event) {
 		if (inventoryTest.test(event.getScreen())) {
 			var manager = new TabManager<>(ScreenWrapper.of(event.getScreen()), new InvTabData());
-			manager.init(event::addListener, L2TabsClient.TAB_INVENTORY);
+			manager.init(event::addListener, L2Tabs.TAB_INVENTORY.get());
 		}
 	}
 
