@@ -1,6 +1,6 @@
 package dev.xkmc.l2tabs.init;
 
-import dev.xkmc.l2tabs.compat.TabCuriosCompat;
+import dev.xkmc.l2tabs.compat.api.TabCuriosCompat;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

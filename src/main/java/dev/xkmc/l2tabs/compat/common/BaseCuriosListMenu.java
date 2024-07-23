@@ -1,7 +1,8 @@
-package dev.xkmc.l2tabs.compat;
+package dev.xkmc.l2tabs.compat.common;
 
 import dev.xkmc.l2core.base.menu.base.BaseContainerMenu;
 import dev.xkmc.l2core.base.menu.base.SpriteManager;
+import dev.xkmc.l2tabs.compat.api.IAccessoriesWrapper;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,15 +24,15 @@ public abstract class BaseCuriosListMenu<T extends BaseContainerMenu<T>> extends
 		return MANAGER[Math.min(Math.max(size - 3, 0), 3)];
 	}
 
-	public final BaseCuriosWrapper curios;
+	public final IAccessoriesWrapper curios;
 
-	protected BaseCuriosListMenu(MenuType<?> type, int wid, Inventory plInv, BaseCuriosWrapper curios) {
+	protected BaseCuriosListMenu(MenuType<?> type, int wid, Inventory plInv, IAccessoriesWrapper curios) {
 		super(type, wid, plInv, getManager(curios.getRows()), e -> new BaseContainer<>(curios.getSize(), e), false);
 		addCurioSlot("grid", curios);
 		this.curios = curios;
 	}
 
-	protected void addCurioSlot(String name, BaseCuriosWrapper curios) {
+	protected void addCurioSlot(String name, IAccessoriesWrapper curios) {
 		int current = added;
 		int[] removed = new int[]{0};
 		getLayout().getSlot(name, (x, y) -> {

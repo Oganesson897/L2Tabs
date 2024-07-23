@@ -1,5 +1,6 @@
-package dev.xkmc.l2tabs.compat;
+package dev.xkmc.l2tabs.compat.api;
 
+import dev.xkmc.l2tabs.compat.common.CuriosListMenu;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.fml.ModList;
@@ -8,24 +9,24 @@ public class TabCuriosCompat {
 
 	public static void onStartup() {
 		if (ModList.get().isLoaded("curios")) {
-			CuriosScreenCompatImpl.get().onStartUp();
+			AccessoriesMultiplex.onStartUp();
 		}
 	}
 
 	public static void onClientInit() {
 		if (ModList.get().isLoaded("curios")) {
-			CuriosScreenCompatImpl.get().onClientInit();
+			AccessoriesMultiplex.get().onClientInit();
 		}
 	}
 
 	public static void openCuriosTab(ServerPlayer player) {
 		if (ModList.get().isLoaded("curios")) {
-			CuriosScreenCompatImpl.get().openScreen(player);
+			AccessoriesMultiplex.openScreen(player);
 		}
 	}
 
-	public static MenuType<?> getMenuType() {
-		return CuriosScreenCompatImpl.get().menuType.get();
+	public static MenuType<CuriosListMenu> getMenuType(){
+		return AccessoriesMultiplex.menuType.get();
 	}
 
 }

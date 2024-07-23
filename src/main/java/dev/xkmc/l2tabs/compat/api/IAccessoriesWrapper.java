@@ -1,15 +1,15 @@
-package dev.xkmc.l2tabs.compat;
+package dev.xkmc.l2tabs.compat.api;
 
 import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nullable;
 
-public abstract class BaseCuriosWrapper {
+public abstract class IAccessoriesWrapper {
 
 	public final LivingEntity entity;
 	public int total, page;
 
-	public BaseCuriosWrapper( LivingEntity entity) {
+	public IAccessoriesWrapper(LivingEntity entity) {
 		this.entity = entity;
 	}
 
@@ -18,6 +18,6 @@ public abstract class BaseCuriosWrapper {
 	public abstract int getRows();
 
 	@Nullable
-	public abstract CuriosSlotWrapper getSlotAtPosition(int i);
+	public abstract IAccessoriesSlotWrapper getSlotAtPosition(int i);
 
 }

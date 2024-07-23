@@ -1,6 +1,6 @@
 package dev.xkmc.l2tabs.init.data;
 
-import dev.xkmc.l2tabs.compat.TabCuriosCompat;
+import dev.xkmc.l2tabs.compat.api.TabCuriosCompat;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.function.Consumer;

@@ -1,5 +1,7 @@
-package dev.xkmc.l2tabs.compat;
+package dev.xkmc.l2tabs.compat.curios;
 
+import dev.xkmc.l2tabs.compat.api.IAccessoriesSlotWrapper;
+import dev.xkmc.l2tabs.compat.api.IAccessoriesWrapper;
 import net.minecraft.world.entity.LivingEntity;
 import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
@@ -7,7 +9,7 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 
-public class CuriosWrapper extends BaseCuriosWrapper {
+class CuriosWrapper extends IAccessoriesWrapper {
 
 	private final ArrayList<CuriosSlotWrapper> list = new ArrayList<>();
 
@@ -49,7 +51,7 @@ public class CuriosWrapper extends BaseCuriosWrapper {
 	}
 
 	@Nullable
-	public CuriosSlotWrapper getSlotAtPosition(int i) {
+	public IAccessoriesSlotWrapper getSlotAtPosition(int i) {
 		if (i < 0 || i >= list.size()) return null;
 		return list.get(i);
 	}

@@ -1,5 +1,6 @@
-package dev.xkmc.l2tabs.compat;
+package dev.xkmc.l2tabs.compat.common;
 
+import dev.xkmc.l2tabs.compat.api.AccessoriesMultiplex;
 import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -23,7 +24,7 @@ public record CuriosMenuPvd(MenuType<CuriosListMenu> type, int page) implements 
 
 	@Override
 	public AbstractContainerMenu createMenu(int wid, Inventory inv, Player player) {
-		return new CuriosListMenu(type, wid, inv, new CuriosWrapper(player, page));
+		return new CuriosListMenu(type, wid, inv, AccessoriesMultiplex.get().wrap(player, page));
 	}
 
 	public void writeBuf(FriendlyByteBuf buf) {

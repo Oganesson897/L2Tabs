@@ -3,9 +3,8 @@
 // (powered by FernFlower decompiler)
 //
 
-package dev.xkmc.l2tabs.compat;
+package dev.xkmc.l2tabs.compat.common;
 
-import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.init.data.OpenCurioHandler;
 import dev.xkmc.l2tabs.init.data.OpenCuriosPacket;
@@ -21,8 +20,6 @@ import net.minecraft.world.item.ItemStack;
 public class TabCurios extends TabBase<InvTabData, TabCurios> {
 
 	private static final ResourceLocation ICON = L2Tabs.loc("curios");
-
-
 
 	public TabCurios(int index, TabToken<InvTabData, TabCurios> token,
 					 TabManager<InvTabData> manager, ItemStack stack, Component title) {

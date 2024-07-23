@@ -1,4 +1,4 @@
-package dev.xkmc.l2tabs.compat;
+package dev.xkmc.l2tabs.compat.common;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,7 +32,7 @@ public class CuriosEventHandler {
 
 	private static final Map<Player, Runnable> MAP = new LinkedHashMap<>();
 
-	@SubscribeEvent(priority = EventPriority.LOW)
+	@SubscribeEvent(priority = EventPriority.LOW)// Required to be after curio's tick event
 	public static void onPlayerTick(EntityTickEvent.Post event) {
 		if (!MAP.isEmpty() && event.getEntity() instanceof ServerPlayer player) {
 			var run = MAP.get(player);

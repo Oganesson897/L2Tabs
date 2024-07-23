@@ -1,7 +1,7 @@
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 
-package dev.xkmc.l2tabs.compat;
+package dev.xkmc.l2tabs.compat.accessories;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

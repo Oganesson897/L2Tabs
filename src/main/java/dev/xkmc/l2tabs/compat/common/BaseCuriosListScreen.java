@@ -1,6 +1,7 @@
-package dev.xkmc.l2tabs.compat;
+package dev.xkmc.l2tabs.compat.common;
 
 import dev.xkmc.l2core.base.menu.base.BaseContainerScreen;
+import dev.xkmc.l2tabs.compat.api.INamedSlot;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -55,8 +56,8 @@ public class BaseCuriosListScreen<T extends BaseCuriosListMenu<T>> extends BaseC
 				.getCarried().isEmpty() && this.getSlotUnderMouse() != null) {
 			Slot slot = this.getSlotUnderMouse();
 
-			if (slot instanceof TabCurioSlot slotCurio && !slot.hasItem()) {
-				g.renderTooltip(font, Component.translatable(slotCurio.getSlotName()), mx, my);
+			if (slot instanceof INamedSlot slotCurio && !slot.hasItem()) {
+				g.renderTooltip(font, slotCurio.getName(), mx, my);
 			}
 		}
 		super.renderTooltip(g, mx, my);

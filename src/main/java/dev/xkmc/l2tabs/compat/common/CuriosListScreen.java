@@ -1,5 +1,6 @@
-package dev.xkmc.l2tabs.compat;
+package dev.xkmc.l2tabs.compat.common;
 
+import dev.xkmc.l2tabs.compat.api.AccessoriesMultiplex;
 import dev.xkmc.l2tabs.tabs.core.ITabScreen;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
 import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
@@ -15,7 +16,7 @@ public class CuriosListScreen extends BaseCuriosListScreen<CuriosListMenu> imple
 	@Override
 	public void init() {
 		super.init();
-		new TabManager<>(this, new InvTabData()).init(this::addRenderableWidget, CuriosScreenCompatImpl.get().tab.get());
+		new TabManager<>(this, new InvTabData()).init(this::addRenderableWidget, AccessoriesMultiplex.get().tab.get());
 	}
 
 }
