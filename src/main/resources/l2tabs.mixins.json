@@ -6,8 +6,7 @@
   "mixins": [
   ],
   "client": [
-	"AbstractContainerScreenMixin",
-	"MinecraftMixin"
+	"AbstractContainerScreenMixin"
   ],
   "injectors": {
 	"defaultRequire": 1

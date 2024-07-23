@@ -21,7 +21,7 @@ public class CuriosListMenu extends BaseCuriosListMenu<CuriosListMenu> {
 
 	@Override
 	public void switchPage(ServerPlayer sp, int page) {
-		new CuriosMenuPvd(TabCuriosCompat.getMenuType(), page).open(sp);
+		new CuriosMenuPvd(AccessoriesMultiplex.MT_CURIOS.get(), page).open(sp);
 	}
 
 }

@@ -5,6 +5,7 @@
 
 package dev.xkmc.l2tabs.tabs.contents;
 
+import dev.xkmc.l2menustacker.init.MouseCache;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.tabs.core.TabBase;
 import dev.xkmc.l2tabs.tabs.core.TabManager;
@@ -62,7 +63,7 @@ public class TabInventory extends TabBase<InvTabData, TabInventory> {
 	}
 
 	public void onTabClicked() {
-		cacheMousePos();
+		MouseCache.cacheMousePos();
 		openInventory.run();
 	}
 

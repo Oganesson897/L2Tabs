@@ -1,6 +1,7 @@
 package dev.xkmc.l2tabs.compat.accessories;
 
 import dev.xkmc.l2tabs.compat.api.INamedSlot;
+import dev.xkmc.l2tabs.compat.track.CurioSlotData;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.client.gui.AccessoriesInternalSlot;
 import net.minecraft.network.chat.Component;
@@ -26,6 +27,11 @@ class TabAccessoriesSlot extends AccessoriesInternalSlot implements INamedSlot {
 		this.entity = entity;
 		this.handler = handler;
 		this.index = index;
+	}
+
+	@Override
+	public CurioSlotData toSlotData() {
+		return new CurioSlotData(identifier, index);
 	}
 
 	public boolean isValid() {

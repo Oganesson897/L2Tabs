@@ -1,6 +1,7 @@
 package dev.xkmc.l2tabs.compat.curios;
 
 import dev.xkmc.l2tabs.compat.api.INamedSlot;
+import dev.xkmc.l2tabs.compat.track.CurioSlotData;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,6 +36,11 @@ class TabCurioSlot extends SlotItemHandler implements INamedSlot {
 				this.setBackground(InventoryMenu.BLOCK_ATLAS, slotType.getIcon()));
 		this.handler = handler;
 		this.index = index;
+	}
+
+	@Override
+	public CurioSlotData toSlotData() {
+		return new CurioSlotData(identifier, index);
 	}
 
 	public boolean isValid() {

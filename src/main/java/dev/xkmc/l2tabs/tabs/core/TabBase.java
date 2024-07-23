@@ -1,35 +1,11 @@
 package dev.xkmc.l2tabs.tabs.core;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.function.Supplier;
-
 public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>> extends FloatingButton {
-
-	private static boolean grab;
-	private static double mx;
-	private static double my;
-
-	public static void cacheMousePos() {
-		var mouse = Minecraft.getInstance().mouseHandler;
-		mx = mouse.xpos();
-		my = mouse.ypos();
-		grab = true;
-	}
-
-	public static void onReleaseMouse() {
-		if (grab) {
-			grab = false;
-			InputConstants.grabOrReleaseMouse(Minecraft.getInstance().getWindow().getWindow(), 212993, mx, my);
-			var mouse = Minecraft.getInstance().mouseHandler;
-			mouse.xpos = mx;
-			mouse.ypos = my;
-		}
-	}
 
 	public final int index;
 	public final ItemStack stack;

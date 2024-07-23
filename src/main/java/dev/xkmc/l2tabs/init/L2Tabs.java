@@ -7,8 +7,8 @@ import dev.xkmc.l2core.init.reg.simple.Reg;
 import dev.xkmc.l2core.init.reg.simple.SR;
 import dev.xkmc.l2core.init.reg.simple.Val;
 import dev.xkmc.l2serial.network.PacketHandler;
-import dev.xkmc.l2tabs.compat.common.CuriosEventHandler;
 import dev.xkmc.l2tabs.compat.api.TabCuriosCompat;
+import dev.xkmc.l2tabs.compat.common.CuriosEventHandler;
 import dev.xkmc.l2tabs.init.data.*;
 import dev.xkmc.l2tabs.tabs.contents.TabAttributes;
 import dev.xkmc.l2tabs.tabs.contents.TabInventory;
@@ -21,12 +21,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import top.theillusivec4.curios.api.CuriosApi;
 
 @Mod(L2Tabs.MODID)
+@EventBusSubscriber(modid = L2Tabs.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class L2Tabs {
 
 	public static final String MODID = "l2tabs";
@@ -59,6 +63,11 @@ public class L2Tabs {
 		REGISTRATE.addDataGenerator(ProviderType.DATA_MAP, AttributeConfigGen::onDataMapGen);
 		if (ModList.get().isLoaded(CuriosApi.MODID))
 			NeoForge.EVENT_BUS.register(CuriosEventHandler.class);
+	}
+
+	@SubscribeEvent
+	public static void commonSetup(FMLCommonSetupEvent event) {
+		event.enqueueWork(() -> TabCuriosCompat.onCommonSetup());
 	}
 
 	public static ResourceLocation loc(String id) {

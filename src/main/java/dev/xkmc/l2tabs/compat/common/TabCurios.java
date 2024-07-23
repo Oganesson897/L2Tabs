@@ -5,6 +5,7 @@
 
 package dev.xkmc.l2tabs.compat.common;
 
+import dev.xkmc.l2menustacker.init.MouseCache;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import dev.xkmc.l2tabs.init.data.OpenCurioHandler;
 import dev.xkmc.l2tabs.init.data.OpenCuriosPacket;
@@ -27,7 +28,7 @@ public class TabCurios extends TabBase<InvTabData, TabCurios> {
 	}
 
 	public void onTabClicked() {
-		cacheMousePos();
+		MouseCache.cacheMousePos();
 		L2Tabs.PACKET_HANDLER.toServer(new OpenCuriosPacket(OpenCurioHandler.CURIO_OPEN));
 	}
 
