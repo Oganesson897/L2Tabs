@@ -5,9 +5,10 @@ import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 
-public class AttributeConfigGen  {
+public class AttributeConfigGen {
 
 	public static void onDataMapGen(RegistrateDataMapProvider pvd) {
 		var b = pvd.builder(L2Tabs.ATTRIBUTE_ENTRY.reg());
@@ -21,6 +22,10 @@ public class AttributeConfigGen  {
 		add(b, Attributes.BLOCK_INTERACTION_RANGE, 8000);
 		add(b, Attributes.ENTITY_INTERACTION_RANGE, 9000);
 		add(b, Attributes.LUCK, 10000);
+
+		pvd.builder(L2Tabs.ICON.reg())
+				.add(L2Tabs.TAB_INVENTORY.id(), Items.CRAFTING_TABLE, false)
+				.add(L2Tabs.TAB_ATTRIBUTE.id(), Items.IRON_SWORD, false);
 	}
 
 	public static void add(DataMapProvider.Builder<AttrDispEntry, Attribute> b, Holder<Attribute> attr, int order) {

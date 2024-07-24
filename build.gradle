@@ -160,6 +160,7 @@ dependencies {
     runtimeOnly "dev.xkmc:l2itemselector:${l2itemselector_ver}"
     runtimeOnly "dev.xkmc:l2library:${l2library_ver}"
     runtimeOnly "dev.xkmc:l2modularblocks:${l2modularblocks_ver}"
-    runtimeOnly "dev.xkmc:l2backpack:${l2backpack_ver}"
+    runtimeOnly "dev.xkmc:l2damagetracker:${l2damagetracker_ver}"
+    //runtimeOnly "dev.xkmc:l2backpack:${l2backpack_ver}"
 
 }

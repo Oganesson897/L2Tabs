@@ -19,7 +19,7 @@ import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
@@ -51,10 +51,12 @@ public class L2Tabs {
 	public static final SR<TabToken<?, ?>> TAB_REG = SR.of(REG, TABS.reg());
 	public static final Val<TabToken<InvTabData, TabInventory>> TAB_INVENTORY =
 			TAB_REG.reg("inventory", () -> GROUP.registerTab(0, () -> TabInventory::new,
-					() -> Items.CRAFTING_TABLE, L2TabsLangData.INVENTORY.get()));
+					L2TabsLangData.INVENTORY.get()));
 	public static final Val<TabToken<InvTabData, TabAttributes>> TAB_ATTRIBUTE =
 			TAB_REG.reg("attribute", () -> GROUP.registerTab(1000, () -> TabAttributes::new,
-					() -> Items.IRON_SWORD, L2TabsLangData.ATTRIBUTE.get()));
+					L2TabsLangData.ATTRIBUTE.get()));
+
+	public static final DataMapReg<TabToken<?, ?>, Item> ICON = REG.dataMap("icon", TABS.key(), Item.class);
 
 	public L2Tabs(IEventBus bus) {
 		L2TabsConfig.init();

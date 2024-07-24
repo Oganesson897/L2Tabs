@@ -1,25 +1,28 @@
 package dev.xkmc.l2tabs.tabs.core;
 
+import dev.xkmc.l2serial.util.Wrappers;
+import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>> extends FloatingButton {
 
 	public final int index;
-	public final ItemStack stack;
 	public final TabToken<G, T> token;
 	public final TabManager<G> manager;
 
 	public int page;
 
 	@SuppressWarnings("unchecked")
-	public TabBase(int index, TabToken<G, T> token, TabManager<G> manager, ItemStack stack, Component title) {
+	public TabBase(int index, TabToken<G, T> token, TabManager<G> manager, Component title) {
 		super(token.getType().width, token.getType().height,
 				title, b -> ((T) b).onTabClicked());
 		this.index = index;
-		this.stack = stack;
 		this.token = token;
 		this.manager = manager;
 	}
@@ -44,14 +47,22 @@ public abstract class TabBase<G extends TabGroupData<G>, T extends TabBase<G, T>
 		if (manager.selected == token) {
 			renderBackground(g);
 		}
-		if (this == manager.list.get(manager.list.size() - 1)) { // draw on last
+		if (this == manager.list.getLast()) { // draw on last
 			manager.onToolTipRender(g, mouseX, mouseY);
 		}
 	}
 
 	protected void renderIcon(GuiGraphics g) {
-		if (!this.stack.isEmpty())
-			token.getType().drawIcon(g, getX(), getY(), this.stack);
+		ItemStack stack = get(L2Tabs.TABS.reg().wrapAsHolder(token)).getDefaultInstance();
+		if (!stack.isEmpty())
+			token.getType().drawIcon(g, getX(), getY(), stack);
+	}
+
+	private static Item get(Holder<TabToken<?, ?>> holder) {
+		var level = Minecraft.getInstance().level;
+		if (level == null) return Items.AIR;
+		var ans = L2Tabs.ICON.get(level.registryAccess(), holder);
+		return ans == null ? Items.AIR : ans;
 	}
 
 }

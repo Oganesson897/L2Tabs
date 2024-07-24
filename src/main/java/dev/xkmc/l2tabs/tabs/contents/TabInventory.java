@@ -16,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -58,8 +59,8 @@ public class TabInventory extends TabBase<InvTabData, TabInventory> {
 	}
 
 	public TabInventory(int index, TabToken<InvTabData, TabInventory> token,
-						TabManager<InvTabData> manager, ItemStack stack, Component title) {
-		super(index, token, manager, stack, title);
+						TabManager<InvTabData> manager, Component title) {
+		super(index, token, manager, title);
 	}
 
 	public void onTabClicked() {

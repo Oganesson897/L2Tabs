@@ -35,8 +35,8 @@ public class TabGroup<G extends TabGroupData<G>> {
 	 * 2000 - Curios
 	 * 3000 - Artifacts
 	 */
-	public synchronized <T extends TabBase<G, T>> TabToken<G, T> registerTab(int priority, Supplier<TabToken.TabFactory<G, T>> sup, Supplier<Item> item, Component title) {
-		TabToken<G, T> ans = new TabToken<>(this, sup, item, title);
+	public synchronized <T extends TabBase<G, T>> TabToken<G, T> registerTab(int priority, Supplier<TabToken.TabFactory<G, T>> sup, Component title) {
+		TabToken<G, T> ans = new TabToken<>(this, sup, title);
 		while (map.containsKey(priority)) {
 			priority++;
 		}

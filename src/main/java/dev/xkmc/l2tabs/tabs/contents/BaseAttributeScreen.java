@@ -47,11 +47,11 @@ public abstract class BaseAttributeScreen extends BaseTextScreen {
 		int x = (this.width + this.imageWidth) / 2 - 16,
 				y = (this.height - this.imageHeight) / 2 + 4;
 		if (page > 0) {
-			addRenderableWidget(Button.builder(Component.literal("<"), e -> click(-1))
+			addRenderableWidget(Button.builder(Component.literal("<"), e -> click(page - 1))
 					.pos(x - w - 1, y).size(w, h).build());
 		}
 		if (page < totalPage - 1) {
-			addRenderableWidget(Button.builder(Component.literal(">"), e -> click(1))
+			addRenderableWidget(Button.builder(Component.literal(">"), e -> click(page + 1))
 					.pos(x, y).size(w, h).build());
 		}
 	}

@@ -47,8 +47,7 @@ public abstract class AccessoriesMultiplex {
 
 	public static void onStartUp() {
 		MT_CURIOS = L2Tabs.REGISTRATE.menu("curios", CuriosListMenu::fromNetwork, () -> CuriosListScreen::new).register();
-		TAB_CURIOS = L2Tabs.TAB_REG.reg("curios", () -> L2Tabs.GROUP.registerTab(2000, () -> TabCurios::new,
-				() -> Items.AIR, L2TabsLangData.CURIOS.get()));
+		TAB_CURIOS = L2Tabs.TAB_REG.reg("curios", () -> L2Tabs.GROUP.registerTab(2000, () -> TabCurios::new, L2TabsLangData.CURIOS.get()));
 
 		IS_CURIOS = L2MSReg.SOURCES.reg("curios", CurioSource::new);
 		TE_CURIO_INV = L2MSReg.TRACKED.reg("curios_inv", CurioInvTrace::new);
