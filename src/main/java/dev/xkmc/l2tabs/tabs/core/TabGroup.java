@@ -2,12 +2,10 @@ package dev.xkmc.l2tabs.tabs.core;
 
 import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.function.Supplier;
 
 public class TabGroup<G extends TabGroupData<G>> {
@@ -21,32 +19,55 @@ public class TabGroup<G extends TabGroupData<G>> {
 			L2Tabs.loc("up/sel_2")
 	);
 
-	private final Map<Integer, TabToken<G, ?>> map = new TreeMap<>();
+	public final static TabSprites BOTTOM = new TabSprites(26, 32,
+			L2Tabs.loc("bottom/des_0"),
+			L2Tabs.loc("bottom/des_1"),
+			L2Tabs.loc("bottom/des_2"),
+			L2Tabs.loc("bottom/sel_0"),
+			L2Tabs.loc("bottom/sel_1"),
+			L2Tabs.loc("bottom/sel_2")
+	);
+
+	public final static TabSprites LEFT = new TabSprites(32, 28,
+			L2Tabs.loc("left/des_0"),
+			L2Tabs.loc("left/des_1"),
+			L2Tabs.loc("left/des_2"),
+			L2Tabs.loc("left/sel_0"),
+			L2Tabs.loc("left/sel_1"),
+			L2Tabs.loc("left/sel_2")
+	);
+
+	public final static TabSprites RIGHT = new TabSprites(32, 28,
+			L2Tabs.loc("right/des_0"),
+			L2Tabs.loc("right/des_1"),
+			L2Tabs.loc("right/des_2"),
+			L2Tabs.loc("right/sel_0"),
+			L2Tabs.loc("right/sel_1"),
+			L2Tabs.loc("right/sel_2")
+	);
+
+	private final List<TabToken<G, ?>> tokens = new ArrayList<>();
 
 	public final TabType type;
+	private final int max;
+	private final boolean enableLast;
 
-	public TabGroup(TabType type) {
+	public TabGroup(TabType type, int max, boolean enableLast) {
 		this.type = type;
+		this.max = max;
+		this.enableLast = enableLast;
 	}
 
-	/**
-	 * 0 - Inventory
-	 * 1000 - Attributes
-	 * 2000 - Curios
-	 * 3000 - Artifacts
-	 */
-	public synchronized <T extends TabBase<G, T>> TabToken<G, T> registerTab(int priority, Supplier<TabToken.TabFactory<G, T>> sup, Component title) {
+	public synchronized <T extends TabBase<G, T>> TabToken<G, T> registerTab(Supplier<TabToken.TabFactory<G, T>> sup, Component title) {
 		TabToken<G, T> ans = new TabToken<>(this, sup, title);
-		while (map.containsKey(priority)) {
-			priority++;
-		}
-		map.put(priority, ans);
+		tokens.add(ans);
 		return ans;
 	}
 
 	public List<TabToken<G, ?>> getTabs(G token) {
 		List<TabToken<G, ?>> ans = new ArrayList<>();
-		for (var e : map.values()) {
+		tokens.sort(Comparator.comparingInt(TabToken::getOrder));
+		for (var e : tokens) {
 			if (token.allows(e)) {
 				ans.add(e);
 			}
@@ -55,6 +76,15 @@ public class TabGroup<G extends TabGroupData<G>> {
 	}
 
 	public TabSprites texture() {
-		return UP;
+		return type.sprite;
 	}
+
+	public int max() {
+		return max;
+	}
+
+	public boolean enableLast() {
+		return enableLast;
+	}
+
 }

@@ -52,7 +52,7 @@ public class TabManager<G extends TabGroupData<G>> {
 			adder.accept(tab);
 
 			order++;
-			if (order == TabType.MAX_TABS - 1) {
+			if (order == group.max() - 1) {
 				order = 0;
 				page++;
 			}
@@ -65,7 +65,7 @@ public class TabManager<G extends TabGroupData<G>> {
 			tabPage = Math.max(tabPage - 1, 0);
 			updateVisibility();
 		}));
-		adder.accept(right = PageFlipButtons.getRightButton(screen, b -> {
+		adder.accept(right = PageFlipButtons.getRightButton(group.max(), screen, b -> {
 			tabPage = Math.min(tabPage + 1, maxPages);
 			updateVisibility();
 		}));

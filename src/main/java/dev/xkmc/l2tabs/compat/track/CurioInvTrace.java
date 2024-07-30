@@ -1,10 +1,8 @@
 package dev.xkmc.l2tabs.compat.track;
 
 import dev.xkmc.l2menustacker.screen.base.LayerPopType;
-import dev.xkmc.l2menustacker.screen.track.NoData;
 import dev.xkmc.l2menustacker.screen.track.TrackedEntryType;
 import dev.xkmc.l2tabs.compat.api.AccessoriesMultiplex;
-import dev.xkmc.l2tabs.compat.api.TabCuriosCompat;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.Nullable;

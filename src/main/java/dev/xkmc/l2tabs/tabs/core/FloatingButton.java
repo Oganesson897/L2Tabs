@@ -1,4 +1,3 @@
-
 package dev.xkmc.l2tabs.tabs.core;
 
 import net.minecraft.client.gui.components.Button;

@@ -2,7 +2,6 @@ package dev.xkmc.l2tabs.compat.common;
 
 import dev.xkmc.l2tabs.compat.api.AccessoriesMultiplex;
 import dev.xkmc.l2tabs.compat.api.IAccessoriesWrapper;
-import dev.xkmc.l2tabs.compat.api.TabCuriosCompat;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;

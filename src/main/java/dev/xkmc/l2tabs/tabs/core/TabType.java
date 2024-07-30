@@ -2,36 +2,26 @@ package dev.xkmc.l2tabs.tabs.core;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public enum TabType {
-	ABOVE(26, 32, 8),
-	BELOW(26, 32, 8),
-	LEFT(32, 26, 5),
-	RIGHT(32, 26, 5);
+	ABOVE(TabGroup.UP),
+	BELOW(TabGroup.BOTTOM),
+	LEFT(TabGroup.LEFT),
+	RIGHT(TabGroup.RIGHT);
 
-	public static final int MAX_TABS = 7;
 	public final int width;
 	public final int height;
-	public final int max;
+	public final TabSprites sprite;
 
-	TabType(int w, int h, int max) {
-		this.width = w;
-		this.height = h;
-		this.max = max;
+	TabType(TabSprites sprite) {
+		this.width = sprite.w();
+		this.height = sprite.h();
+		this.sprite = sprite;
 	}
 
 	public void draw(TabSprites tex, GuiGraphics g, int x, int y, boolean selected, int index) {
-		index = index % max;
-		int tx = 0;
-		if (index > 0) {
-			tx++;
-		}
-		g.blitSprite(tex.get(tx, selected), x, y, tex.w(), tex.h());
+		g.blitSprite(tex.get(index, selected), x, y, tex.w(), tex.h());
 	}
 
 	public void drawIcon(GuiGraphics g, int x, int y, ItemStack stack) {
@@ -75,10 +65,10 @@ public enum TabType {
 		};
 	}
 
-	public boolean isMouseOver(int p_97214_, int p_97215_, int p_97216_, double p_97217_, double p_97218_) {
-		int i = p_97214_ + this.getX(p_97216_);
-		int j = p_97215_ + this.getY(p_97216_);
-		return p_97217_ > (double) i && p_97217_ < (double) (i + this.width) && p_97218_ > (double) j && p_97218_ < (double) (j + this.height);
+	public boolean isMouseOver(int gx, int gy, int ind, double mx, double my) {
+		int x = gx + this.getX(ind);
+		int y = gy + this.getY(ind);
+		return mx > x && mx < x + this.width && my > y && my < y + this.height;
 	}
 
 	public int getTabX(int imgWidth, int index) {

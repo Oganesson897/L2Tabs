@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 
-public abstract class BaseCuriosListMenu<T extends BaseContainerMenu<T>> extends BaseContainerMenu<T> {
+public abstract class BaseCuriosListMenu<T extends BaseCuriosListMenu<T>> extends BaseContainerMenu<T> {
 
 	public static final SpriteManager[] MANAGER;
 

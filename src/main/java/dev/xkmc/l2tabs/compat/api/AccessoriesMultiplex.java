@@ -16,10 +16,10 @@ import dev.xkmc.l2tabs.init.data.L2TabsLangData;
 import dev.xkmc.l2tabs.tabs.core.TabToken;
 import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.neoforged.fml.ModList;
 
 import java.util.Optional;
@@ -47,7 +47,7 @@ public abstract class AccessoriesMultiplex {
 
 	public static void onStartUp() {
 		MT_CURIOS = L2Tabs.REGISTRATE.menu("curios", CuriosListMenu::fromNetwork, () -> CuriosListScreen::new).register();
-		TAB_CURIOS = L2Tabs.TAB_REG.reg("curios", () -> L2Tabs.GROUP.registerTab(2000, () -> TabCurios::new, L2TabsLangData.CURIOS.get()));
+		TAB_CURIOS = L2Tabs.TAB_REG.reg("curios", () -> L2Tabs.GROUP.registerTab(() -> TabCurios::new, L2TabsLangData.CURIOS.get()));
 
 		IS_CURIOS = L2MSReg.SOURCES.reg("curios", CurioSource::new);
 		TE_CURIO_INV = L2MSReg.TRACKED.reg("curios_inv", CurioInvTrace::new);
@@ -70,7 +70,7 @@ public abstract class AccessoriesMultiplex {
 
 	public abstract void commonSetup();
 
-	public abstract IAccessoriesWrapper wrap(Player player, int page);
+	public abstract IAccessoriesWrapper wrap(LivingEntity player, int page);
 
 	public abstract Optional<PlayerSlot<?>> getPlayerSlotImpl(int slot, int index, int wid, AbstractContainerMenu menu);
 

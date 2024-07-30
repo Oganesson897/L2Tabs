@@ -1,6 +1,5 @@
 package dev.xkmc.l2tabs.tabs.core;
 
-import dev.xkmc.l2serial.util.Wrappers;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

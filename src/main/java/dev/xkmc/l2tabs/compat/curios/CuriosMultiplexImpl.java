@@ -20,6 +20,7 @@ import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
@@ -36,7 +37,7 @@ import java.util.function.Predicate;
 public class CuriosMultiplexImpl extends AccessoriesMultiplex {
 
 	@Override
-	public IAccessoriesWrapper wrap(Player player, int page) {
+	public IAccessoriesWrapper wrap(LivingEntity player, int page) {
 		return new CuriosWrapper(player, page);
 	}
 

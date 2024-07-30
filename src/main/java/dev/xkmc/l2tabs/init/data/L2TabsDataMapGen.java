@@ -1,6 +1,7 @@
 package dev.xkmc.l2tabs.init.data;
 
 import com.tterrag.registrate.providers.RegistrateDataMapProvider;
+import dev.xkmc.l2tabs.compat.api.AccessoriesMultiplex;
 import dev.xkmc.l2tabs.init.L2Tabs;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -8,7 +9,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 
-public class AttributeConfigGen {
+public class L2TabsDataMapGen {
 
 	public static void onDataMapGen(RegistrateDataMapProvider pvd) {
 		var b = pvd.builder(L2Tabs.ATTRIBUTE_ENTRY.reg());
@@ -26,6 +27,11 @@ public class AttributeConfigGen {
 		pvd.builder(L2Tabs.ICON.reg())
 				.add(L2Tabs.TAB_INVENTORY.id(), Items.CRAFTING_TABLE, false)
 				.add(L2Tabs.TAB_ATTRIBUTE.id(), Items.IRON_SWORD, false);
+
+		pvd.builder(L2Tabs.ORDER.reg())
+				.add(L2Tabs.TAB_INVENTORY.id(), 0, false)
+				.add(L2Tabs.TAB_ATTRIBUTE.id(), 1000, false)
+				.add(AccessoriesMultiplex.TAB_CURIOS.id(), 2000, false);
 	}
 
 	public static void add(DataMapProvider.Builder<AttrDispEntry, Attribute> b, Holder<Attribute> attr, int order) {

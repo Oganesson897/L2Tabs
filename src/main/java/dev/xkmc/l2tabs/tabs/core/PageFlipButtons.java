@@ -13,10 +13,10 @@ public class PageFlipButtons {
 				Component.literal("<"), o);
 	}
 
-	public static Button getRightButton(ITabScreen screen, Button.OnPress o) {
+	public static Button getRightButton(int max, ITabScreen screen, Button.OnPress o) {
 		int radius = 3;
 		return new FloatingButton(screen::getGuiLeft, screen::getGuiTop,
-				(TabType.MAX_TABS - 1) * 26 + radius, -26 + radius,
+				(max - 1) * 26 + radius, -26 + radius,
 				26 - radius * 2, 26 - radius * 2,
 				Component.literal(">"), o);
 	}

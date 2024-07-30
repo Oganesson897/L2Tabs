@@ -47,22 +47,23 @@ public class L2Tabs {
 
 	public static final L2Registrate.RegistryInstance<TabToken<?, ?>> TABS = REGISTRATE.newRegistry("tab");
 
-	public static final TabGroup<InvTabData> GROUP = new TabGroup<>(TabType.ABOVE);
+	public static final TabGroup<InvTabData> GROUP = new TabGroup<>(TabType.ABOVE, 7, false);
 	public static final SR<TabToken<?, ?>> TAB_REG = SR.of(REG, TABS.reg());
 	public static final Val<TabToken<InvTabData, TabInventory>> TAB_INVENTORY =
-			TAB_REG.reg("inventory", () -> GROUP.registerTab(0, () -> TabInventory::new,
+			TAB_REG.reg("inventory", () -> GROUP.registerTab(() -> TabInventory::new,
 					L2TabsLangData.INVENTORY.get()));
 	public static final Val<TabToken<InvTabData, TabAttributes>> TAB_ATTRIBUTE =
-			TAB_REG.reg("attribute", () -> GROUP.registerTab(1000, () -> TabAttributes::new,
+			TAB_REG.reg("attribute", () -> GROUP.registerTab(() -> TabAttributes::new,
 					L2TabsLangData.ATTRIBUTE.get()));
 
 	public static final DataMapReg<TabToken<?, ?>, Item> ICON = REG.dataMap("icon", TABS.key(), Item.class);
+	public static final DataMapReg<TabToken<?, ?>, Integer> ORDER = REG.dataMap("order", TABS.key(), Integer.class);
 
 	public L2Tabs(IEventBus bus) {
 		L2TabsConfig.init();
 		TabCuriosCompat.onStartup();
 		REGISTRATE.addDataGenerator(ProviderType.LANG, L2TabsLangData::genLang);
-		REGISTRATE.addDataGenerator(ProviderType.DATA_MAP, AttributeConfigGen::onDataMapGen);
+		REGISTRATE.addDataGenerator(ProviderType.DATA_MAP, L2TabsDataMapGen::onDataMapGen);
 		if (ModList.get().isLoaded(CuriosApi.MODID))
 			NeoForge.EVENT_BUS.register(CuriosEventHandler.class);
 	}

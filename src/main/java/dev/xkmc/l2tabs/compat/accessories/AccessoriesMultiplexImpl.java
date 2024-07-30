@@ -21,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
@@ -33,7 +34,7 @@ import java.util.function.Predicate;
 public class AccessoriesMultiplexImpl extends AccessoriesMultiplex {
 
 	@Override
-	public IAccessoriesWrapper wrap(Player player, int page) {
+	public IAccessoriesWrapper wrap(LivingEntity player, int page) {
 		return new AccessoriesWrapper(player, page);
 	}
 
@@ -66,7 +67,7 @@ public class AccessoriesMultiplexImpl extends AccessoriesMultiplex {
 
 	@Override
 	public void openCuriosInv(ServerPlayer player, CurioTraceData data) {
-		Accessories.openAccessoriesMenu(player,null);
+		Accessories.openAccessoriesMenu(player, null);
 	}
 
 	private void clientOpenInventory() {
