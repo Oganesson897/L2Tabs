@@ -100,11 +100,6 @@ jar {
     }
 }
 
-dependencies {
-    //annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
-    //compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
-}
-
 // project specific
 
 repositories {
@@ -112,7 +107,7 @@ repositories {
         dirs 'libs'
     }
     maven { // Registrate
-        url "https://maven.tterrag.com/"
+        url "https://maven.ithundxr.dev/snapshots"
     }
     maven {
         url = "https://maven.theillusivec4.top/"
@@ -161,6 +156,7 @@ dependencies {
     runtimeOnly "dev.xkmc:l2library:${l2library_ver}"
     runtimeOnly "dev.xkmc:l2modularblocks:${l2modularblocks_ver}"
     runtimeOnly "dev.xkmc:l2damagetracker:${l2damagetracker_ver}"
+    runtimeOnly "dev.xkmc:modulargolems:${modulargolems_ver}"
     //runtimeOnly "dev.xkmc:l2backpack:${l2backpack_ver}"
 
 }

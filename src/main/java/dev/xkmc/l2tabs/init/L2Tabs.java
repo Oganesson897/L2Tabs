@@ -19,6 +19,7 @@ import dev.xkmc.l2tabs.tabs.inventory.InvTabData;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -66,6 +67,7 @@ public class L2Tabs {
 		REGISTRATE.addDataGenerator(ProviderType.DATA_MAP, L2TabsDataMapGen::onDataMapGen);
 		if (ModList.get().isLoaded(CuriosApi.MODID))
 			NeoForge.EVENT_BUS.register(CuriosEventHandler.class);
+		Attributes.ATTACK_DAMAGE.value().setSyncable(true);
 	}
 
 	@SubscribeEvent

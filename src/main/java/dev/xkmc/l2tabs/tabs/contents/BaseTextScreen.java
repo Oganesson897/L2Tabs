@@ -7,6 +7,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.client.event.ScreenEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
 public abstract class BaseTextScreen extends Screen implements ITabScreen {
 
@@ -28,7 +30,9 @@ public abstract class BaseTextScreen extends Screen implements ITabScreen {
 
 	@Override
 	public void renderBackground(GuiGraphics g, int mx, int my, float pt) {
-		super.renderBackground(g, mx, my, pt);
+		this.renderTransparentBackground(g);
+		NeoForge.EVENT_BUS.post(new ScreenEvent.BackgroundRendered(this, g));
+
 		int i = this.leftPos;
 		int j = this.topPos;
 		g.blit(texture, i, j, 0, 0, this.imageWidth, this.imageHeight);
