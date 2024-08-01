@@ -21,6 +21,10 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
 
+configurations {
+    runtimeOnlyExcludedFromData
+}
+
 runs {
     configureEach {
         systemProperty 'forge.logging.markers', 'REGISTRIES'
@@ -29,10 +33,16 @@ runs {
     }
     client {
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        dependencies {
+            runtime project.configurations.runtimeOnlyExcludedFromData
+        }
     }
     server {
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         programArgument '--nogui'
+        dependencies {
+            runtime project.configurations.runtimeOnlyExcludedFromData
+        }
     }
     gameTestServer {
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
@@ -152,11 +162,11 @@ dependencies {
     implementation "curse.maven:caelus-308989:5442975"
     implementation "curse.maven:elytra-slot-317716:5542492"
 
-    runtimeOnly "dev.xkmc:l2itemselector:${l2itemselector_ver}"
-    runtimeOnly "dev.xkmc:l2library:${l2library_ver}"
-    runtimeOnly "dev.xkmc:l2modularblocks:${l2modularblocks_ver}"
-    runtimeOnly "dev.xkmc:l2damagetracker:${l2damagetracker_ver}"
-    runtimeOnly "dev.xkmc:modulargolems:${modulargolems_ver}"
-    //runtimeOnly "dev.xkmc:l2backpack:${l2backpack_ver}"
+    runtimeOnlyExcludedFromData "dev.xkmc:l2itemselector:${l2itemselector_ver}"
+    runtimeOnlyExcludedFromData "dev.xkmc:l2library:${l2library_ver}"
+    runtimeOnlyExcludedFromData "dev.xkmc:l2modularblocks:${l2modularblocks_ver}"
+    runtimeOnlyExcludedFromData "dev.xkmc:l2damagetracker:${l2damagetracker_ver}"
+    runtimeOnlyExcludedFromData "dev.xkmc:modulargolems:${modulargolems_ver}"
+    runtimeOnlyExcludedFromData "dev.xkmc:l2backpack:${l2backpack_ver}"
 
 }
