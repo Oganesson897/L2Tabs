@@ -42,9 +42,9 @@ public class AccessoriesMultiplexImpl extends AccessoriesMultiplex {
 		Predicate<Screen> old = TabInventory.inventoryTest;
 		TabInventory.inventoryTest = screen -> {
 			String name = screen.getClass().getName();
-			boolean isCurio = screen instanceof EffectRenderingInventoryScreen<?> && (
+			boolean isCurio = screen instanceof EffectRenderingInventoryScreen<?> &&
 					name.startsWith("top.theillusivec4.curios") ||
-							name.startsWith("io.wispforest.accessories"));
+					name.startsWith("io.wispforest.accessories");
 			boolean onlyCurio = L2TabsConfig.CLIENT.showTabsOnlyCurio.get();
 			return onlyCurio ? isCurio : old.test(screen) || isCurio;
 		};

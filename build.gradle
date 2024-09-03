@@ -33,6 +33,7 @@ runs {
     }
     client {
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        client()
         dependencies {
             runtime project.configurations.runtimeOnlyExcludedFromData
         }
@@ -40,6 +41,7 @@ runs {
     server {
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         programArgument '--nogui'
+        server()
         dependencies {
             runtime project.configurations.runtimeOnlyExcludedFromData
         }
@@ -156,17 +158,17 @@ dependencies {
     //implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     //implementation "curse.maven:adorned-1036809:5546365"
     implementation "curse.maven:cloth-config-348521:5553805"
-    implementation "curse.maven:accessories-938917:5547710"
-    implementation "curse.maven:accessories-cc-layer-1005683:5541727"
+    implementation "curse.maven:accessories-938917:5669937"
+    implementation "curse.maven:accessories-cc-layer-1005683:5669968"
 
     implementation "curse.maven:caelus-308989:5442975"
     implementation "curse.maven:elytra-slot-317716:5542492"
 
-    runtimeOnlyExcludedFromData "dev.xkmc:l2itemselector:${l2itemselector_ver}"
-    runtimeOnlyExcludedFromData "dev.xkmc:l2library:${l2library_ver}"
-    runtimeOnlyExcludedFromData "dev.xkmc:l2modularblocks:${l2modularblocks_ver}"
-    runtimeOnlyExcludedFromData "dev.xkmc:l2damagetracker:${l2damagetracker_ver}"
-    runtimeOnlyExcludedFromData "dev.xkmc:modulargolems:${modulargolems_ver}"
-    runtimeOnlyExcludedFromData "dev.xkmc:l2backpack:${l2backpack_ver}"
+    runtimeOnly "dev.xkmc:l2itemselector:${l2itemselector_ver}"
+    runtimeOnly "dev.xkmc:l2library:${l2library_ver}"
+    runtimeOnly "dev.xkmc:l2modularblocks:${l2modularblocks_ver}"
+    runtimeOnly "dev.xkmc:l2damagetracker:${l2damagetracker_ver}"
+    runtimeOnly "dev.xkmc:modulargolems:${modulargolems_ver}"
+    runtimeOnly "dev.xkmc:l2backpack:${l2backpack_ver}"
 
 }
