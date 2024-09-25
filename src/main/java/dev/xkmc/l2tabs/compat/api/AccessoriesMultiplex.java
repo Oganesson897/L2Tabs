@@ -22,12 +22,22 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public abstract class AccessoriesMultiplex {
 
 	private static AccessoriesMultiplex INSTANCE;
 
+	public static boolean isPresent() {
+		return get() != null;
+	}
+
+	public static Optional<AccessoriesMultiplex> getOptional() {
+		return Optional.ofNullable(get());
+	}
+
+	@Nullable
 	public static AccessoriesMultiplex get() {
 		if (INSTANCE == null) {
 			if (ModList.get().isLoaded("curios")) {
@@ -45,7 +55,7 @@ public abstract class AccessoriesMultiplex {
 	public static Val<CurioInvTrace> TE_CURIO_INV;
 	public static Val<CurioTabTrace> TE_CURIO_TAB;
 
-	public static void onStartUp() {
+	public void onStartUp() {
 		MT_CURIOS = L2Tabs.REGISTRATE.menu("curios", CuriosListMenu::fromNetwork, () -> CuriosListScreen::new).register();
 		TAB_CURIOS = L2Tabs.TAB_REG.reg("curios", () -> L2Tabs.GROUP.registerTab(() -> TabCurios::new, L2TabsLangData.CURIOS.get()));
 
@@ -54,12 +64,10 @@ public abstract class AccessoriesMultiplex {
 		TE_CURIO_TAB = L2MSReg.TRACKED.reg("curios_tab", CurioTabTrace::new);
 	}
 
-	public static void onCommonSetup() {
-		MenuSourceRegistry.register(MT_CURIOS.get(), (menu, slot, index, wid) -> get().getPlayerSlotImpl(slot, index, wid, menu));
+	public void onCommonSetup() {
+		MenuSourceRegistry.register(MT_CURIOS.get(), (menu, slot, index, wid) -> getPlayerSlotImpl(slot, index, wid, menu));
 		MenuTraceRegistry.register(MT_CURIOS.get(), menu -> Optional.of(TrackedEntry.of(TE_CURIO_TAB.get(), new CurioTraceData(menu.curios.page))));
-		get().commonSetup();
-
-
+		commonSetup();
 	}
 
 	public static void openScreen(ServerPlayer player, CurioTraceData data) {

@@ -19,7 +19,6 @@ import io.wispforest.accessories.client.gui.AccessoriesInternalSlot;
 import io.wispforest.accessories.networking.server.ScreenOpen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -42,8 +41,7 @@ public class AccessoriesMultiplexImpl extends AccessoriesMultiplex {
 		Predicate<Screen> old = TabInventory.inventoryTest;
 		TabInventory.inventoryTest = screen -> {
 			String name = screen.getClass().getName();
-			boolean isCurio = screen instanceof EffectRenderingInventoryScreen<?> &&
-					name.startsWith("top.theillusivec4.curios") ||
+			boolean isCurio = name.startsWith("top.theillusivec4.curios") ||
 					name.startsWith("io.wispforest.accessories");
 			boolean onlyCurio = L2TabsConfig.CLIENT.showTabsOnlyCurio.get();
 			return onlyCurio ? isCurio : old.test(screen) || isCurio;
@@ -58,8 +56,7 @@ public class AccessoriesMultiplexImpl extends AccessoriesMultiplex {
 
 	@Override
 	public void commonSetup() {
-		MenuSourceRegistry.register(Accessories.ACCESSORIES_MENU_TYPE, (menu, slot, index, wid) ->
-				get().getPlayerSlotImpl(slot, index, wid, menu));
+		MenuSourceRegistry.register(Accessories.ACCESSORIES_MENU_TYPE, (menu, slot, index, wid) ->getPlayerSlotImpl(slot, index, wid, menu));
 
 		MenuTraceRegistry.register(Accessories.ACCESSORIES_MENU_TYPE, menu ->
 				Optional.of(TrackedEntry.of(TE_CURIO_INV.get(), new CurioTraceData(0))));

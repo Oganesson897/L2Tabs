@@ -9,7 +9,7 @@ public class CurioSource extends ItemSource<CurioSlotData> {
 
 	@Override
 	public ItemStack getItem(Player player, CurioSlotData data) {
-		return AccessoriesMultiplex.get().getItemFromSlot(player, data);
+		return AccessoriesMultiplex.getOptional().map(e -> e.getItemFromSlot(player, data)).orElse(ItemStack.EMPTY);
 	}
 
 }

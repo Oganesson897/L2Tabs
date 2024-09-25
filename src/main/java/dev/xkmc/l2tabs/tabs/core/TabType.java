@@ -5,10 +5,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 
 public enum TabType {
-	ABOVE(TabGroup.UP),
-	BELOW(TabGroup.BOTTOM),
-	LEFT(TabGroup.LEFT),
-	RIGHT(TabGroup.RIGHT);
+	ABOVE(DefaultTabs.UP),
+	BELOW(DefaultTabs.BOTTOM),
+	LEFT(DefaultTabs.LEFT),
+	RIGHT(DefaultTabs.RIGHT);
 
 	public final int width;
 	public final int height;

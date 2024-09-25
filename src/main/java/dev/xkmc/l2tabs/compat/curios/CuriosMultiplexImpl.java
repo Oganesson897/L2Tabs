@@ -14,7 +14,6 @@ import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.tabs.contents.TabInventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -44,8 +43,7 @@ public class CuriosMultiplexImpl extends AccessoriesMultiplex {
 	public void onClientInit() {
 		Predicate<Screen> old = TabInventory.inventoryTest;
 		TabInventory.inventoryTest = screen -> {
-			boolean isCurio = screen instanceof EffectRenderingInventoryScreen<?> &&
-					screen.getClass().getName().startsWith("top.theillusivec4.curios");
+			boolean isCurio = screen.getClass().getName().startsWith("top.theillusivec4.curios");
 			boolean onlyCurio = L2TabsConfig.CLIENT.showTabsOnlyCurio.get();
 			return onlyCurio ? isCurio : old.test(screen) || isCurio;
 		};
@@ -59,8 +57,8 @@ public class CuriosMultiplexImpl extends AccessoriesMultiplex {
 
 	@Override
 	public void commonSetup() {
-		MenuSourceRegistry.register(CuriosRegistry.CURIO_MENU.get(), (menu, slot, index, wid) ->
-				get().getPlayerSlotImpl(slot, index, wid, menu));
+		MenuSourceRegistry.register(CuriosRegistry.CURIO_MENU.get(),
+				(menu, slot, index, wid) -> getPlayerSlotImpl(slot, index, wid, menu));
 
 		MenuTraceRegistry.register(CuriosRegistry.CURIO_MENU.get(), menu ->
 				Optional.of(TrackedEntry.of(TE_CURIO_INV.get(), new CurioTraceData(0))));

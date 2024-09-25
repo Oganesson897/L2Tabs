@@ -11,7 +11,7 @@ public class CurioInvTrace extends TrackedEntryType<CurioTraceData> {
 
 	@Override
 	public LayerPopType restoreMenuNotifyClient(ServerPlayer player, CurioTraceData data, @Nullable Component comp) {
-		AccessoriesMultiplex.get().openCuriosInv(player, data);
+		AccessoriesMultiplex.getOptional().ifPresent(e -> e.openCuriosInv(player, data));
 		return LayerPopType.CLEAR;
 	}
 

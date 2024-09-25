@@ -2,30 +2,23 @@ package dev.xkmc.l2tabs.compat.api;
 
 import dev.xkmc.l2tabs.compat.track.CurioTraceData;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.fml.ModList;
 
 public class TabCuriosCompat {
 
 	public static void onStartup() {
-		if (ModList.get().isLoaded("curios")) {
-			AccessoriesMultiplex.onStartUp();
-		}
+		AccessoriesMultiplex.getOptional().ifPresent(AccessoriesMultiplex::onStartUp);
 	}
 
 	public static void onCommonSetup() {
-		if (ModList.get().isLoaded("curios")) {
-			AccessoriesMultiplex.onCommonSetup();
-		}
+		AccessoriesMultiplex.getOptional().ifPresent(AccessoriesMultiplex::onCommonSetup);
 	}
 
 	public static void onClientInit() {
-		if (ModList.get().isLoaded("curios")) {
-			AccessoriesMultiplex.get().onClientInit();
-		}
+		AccessoriesMultiplex.getOptional().ifPresent(AccessoriesMultiplex::onClientInit);
 	}
 
 	public static void openCuriosTab(ServerPlayer player) {
-		if (ModList.get().isLoaded("curios")) {
+		if (AccessoriesMultiplex.isPresent()) {
 			AccessoriesMultiplex.openScreen(player, new CurioTraceData(0));
 		}
 	}
