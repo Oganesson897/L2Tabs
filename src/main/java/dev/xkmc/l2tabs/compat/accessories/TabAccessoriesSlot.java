@@ -3,7 +3,7 @@ package dev.xkmc.l2tabs.compat.accessories;
 import dev.xkmc.l2tabs.compat.api.INamedSlot;
 import dev.xkmc.l2tabs.compat.track.CurioSlotData;
 import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.client.gui.AccessoriesInternalSlot;
+import io.wispforest.accessories.menu.AccessoriesInternalSlot;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ class TabAccessoriesSlot extends AccessoriesInternalSlot implements INamedSlot {
 
 	public TabAccessoriesSlot(LivingEntity entity, AccessoriesContainer handler, int index, String identifier,
 							  int xPosition, int yPosition) {
-		super(0, handler, false, index, xPosition, yPosition);
+		super(handler, false, index, xPosition, yPosition);
 		this.identifier = identifier;
 		this.entity = entity;
 		this.handler = handler;

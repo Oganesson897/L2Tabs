@@ -14,9 +14,11 @@ import dev.xkmc.l2tabs.init.data.L2TabsConfig;
 import dev.xkmc.l2tabs.tabs.contents.TabInventory;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.client.AccessoriesMenu;
-import io.wispforest.accessories.client.gui.AccessoriesInternalSlot;
-import io.wispforest.accessories.networking.server.ScreenOpen;
+import io.wispforest.accessories.client.AccessoriesClient;
+import io.wispforest.accessories.menu.AccessoriesInternalSlot;
+import io.wispforest.accessories.menu.AccessoriesMenuTypes;
+import io.wispforest.accessories.menu.AccessoriesMenuVariant;
+import io.wispforest.accessories.menu.variants.AccessoriesMenuBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,7 +27,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -40,9 +41,10 @@ public class AccessoriesMultiplexImpl extends AccessoriesMultiplex {
 	public void onClientInit() {
 		Predicate<Screen> old = TabInventory.inventoryTest;
 		TabInventory.inventoryTest = screen -> {
-			String name = screen.getClass().getName();
-			boolean isCurio = name.startsWith("top.theillusivec4.curios") ||
-					name.startsWith("io.wispforest.accessories");
+			var cls = screen.getClass();
+			boolean isCurio = cls.getName().startsWith("top.theillusivec4.curios") ||
+					cls.getName().startsWith("io.wispforest.accessories") &&
+					cls.getSimpleName().equals("AccessoriesScreen");
 			boolean onlyCurio = L2TabsConfig.CLIENT.showTabsOnlyCurio.get();
 			return onlyCurio ? isCurio : old.test(screen) || isCurio;
 		};
@@ -56,21 +58,24 @@ public class AccessoriesMultiplexImpl extends AccessoriesMultiplex {
 
 	@Override
 	public void commonSetup() {
-		MenuSourceRegistry.register(Accessories.ACCESSORIES_MENU_TYPE, (menu, slot, index, wid) ->getPlayerSlotImpl(slot, index, wid, menu));
+		MenuSourceRegistry.register(AccessoriesMenuTypes.ORIGINAL_MENU, (menu, slot, index, wid) -> getPlayerSlotImpl(slot, index, wid, menu));
+		MenuSourceRegistry.register(AccessoriesMenuTypes.EXPERIMENTAL_MENU, (menu, slot, index, wid) -> getPlayerSlotImpl(slot, index, wid, menu));
 
-		MenuTraceRegistry.register(Accessories.ACCESSORIES_MENU_TYPE, menu ->
+		MenuTraceRegistry.register(AccessoriesMenuTypes.ORIGINAL_MENU, menu ->
+				Optional.of(TrackedEntry.of(TE_CURIO_INV.get(), new CurioTraceData(0))));
+		MenuTraceRegistry.register(AccessoriesMenuTypes.EXPERIMENTAL_MENU, menu ->
 				Optional.of(TrackedEntry.of(TE_CURIO_INV.get(), new CurioTraceData(0))));
 	}
 
 	@Override
 	public void openCuriosInv(ServerPlayer player, CurioTraceData data) {
-		Accessories.openAccessoriesMenu(player, null);
+		Accessories.openAccessoriesMenu(player, AccessoriesMenuVariant.ORIGINAL, null);
 	}
 
 	private void clientOpenInventory() {
 		Minecraft mc = Minecraft.getInstance();
 		if (mc.player != null) {
-			PacketDistributor.sendToServer(ScreenOpen.of(false));
+			AccessoriesClient.attemptToOpenScreen();
 		}
 	}
 
@@ -95,7 +100,7 @@ public class AccessoriesMultiplexImpl extends AccessoriesMultiplex {
 	}
 
 	private Optional<Player> getPlayerFromCurioCont(AbstractContainerMenu menu) {
-		if (menu instanceof AccessoriesMenu cont) {
+		if (menu instanceof AccessoriesMenuBase cont) {
 			if (cont.targetEntity() != null && cont.targetEntity() != cont.owner())
 				return Optional.empty();
 			return Optional.of(cont.owner());

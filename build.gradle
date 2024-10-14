@@ -145,6 +145,13 @@ repositories {
         name = "OctoStudios"
         url = uri("https://maven.octo-studios.com/releases")
     }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
     mavenLocal();
 }
 
@@ -158,8 +165,8 @@ dependencies {
     //implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     implementation "curse.maven:adorned-1036809:5740650"
     implementation "curse.maven:cloth-config-348521:5553805"
-    compileOnly "curse.maven:accessories-938917:5669937"
-    compileOnly "curse.maven:accessories-cc-layer-1005683:5669968"
+    compileOnly "maven.modrinth:accessories:1.1.0-beta.5+1.21.1"
+    compileOnly "maven.modrinth:accessories-cc-layer:9.0.12+1.21.1"
 
     implementation "curse.maven:caelus-308989:5442975"
     implementation "curse.maven:elytra-slot-317716:5542492"
